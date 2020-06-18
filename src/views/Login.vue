@@ -30,6 +30,11 @@
             </b-form-group>
 
 
+            <b-form-group id="input-group-3" label="Please make us sure you are not a bot" label-for="input-3">
+                <vue-recaptcha v-model="captcha" sitekey="6LdZo6UZAAAAADNZB8qpjb4ajVXHQtzRn80UeITX" :loadRecaptchaScript="true"></vue-recaptcha>
+            </b-form-group>
+
+
 
             <button type="submit">Submit</button>
         </b-form>
@@ -38,22 +43,23 @@
 </template>
 
 <script>
-
+    import VueRecaptcha from 'vue-recaptcha';
     import { mapActions } from 'vuex';
     export default {
         name: "Login",
-
+        components: {VueRecaptcha},
         ...mapActions(['login']),
         data() {
             return {
                 username: '',
                 password: '',
+                captcha: '',
                 show: true
             }
         },
         methods: {
             onSubmit(){
-                this.$store.dispatch('login', this.username, this.password);
+                this.$store.dispatch('login', {username: this.username, password: this.password});
 
             }
         }

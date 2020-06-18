@@ -20,13 +20,15 @@ export default new Vuex.Store({
   },
   actions: {
     async login({commit}, login, password, captchaKey){
-      let response = await Vue.axios.post('/frontend/api/v1/auth/login', {
+      let response = await Vue.axios({
+          url: '//frontend/api/v1/auth/login',
         data: {
           login: login,
           password: password,
-          captcha_key: captchaKey,
           ip: this.ip
-        }
+        },
+
+        method: 'POST'
       }).then(res => {
         if(res.data.token) commit('setToken', res.data.token)
         else {
