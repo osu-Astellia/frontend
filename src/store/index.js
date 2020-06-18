@@ -23,14 +23,14 @@ export default new Vuex.Store({
   },
   actions: {
 
-    async login({commit}, login, password){
-
+    async login({commit}, payload){
+      
       let response = await fetch('/frontend/api/v1/auth/login', {
         body: JSON.stringify(
             {
 
-              login: login,
-              password: password,
+              login: payload.login,
+              password: payload.password,
               ip: this.ip
 
             }),
