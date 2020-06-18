@@ -1,10 +1,7 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <v-navbar />
+    <router-view class="view" />
   </div>
 </template>
 
@@ -16,17 +13,32 @@
   text-align: center;
   color: #2c3e50;
 }
+body {
+  margin: 0;
+  padding: 0;
+}
+.view {
+  text-align: center;
+  width: 50%;
+  height: auto;
+  color:white;
+  margin: 50px auto !important;
 
-#nav {
-  padding: 30px;
+  border: 0px solid black;
+  border-radius: 20px;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
+<script>
+  import { mapActions } from 'vuex';
+  import VNavbar from "./components/v-navbar";
+  export default {
+
+    ...mapActions(['getIP']),
+    components: {VNavbar},
+    mounted() {
+      this.$store.dispatch('getIP');
+
+    }
+  }
+</script>
