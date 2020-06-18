@@ -19,12 +19,12 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async login({commit}, login, password, captchaKey){
+    async login({commit}, options){
       let response = await Vue.axios({
-          url: '//frontend/api/v1/auth/login',
+          url: '/frontend/api/v1/auth/login',
         data: {
-          login: login,
-          password: password,
+          login: options.login,
+          password: options.password,
           ip: this.ip
         },
 
@@ -42,13 +42,13 @@ export default new Vuex.Store({
 
 
 
-    async register({commit}, login, password, email, captchaKey){
+    async register({commit}, options){
       let response = await Vue.axios.post('/frontend/api/v1/auth/register', {
         data: {
-          login: login,
-          password: password,
-          email: email,
-          capchaKey: captchaKey,
+          login:  options.login,
+          password:  options.password,
+          email: options.email,
+          capchaKey: options.captchaKey,
           ip: this.ip
         }
       }).then(res => {
