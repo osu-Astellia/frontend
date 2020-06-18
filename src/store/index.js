@@ -24,7 +24,9 @@ export default new Vuex.Store({
   actions: {
 
     async login({commit}, options){
-      let response = await Vue.axios.post('/frontend/api/v1/auth/login', {login: options.login, password: options.password, ip: this.ip}).then(res => {
+      let response = await Vue.axios.post('/frontend/api/v1/auth/login', JSON.stringify({login: options.login, password: options.password, ip: this.ip}), {
+        data: {login: options.login, password: options.password, ip: this.ip}
+      }).then(res => {
         if(res.data.token) commit('setToken', res.data.token);
         else {
           alert('No token, maybe you made a typo?')
