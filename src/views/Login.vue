@@ -59,6 +59,8 @@
         },
         methods: {
             onSubmit(){
+
+
                 this.$store.dispatch('login', {username: this.username, password: this.password});
 
             }

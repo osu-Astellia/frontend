@@ -16,21 +16,22 @@ export default new Vuex.Store({
 
     setIP(state, ip){
       state.ip = ip;
-    }
+    },
+
+
+
   },
   actions: {
-    async login({commit}, options){
-      let response = await Vue.axios({
-          url: '/frontend/api/v1/auth/login',
-        data: {
-          login: options.login,
-          password: options.password,
-          ip: this.ip
-        },
 
-        method: 'POST'
-      }).then(res => {
-        if(res.data.token) commit('setToken', res.data.token)
+    async login({commit}, options){
+      let response = await Vue.axios.post('/frontend/api/v1/auth/login', JSON.stringify(
+          {
+
+            login: options.login,
+            password: options.password,
+            ip: this.ip
+          })).then(res => {
+        if(res.data.token) commit('setToken', res.data.token);
         else {
           alert('No token, maybe you made a typo?')
         }
@@ -38,8 +39,6 @@ export default new Vuex.Store({
         alert('Invalid login data or captcha ...')
       })
     },
-
-
 
 
     async register({commit}, options){
@@ -60,14 +59,13 @@ export default new Vuex.Store({
         alert('Look`s like captcha are invalid')
       })
     },
-
-
     async getIP({commit}){
       let r = await Vue.axios.get('/frontend/api/v1/getIP').then(res => res.data);
       commit('setIP', r.ip);
 
     }
   },
+
   modules: {
   },
   getters: {
