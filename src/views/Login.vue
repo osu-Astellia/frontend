@@ -63,7 +63,7 @@
 
                 this.$store.dispatch({
                     type: 'login',
-                    login: this.login,
+                    login: this.username,
                     password: this.password
                 });
 
