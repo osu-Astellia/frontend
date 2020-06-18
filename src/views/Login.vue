@@ -1,7 +1,7 @@
 <template>
 
     <div class="content">
-        <b-form @submit.prevent="onSubmit" v-if="show">
+        <b-form @submit.prevent="onSubmit">
             <b-form-group
                     style="padding-top: 20px"
                     id="input-group-1"
@@ -31,7 +31,7 @@
 
 
             <b-form-group id="input-group-3" label="Please make us sure you are not a bot" label-for="input-3">
-                <vue-recaptcha v-model="captcha" sitekey="6LdZo6UZAAAAADNZB8qpjb4ajVXHQtzRn80UeITX" :loadRecaptchaScript="true"></vue-recaptcha>
+                <vue-recaptcha style="margin: 0 auto;" v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
             </b-form-group>
 
 
@@ -61,7 +61,11 @@
             onSubmit(){
 
 
-                this.$store.dispatch('login', {username: this.username, password: this.password});
+                this.$store.dispatch({
+                    type: 'login',
+                    login: this.login,
+                    password: this.password
+                });
 
             }
         }

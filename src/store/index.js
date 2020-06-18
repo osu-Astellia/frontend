@@ -23,10 +23,17 @@ export default new Vuex.Store({
   },
   actions: {
 
-    async login({commit}, options){
+    async login({commit}, login, password){
 
       let response = await fetch('/frontend/api/v1/auth/login', {
-        body: JSON.stringify({login: options.login, password: options.password, ip: this.ip}),
+        body: JSON.stringify(
+            {
+
+              login: login,
+              password: password,
+              ip: this.ip
+
+            }),
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
