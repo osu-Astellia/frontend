@@ -34,7 +34,7 @@
 
 
                 <b-form-group id="input-group-3" label="Please make us sure you are not a bot" label-for="input-3">
-                    <vue-recaptcha v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
+                    <vue-recaptcha @verify="verifyCaptcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
                 </b-form-group>
 
 
@@ -65,6 +65,10 @@
             }
         },
         methods: {
+            verifyCaptcha(response){
+                this.captcha = response;
+                console.log(response);
+            },
             onSubmit(){
 
                 this.logining = true;
