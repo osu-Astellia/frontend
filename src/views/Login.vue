@@ -1,43 +1,49 @@
 <template>
 
     <div class="content">
-        <b-form @submit.prevent="onSubmit">
-            <b-form-group
-                    style="padding-top: 20px"
-                    id="input-group-1"
-                    label="Username:"
-                    label-for="input-1"
-            >
-                <b-form-input
+
+        <b-overlay :show="logining">
+            <b-form @submit.prevent="onSubmit">
 
 
-                        id="input-1"
-                        v-model="username"
-                        type="text"
-                        required
-                        placeholder="Enter Username"
-                ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-2" label="Your Password:" label-for="input-2">
-                <b-form-input
-                        type="password"
-                        id="input-2"
-                        v-model="password"
-                        required
-                        placeholder="Enter password"
-                ></b-form-input>
-            </b-form-group>
+                <b-form-group
+                        style="padding-top: 20px"
+                        id="input-group-1"
+                        label="Username:"
+                        label-for="input-1"
+                >
+                    <b-form-input
 
 
-            <b-form-group id="input-group-3" label="Please make us sure you are not a bot" label-for="input-3">
-                <vue-recaptcha class="mx-auto" v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
-            </b-form-group>
+                            id="input-1"
+                            v-model="username"
+                            type="text"
+                            required
+                            placeholder="Enter Username"
+                    ></b-form-input>
+                </b-form-group>
+
+                <b-form-group id="input-group-2" label="Your Password:" label-for="input-2">
+                    <b-form-input
+                            type="password"
+                            id="input-2"
+                            v-model="password"
+                            required
+                            placeholder="Enter password"
+                    ></b-form-input>
+                </b-form-group>
+
+
+                <b-form-group id="input-group-3" label="Please make us sure you are not a bot" label-for="input-3">
+                    <vue-recaptcha style="margin-left: 150px;" v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
+                </b-form-group>
 
 
 
-            <button type="submit">Submit</button>
-        </b-form>
+                <button type="submit">Submit</button>
+            </b-form>
+        </b-overlay>
+
     </div>
 
 </template>
@@ -54,18 +60,26 @@
                 username: '',
                 password: '',
                 captcha: '',
-                show: true
+                show: true,
+                logining: false
             }
         },
         methods: {
             onSubmit(){
 
-
+                this.logining = true;
                 this.$store.dispatch({
                     type: 'login',
 
                     login: this.username,
-                    password: this.password
+                    password: this.password,
+                    captcha: this.captcha
+                }).then(r => {
+                    this.logining = false;
+                    this.$router.go('/');
+                    window.location.href = '/';
+                }).catch(e => {
+                    this.logining = false;
                 });
 
             }
