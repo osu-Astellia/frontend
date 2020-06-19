@@ -31,9 +31,17 @@ export default new Vuex.Store({
           solid: true
         })
       },
+    async infoAlert({commit}, payload){
+      payload.$bvtoast.toast(payload.message, {
+        title: payload.title,
+        variant: 'info',
+        toaster: 'b-toaster-bottom-right',
+        solid: true
+      })
+    },
 
     async login({commit}, payload){
-      console.log(payload);
+
       let response = await fetch('/frontend/api/v1/auth/login', {
         body: JSON.stringify(
             {
@@ -50,7 +58,16 @@ export default new Vuex.Store({
         }
       }).then(resp => {
         resp.json().then(async res => {
-          if(res.token) commit('setToken', res.token);
+          if(res.data.token) {
+
+            commit('setToken', res.token);
+            this.$store.dispatch({
+              type: 'infoAlert',
+              $bvtoast: options.$bvtoast,
+              title: 'Info',
+              message: 'Authorization is successful...'
+            })
+          }
 
           else {
             this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid server response'});
@@ -63,7 +80,6 @@ export default new Vuex.Store({
 
 
     async register({commit}, payload){
-
       let response = await Vue.axios.post('/frontend/api/v1/auth/register', {
         login:  payload.login,
         password:  payload.password,
@@ -71,7 +87,16 @@ export default new Vuex.Store({
         captcha_key: payload.captcha,
         ip: payload.ip
       }).then(res => {
-        if(res.data.token) commit('setToken', res.data.token)
+        if(res.data.token) {
+
+          commit('setToken', res.data.token)
+          this.$store.dispatch({
+            type: 'infoAlert',
+            $bvtoast: options.$bvtoast,
+            title: 'Info',
+            message: 'Authorization is successful...'
+          })
+        }
         else {
           this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid server response'});
         }
