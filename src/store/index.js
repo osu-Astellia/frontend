@@ -33,15 +33,15 @@ export default new Vuex.Store({
       },
 
     async login({commit}, payload){
-      
+      console.log(payload);
       let response = await fetch('/frontend/api/v1/auth/login', {
         body: JSON.stringify(
             {
 
               login: payload.login,
               password: payload.password,
-              ip: this.ip,
-                captcha_key: payload.captcha
+              ip: payload.ip,
+              captcha_key: payload.captcha
 
             }),
         method: 'POST',
@@ -63,12 +63,13 @@ export default new Vuex.Store({
 
 
     async register({commit}, payload){
+
       let response = await Vue.axios.post('/frontend/api/v1/auth/register', {
         login:  payload.login,
         password:  payload.password,
         email: payload.email,
         captcha_key: payload.captcha,
-        ip: this.ip
+        ip: payload.ip
       }).then(res => {
         if(res.data.token) commit('setToken', res.data.token)
         else {
@@ -88,6 +89,10 @@ export default new Vuex.Store({
   modules: {
   },
   getters: {
+
+    getIPAddress: state => {
+      return state.ip
+    },
     getToken: state => {
       return state.token ? state.token : localStorage.getItem('token');
     }

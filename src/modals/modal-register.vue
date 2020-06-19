@@ -57,12 +57,13 @@
 
 <script>
     import VueRecaptcha from "vue-recaptcha";
-    import {mapActions} from "vuex";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "modal-register",
         components: {VueRecaptcha},
         ...mapActions(['register', 'errorAlert']),
+        ...mapState(['ip']),
         data() {
             return {
                 username: '',
@@ -86,7 +87,8 @@
                     password: this.password,
                     email: this.email,
                     captcha: this.captcha,
-                    $bvtoast: this.$bvToast
+                    $bvtoast: this.$bvToast,
+                    ip: this.$store.state.ip
                 }).then(r => {
                     this.logining = false;
                 }).catch(e => {
