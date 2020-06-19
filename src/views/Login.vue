@@ -31,7 +31,7 @@
 
 
             <b-form-group id="input-group-3" label="Please make us sure you are not a bot" label-for="input-3">
-                <vue-recaptcha style="margin: 0 auto;" v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
+                <vue-recaptcha class="mx-auto" v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
             </b-form-group>
 
 
@@ -74,7 +74,13 @@
 </script>
 
 <style scoped>
+#rc-anchor-container {
+    margin: 0 auto;
+}
 
+.bv-no-focus-ring {
+    padding: 0 150px;
+}
     .content {
         padding-top: 25px;
     }
@@ -103,6 +109,7 @@ button:hover {
     border: 0px solid white;
     color: black;
 }
+
     .content {
 
         background-color: #2c3e50;
