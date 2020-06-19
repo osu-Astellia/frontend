@@ -23,6 +23,15 @@ export default new Vuex.Store({
   },
   actions: {
 
+      async errorAlert({commit}, payload){
+        payload.$bvtoast.toast(payload.message, {
+          title: payload.title,
+          variant: 'danger',
+          toaster: 'b-toaster-bottom-right',
+          solid: true
+        })
+      },
+
     async login({commit}, payload){
       
       let response = await fetch('/frontend/api/v1/auth/login', {
@@ -31,7 +40,8 @@ export default new Vuex.Store({
 
               login: payload.login,
               password: payload.password,
-              ip: this.ip
+              ip: this.ip,
+                captcha_key: payload.captcha
 
             }),
         method: 'POST',
@@ -41,32 +51,33 @@ export default new Vuex.Store({
       }).then(resp => {
         resp.json().then(async res => {
           if(res.token) commit('setToken', res.token);
+
           else {
-            alert('No token, maybe you made a typo?')
+            this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid server response'});
           }
         })
       }).catch(e => {
-        alert('Invalid login data or captcha ...')
+        this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid captcha or Login data'});
       })
     },
 
 
-    async register({commit}, options){
+    async register({commit}, payload){
       let response = await Vue.axios.post('/frontend/api/v1/auth/register', {
         data: {
-          login:  options.login,
-          password:  options.password,
-          email: options.email,
-          capchaKey: options.captchaKey,
+          login:  payload.login,
+          password:  payload.password,
+          email: payload.email,
+          captcha_key: payload.captcha,
           ip: this.ip
         }
       }).then(res => {
         if(res.data.token) commit('setToken', res.data.token)
         else {
-          alert('No token, maybe you made a typo?')
+          this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid server response'});
         }
       }).catch(e => {
-        alert('Look`s like captcha are invalid')
+        this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid server response'});
       })
     },
     async getIP({commit}){

@@ -1,7 +1,5 @@
 <template>
-
     <div class="content">
-
         <b-overlay :show="logining">
             <b-form @submit.prevent="onSubmit">
 
@@ -33,33 +31,44 @@
                     ></b-form-input>
                 </b-form-group>
 
+                <b-form-group id="input-group-3" label="Email:" label-for="input-3">
+                    <b-form-input
+                            type="email"
+                            id="input-3"
+                            v-model="email"
+                            required
+                            placeholder="Email"
+                    ></b-form-input>
+                </b-form-group>
 
-                <b-form-group id="input-group-3" label="Please make us sure you are not a bot" label-for="input-3">
-                    <vue-recaptcha style="margin-left: 150px;" v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
+
+                <b-form-group id="input-group-4" label="Please make us sure you are not a bot" label-for="input-3">
+                    <vue-recaptcha v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
                 </b-form-group>
 
 
 
-                <button type="submit">Submit</button>
+                <b-button type="submit" block variant="primary">Login</b-button>
             </b-form>
         </b-overlay>
 
     </div>
-
 </template>
 
 <script>
-    import VueRecaptcha from 'vue-recaptcha';
-    import { mapActions } from 'vuex';
+    import VueRecaptcha from "vue-recaptcha";
+    import {mapActions} from "vuex";
+
     export default {
-        name: "Login",
+        name: "modal-register",
         components: {VueRecaptcha},
-        ...mapActions(['login']),
+        ...mapActions(['register', 'errorAlert']),
         data() {
             return {
                 username: '',
                 password: '',
                 captcha: '',
+                email: '',
                 show: true,
                 logining: false
             }
@@ -68,16 +77,18 @@
             onSubmit(){
 
                 this.logining = true;
+
+
                 this.$store.dispatch({
-                    type: 'login',
+                    type: 'register',
 
                     login: this.username,
                     password: this.password,
-                    captcha: this.captcha
+                    email: this.email,
+                    captcha: this.captcha,
+                    $bvtoast: this.$bvToast
                 }).then(r => {
                     this.logining = false;
-                    this.$router.go('/');
-                    window.location.href = '/';
                 }).catch(e => {
                     this.logining = false;
                 });
@@ -88,46 +99,39 @@
 </script>
 
 <style scoped>
-#rc-anchor-container {
-    margin: 0 auto;
-}
 
-.bv-no-focus-ring {
-    padding: 0 150px;
-}
-    .content {
-        padding-top: 25px;
+    #rc-anchor-container {
+        margin: 0 auto;
     }
-input {
 
-    text-align: center;
-    margin: 0 auto;
-    width: 25%;
-    padding: 0 10px;
-    border: 0px solid white;
-    border-radius: 10px;
-}
+    .bv-no-focus-ring {
+        padding: 0 150px;
+    }
 
-button {
-    margin-bottom: 20px;
-    background-color: purple;
-    border: 0px solid purple;
-    transition: 0.4s;
-    padding: 10px 20px;
-    color: white;
-    border-radius: 10px;
-}
 
-button:hover {
-    background-color: white;
-    border: 0px solid white;
-    color: black;
-}
+    button {
+        margin: 0 auto;
+        background-color: purple;
+        border: 0px solid purple;
+        transition: 0.4s;
+        padding: 10px 20px;
+        color: white;
+        border-radius: 10px;
 
+    }
+
+    button:hover {
+        background-color: black;
+        border: 0px solid white;
+        color: white;
+
+    }
     .content {
-
-        background-color: #2c3e50;
-        padding: 0;
-        margin: 0;
+        width: 300px;
+        height: auto;
+    }
+    * {
+        margin: 0 auto;
+        text-align: center;
     }
 </style>
