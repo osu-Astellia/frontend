@@ -64,13 +64,11 @@ export default new Vuex.Store({
 
     async register({commit}, payload){
       let response = await Vue.axios.post('/frontend/api/v1/auth/register', {
-        data: {
-          login:  payload.login,
-          password:  payload.password,
-          email: payload.email,
-          captcha_key: payload.captcha,
-          ip: this.ip
-        }
+        login:  payload.login,
+        password:  payload.password,
+        email: payload.email,
+        captcha_key: payload.captcha,
+        ip: this.ip
       }).then(res => {
         if(res.data.token) commit('setToken', res.data.token)
         else {
