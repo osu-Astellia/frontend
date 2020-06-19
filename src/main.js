@@ -5,13 +5,17 @@ import store from './store'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import { ToastPlugin } from 'bootstrap-vue'
 
-Vue.use(VueAxios, axios)
+
+
 Vue.config.productionTip = false
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+Vue.use(ToastPlugin)
+Vue.use(VueAxios, axios)
 
 
 

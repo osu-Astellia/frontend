@@ -25,8 +25,21 @@
                             <template v-slot:button-content >
                                 Guest
                             </template>
-                            <b-dropdown-item to="/login" class="black-link">Login</b-dropdown-item>
-                            <b-dropdown-item to="/register" class="black-link">Register</b-dropdown-item>
+                            <b-dropdown-item v-b-modal.LoginModal class="black-link">
+                                Login
+
+                            </b-dropdown-item>
+
+                            <b-modal id="LoginModal" hide-footer title="Log In">
+                                <Login />
+                            </b-modal>
+
+
+                            <b-dropdown-item v-b-modal.registerModal class="black-link">Register</b-dropdown-item>
+
+                            <b-modal id="registerModal" hide-footer title="Register an Account">
+                                <modal-register />
+                            </b-modal>
                         </b-nav-item-dropdown>
 
                     </b-nav-item>
@@ -39,12 +52,15 @@
 <script>
 
     import {mapState, mapActions} from 'vuex'
+    import Login from "../modals/modal-login";
+    import ModalRegister from "../modals/modal-register";
 
 
 
     export default {
         ...mapState(['token']),
         name: "v-navbar",
+        components: {ModalRegister, Login},
         data(){
             return {
                 token: this.$store.token
