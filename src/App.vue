@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <v-navbar />
-    <router-view class="view" />
+      <transition :name="slid">
+          <router-view class="view" />
+      </transition>
+
   </div>
 </template>
 

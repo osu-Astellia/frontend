@@ -42,10 +42,6 @@
                 </b-form-group>
 
 
-                <b-form-group id="input-group-4" label="Please make us sure you are not a bot" label-for="input-3">
-                    <vue-recaptcha v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
-                </b-form-group>
-
 
 
                 <b-button type="submit" block variant="primary">Login</b-button>
@@ -56,12 +52,10 @@
 </template>
 
 <script>
-    import VueRecaptcha from "vue-recaptcha";
     import {mapActions, mapState} from "vuex";
 
     export default {
         name: "modal-register",
-        components: {VueRecaptcha},
         ...mapActions(['register', 'errorAlert']),
         ...mapState(['ip']),
         data() {
@@ -95,7 +89,18 @@
                     this.logining = false;
                 });
 
+            },
+
+            async verifyCaptcha(){
+                await this.$recaptchaLoaded();
+
+                const token = await this.$recaptcha('login');
+                if(!token) return this.$store.dispatch('errorAlert', {$bvtoast: this.$bvToast, title: 'Error!', message: 'Cannot valid captcha, maybe you are robot?'});
+                this.captcha = token;
             }
+        },
+        mounted() {
+            this.verifyCaptcha();
         }
     }
 </script>
