@@ -78,25 +78,26 @@ export default new Vuex.Store({
         let response = await Vue.axios.post('/frontend/api/v1/merge', {
           username: payload.username,
           password: payload.password,
-          type: 'data'
+          type: 'merge'
         }).then(async res => {
-          let id = res.data.id;
-          let password_server = res.data.password;
+            this.$store.dispatch({
+                type: 'infoAlert',
+                $bvtoast: options.$bvtoast,
+                title: 'Account merged',
+                message: 'Account merged successful'
+            });
+        }).catch(e => {
+            if(e.response.data.result){
 
-          let hashed_password = bcrypt.compareSync(md5(payload.password), password_server);
+                if(e.response.data.result.includes('Please merge password to new algorithm.')) {
+                    payload.$store.dispatch('infoAlert', {$bvtoast: payload.$bvtoast, title: 'Info', message: 'Account merge is needed... merging account password to new version!'});
 
-          if(hashed_password){
-            await Vue.axios.post('/frontend/api/v1/merge', {
-              username: payload.username,
-              password: hashed_password,
-              type: 'merge'
-            }).then(async res => {
-              this.$store.dispatch({type: 'infoAlert', $bvtoast: options.$bvtoast, title: 'Account merged', message: 'Account merged successful'});
-            })
-          }else{
-            this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Password is invalid!'});
-          }
-        })
+                }
+                payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
+            }else{
+                payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
+            }
+    })
     },
 
     async register({commit}, payload){
@@ -126,11 +127,14 @@ export default new Vuex.Store({
       }).catch(e => {
         if(e.response.data.result){
 
-          if(e.response.data.result.includes('Please merge password to new algorithm.')) {
+          if(e.response.data.result === 'Please merge password to new algorithm.') {
             payload.$store.dispatch('infoAlert', {$bvtoast: payload.$bvtoast, title: 'Info', message: 'Account merge is needed... merging account password to new version!'});
 
+            payload.$store.dispatch('mergeAccount', payload);
+          }else if(e.response.data.result){
+              payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
           }
-          payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
+
         }else{
           payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
         }
