@@ -87,8 +87,11 @@ export default new Vuex.Store({
                 message: 'Account merged successful'
             });
         }).catch(e => {
+            console.log(e.response.data)
+            console.log(e.response.data.result.includes('merge'));
+            console.log(e.response)
             if(e.response.data.result){
-                console.log(e.response.data)
+
                 if(e.response.data.result.includes('merge')) {
                     payload.$store.dispatch('infoAlert', {$bvtoast: payload.$bvtoast, title: 'Info', message: 'Account merge is needed... merging account password to new version!'});
 
