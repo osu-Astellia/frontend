@@ -52,15 +52,17 @@ export default new Vuex.Store({
 
           })
           .then(res => {
-          if(res.data.token) {
+          if(res.data.result) {
 
-            commit('setToken', res.data.token);
+            commit('setToken', res.data.result);
             this.$store.dispatch({
               type: 'infoAlert',
               $bvtoast: options.$bvtoast,
               title: 'Info',
               message: 'Authorization is successful...'
-            })
+            });
+            this.$router.go(0);
+            payload.$bvModal.hide('loginModal');
           }
 
           else {
@@ -89,6 +91,7 @@ export default new Vuex.Store({
             message: 'Authorization is successful...'
           });
           this.$router.go(0);
+          payload.$bvModal.hide('registerModal');
         }
         else {
           payload.$store.dispatch({type: 'errorAlert', $bvtoast: payload.$bvtoast, title: 'Error', message: 'Invalid server response'});
