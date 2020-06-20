@@ -89,7 +89,7 @@ export default new Vuex.Store({
 
     async mergeAccount({commit}, payload){
         let response = await Vue.axios.post('/frontend/api/v1/merge', {
-          username: payload.username,
+          username: payload.login,
           password: payload.password,
           type: 'merge'
         }).then(async res => {
