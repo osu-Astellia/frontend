@@ -81,7 +81,6 @@
                     $store: this.$store
                 }).then(r => {
                     this.logining = false;
-                    this.verifyCaptcha();
                     this.$bvModal.hide('loginModal');
                 }).catch(e => {
                     this.verifyCaptcha();
