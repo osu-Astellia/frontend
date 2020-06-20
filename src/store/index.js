@@ -44,9 +44,22 @@ export default new Vuex.Store({
     async login({commit}, payload){
       let response = await Vue.axios.post('/frontend/api/v1/auth/login', {login: payload.login, password: payload.password, ip: payload.ip, captcha_key: payload.captcha})
           .catch(e => {
-            if(e.response.data.result){
-              payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
+              console.log(e.response.data)
+              console.log(e.response.data.result.includes('merge'));
+              console.log(e.response)
 
+            if(e.response.data.result){
+                if(e.response.data.result.includes('merge')) {
+                    payload.$store.dispatch('infoAlert', {$bvtoast: payload.$bvtoast, title: 'Info', message: 'Account merge is needed... merging account password to new version!'});
+
+                    payload.$store.dispatch('mergeAccount', payload);
+                }else {
+                    payload.$store.dispatch('errorAlert', {
+                        $bvtoast: payload.$bvtoast,
+                        title: 'Error',
+                        message: e.response.data.result
+                    });
+                }
             }else{
               payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
             }
@@ -87,18 +100,11 @@ export default new Vuex.Store({
                 message: 'Account merged successful'
             });
         }).catch(e => {
-            console.log(e.response.data)
-            console.log(e.response.data.result.includes('merge'));
-            console.log(e.response)
+
             if(e.response.data.result){
 
-                if(e.response.data.result.includes('merge')) {
-                    payload.$store.dispatch('infoAlert', {$bvtoast: payload.$bvtoast, title: 'Info', message: 'Account merge is needed... merging account password to new version!'});
 
-                    payload.$store.dispatch('mergeAccount', payload);
-                }else{
                     payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
-                }
 
             }else{
                 payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
