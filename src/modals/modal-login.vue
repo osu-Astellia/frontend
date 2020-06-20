@@ -81,11 +81,11 @@
                 }).then(r => {
                     this.logining = false;
                     this.verifyCaptcha();
-                    this.$store.dispatch('infoAlert', {$bvtoast: this.$bvToast, title: 'Info', message: 'Authorization successful!'});
+
                 }).catch(e => {
                     this.verifyCaptcha();
                     this.logining = false;
-                    this.$store.dispatch('errorAlert', {$bvtoast: this.$bvToast, title: 'Error!', message: e});
+
                 });
 
             },
