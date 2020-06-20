@@ -82,6 +82,7 @@
                 }).then(r => {
                     this.logining = false;
                     this.$bvModal.hide('LoginModal');
+                    console.log('pidaras123456')
 
                 }).catch(e => {
                     this.verifyCaptcha();
