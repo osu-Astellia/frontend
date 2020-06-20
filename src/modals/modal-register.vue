@@ -84,9 +84,13 @@
                     $bvtoast: this.$bvToast,
                     ip: this.$store.state.ip
                 }).then(r => {
+                    this.verifyCaptcha();
                     this.logining = false;
+                    this.$store.dispatch('infoAlert', {$bvtoast: this.$bvToast, title: 'Info', message: 'Registered!'});
                 }).catch(e => {
+                    this.verifyCaptcha();
                     this.logining = false;
+                    this.$store.dispatch('errorAlert', {$bvtoast: this.$bvToast, title: 'Error!', message: e});
                 });
 
             },
