@@ -79,7 +79,8 @@ export default new Vuex.Store({
         ip: payload.ip
       }).then(res => {
         if(res.data.result) {
-
+          console.log(res.data);
+          console.log(payload);
           commit('setToken', res.data.result)
           payload.$store.dispatch({
             type: 'infoAlert',
