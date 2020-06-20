@@ -41,26 +41,20 @@ export default new Vuex.Store({
     },
 
     async login({commit}, payload){
+      let response = await Vue.axios.post('/frontend/api/v1/auth/login', {login: payload.login, password: payload.password, ip: payload.ip, captcha_key: payload.captcha})
+          .catch(e => {
+            if(e.response.data.result){
+              payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
 
-      let response = await fetch('/frontend/api/v1/auth/login', {
-        body: JSON.stringify(
-            {
+            }else{
+              payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
+            }
 
-              login: payload.login,
-              password: payload.password,
-              ip: payload.ip,
-              captcha_key: payload.captcha
-
-            }),
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        }
-      }).then(resp => {
-        resp.json().then(async res => {
+          })
+          .then(res => {
           if(res.data.token) {
 
-            commit('setToken', res.token);
+            commit('setToken', res.data.token);
             this.$store.dispatch({
               type: 'infoAlert',
               $bvtoast: options.$bvtoast,
@@ -73,9 +67,6 @@ export default new Vuex.Store({
             this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid server response'});
           }
         })
-      }).catch(e => {
-        this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid captcha or Login data'});
-      })
     },
 
 
@@ -87,21 +78,26 @@ export default new Vuex.Store({
         captcha_key: payload.captcha,
         ip: payload.ip
       }).then(res => {
-        if(res.data.token) {
+        if(res.data.result) {
 
-          commit('setToken', res.data.token)
-          this.$store.dispatch({
+          commit('setToken', res.data.result)
+          payload.$store.dispatch({
             type: 'infoAlert',
-            $bvtoast: options.$bvtoast,
+            $bvtoast: payload.$bvtoast,
             title: 'Info',
             message: 'Authorization is successful...'
-          })
+          });
+          this.$router.go(0);
         }
         else {
-          this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid server response'});
+          payload.$store.dispatch({type: 'errorAlert', $bvtoast: payload.$bvtoast, title: 'Error', message: 'Invalid server response'});
         }
       }).catch(e => {
-        this.$store.dispatch({type: 'errorAlert', $bvtoast: options.$bvtoast, title: 'Error', message: 'Invalid server response'});
+        if(e.response.data.result){
+          payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
+        }else{
+          payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
+        }
       })
     },
     async getIP({commit}){

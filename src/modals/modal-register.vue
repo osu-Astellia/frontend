@@ -56,7 +56,7 @@
 
     export default {
         name: "modal-register",
-        ...mapActions(['register', 'errorAlert']),
+        ...mapActions(['register', 'errorAlert', 'infoAlert']),
         ...mapState(['ip']),
         data() {
             return {
@@ -82,7 +82,8 @@
                     email: this.email,
                     captcha: this.captcha,
                     $bvtoast: this.$bvToast,
-                    ip: this.$store.state.ip
+                    ip: this.$store.state.ip,
+                    $store: this.$store
                 }).then(r => {
                     this.verifyCaptcha();
                     this.logining = false;

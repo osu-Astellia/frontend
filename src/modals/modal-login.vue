@@ -77,11 +77,12 @@
                     password: this.password,
                     captcha: this.captcha,
                     $bvtoast: this.$bvToast,
-                    ip: this.$store.state.ip
+                    ip: this.$store.state.ip,
+                    $store: this.$store
                 }).then(r => {
                     this.logining = false;
                     this.verifyCaptcha();
-
+                    this.$bvModal.hide('loginModal');
                 }).catch(e => {
                     this.verifyCaptcha();
                     this.logining = false;
