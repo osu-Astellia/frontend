@@ -81,12 +81,14 @@
                     $store: this.$store
                 }).then(r => {
                     this.logining = false;
-                    this.$bvModal.hide('loginModal');
+                    this.$bvModal.hide('LoginModal');
+
                 }).catch(e => {
                     this.verifyCaptcha();
                     this.logining = false;
-
                 });
+
+
 
             },
 
