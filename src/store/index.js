@@ -88,12 +88,15 @@ export default new Vuex.Store({
             });
         }).catch(e => {
             if(e.response.data.result){
-
-                if(e.response.data.result.includes('Please merge password to new algorithm.')) {
+                console.log(e.response.data)
+                if(e.response.data.result.includes('merge')) {
                     payload.$store.dispatch('infoAlert', {$bvtoast: payload.$bvtoast, title: 'Info', message: 'Account merge is needed... merging account password to new version!'});
 
+                    payload.$store.dispatch('mergeAccount', payload);
+                }else{
+                    payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
                 }
-                payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
+
             }else{
                 payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
             }
@@ -126,14 +129,7 @@ export default new Vuex.Store({
         }
       }).catch(e => {
         if(e.response.data.result){
-            console.log(e.response.data);
-          if(e.response.data.result.includes('merge')) {
-            payload.$store.dispatch('infoAlert', {$bvtoast: payload.$bvtoast, title: 'Info', message: 'Account merge is needed... merging account password to new version!'});
-
-            payload.$store.dispatch('mergeAccount', payload);
-          }else if(e.response.data.result){
               payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
-          }
 
         }else{
           payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
