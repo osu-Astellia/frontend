@@ -42,7 +42,14 @@ export default new Vuex.Store({
     },
 
     async login({commit}, payload){
-      let response = await Vue.axios.post('/frontend/api/v1/auth/login', {login: payload.login, password: payload.password, ip: payload.ip, captcha_key: payload.captcha})
+      let response = await Vue.axios.post('/frontend/api/v1/auth/login', {
+          login: payload.login,
+          password: payload.password,
+          ip: payload.ip,
+          captcha_key: payload.captcha,
+          is_bancho: false
+
+      })
           .catch(e => {
 
 
@@ -91,7 +98,7 @@ export default new Vuex.Store({
           password: payload.password,
           type: 'merge'
         }).then(async res => {
-            this.$store.dispatch({
+            await payload.$store.dispatch({
                 type: 'infoAlert',
                 $bvtoast: options.$bvtoast,
                 title: 'Account merged',

@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <v-navbar />
-      <transition :name="slid">
+      <transition name="fade">
           <router-view class="view" />
       </transition>
-
   </div>
 </template>
 
@@ -15,20 +14,32 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
 }
 body {
+  background-color: #292D3E !important;
   margin: 0;
   padding: 0;
+
+
+
+
 }
 .view {
   text-align: center;
-  width: 50%;
-  height: auto;
   color:white;
-  margin: 50px auto !important;
 
   border: 0px solid black;
   border-radius: 20px;
+  width: 100%;
+  height: 100%;
+
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 500ms;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
 }
 
 </style>

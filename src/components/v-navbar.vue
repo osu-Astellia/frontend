@@ -1,13 +1,13 @@
 <template>
     <div>
         <b-navbar toggleable="lg" type="dark">
-            <b-navbar-brand href="#">Astellia</b-navbar-brand>
+            <b-navbar-brand to="/">Astellia</b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item><router-link to="/leaderbard">Leaderboard</router-link></b-nav-item>
+                    <b-nav-item><router-link to="/leaderboard">Leaderboard</router-link></b-nav-item>
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto">
