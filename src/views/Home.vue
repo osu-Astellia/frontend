@@ -66,6 +66,11 @@ export default {
     transition: .4s;
   }
 
+  .link:hover {
+    background-color: #25293E;
+    border: 1px solid #25293E;
+  }
+
   button {
     background-color: #46297C;
     border: 1px solid #46298E;
