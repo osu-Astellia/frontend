@@ -69,6 +69,7 @@ export default new Vuex.Store({
 
           })
           .then(res => {
+          console.log(res);
           if(res.data.result) {
 
             commit('setToken', res.data.result);
@@ -123,6 +124,8 @@ export default new Vuex.Store({
         captcha_key: payload.captcha,
         ip: payload.ip
       }).then(res => {
+
+          console.log(res);
         if(res.data.result) {
           console.log(res.data);
           console.log(payload);

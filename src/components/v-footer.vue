@@ -34,7 +34,7 @@
     					<router-link to="/team" class="vmenu__link">Team</router-link>
     				</li>
     				<li class="vmenu__item">
-    					<router-link to="https://github.com/osu-astellia/" class="vmenu__link">Source Code</router-link>
+    					<a href="https://github.com/osu-astellia/" class="vmenu__link">Source Code</a>
     				</li>
     			</ul>
     		</nav>

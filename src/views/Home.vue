@@ -74,9 +74,10 @@ export default {
     border: 1px solid #46298E;
     color: white;
     border-radius: 10px;
-    width: 100px;
+    width: 120px;
     height: 50px;
     transition: .4s;
+    text-align: center;
   }
 
   button:hover {
