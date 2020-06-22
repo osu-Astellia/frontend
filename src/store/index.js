@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import bcrypt from 'bcryptjs';
-import md5 from 'md5';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
