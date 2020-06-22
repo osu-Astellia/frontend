@@ -72,14 +72,15 @@ export default new Vuex.Store({
           console.log(res);
           if(res.data.result) {
 
-            commit('setToken', res.data.result);
-            this.$store.dispatch({
+
+            payload.$store.dispatch({
               type: 'infoAlert',
               $bvtoast: options.$bvtoast,
               title: 'Info',
               message: 'Authorization is successful...'
             });
             this.$router.go(0);
+            console.log(playload);
             payload.$bvModal.hide('loginModal');
           }
 
