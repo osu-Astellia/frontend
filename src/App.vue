@@ -4,6 +4,7 @@
       <transition name="fade">
           <router-view class="view" />
       </transition>
+    <v-footer />
   </div>
 </template>
 
@@ -46,10 +47,11 @@ body {
 <script>
   import { mapActions } from 'vuex';
   import VNavbar from "./components/v-navbar";
+  import VFooter from "./components/v-footer";
   export default {
 
     ...mapActions(['getIP']),
-    components: {VNavbar},
+    components: {VFooter, VNavbar},
     mounted() {
       this.$store.dispatch('getIP');
 

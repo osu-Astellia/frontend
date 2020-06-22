@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Leaderboard from '../views/Leaderboard.vue';
+import Leaderboard from '../views/v-leaderboard.vue';
 
 Vue.use(VueRouter)
 

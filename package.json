@@ -15,6 +15,7 @@
     "md5": "^2.2.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
+    "vue-ionicons": "^3.0.5",
     "vue-recaptcha-v3": "^1.9.0",
     "vue-router": "^3.2.0",
     "vue2-transitions": "^0.3.0",

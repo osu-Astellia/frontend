@@ -7481,6 +7481,11 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha1-UylVzB6yCKPZkLOp+acFdGV+CPI=
 
+vue-ionicons@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/vue-ionicons/-/vue-ionicons-3.0.5.tgz#4c3cd6efc91738d760c30e663c89932e4304e5fa"
+  integrity sha512-1zZN/mcLRk6XKmQYMue699ut99qVMm+YfB3TY6jcTuzLSYh76BS9CcToLX/9v/0aOf8aTKHAPx2USdNBaY9IRw==
+
 vue-loader@^15.9.2:
   version "15.9.2"
   resolved "https://registry.npm.taobao.org/vue-loader/download/vue-loader-15.9.2.tgz#ae01f5f4c9c6a04bff4483912e72ef91a402c1ae"

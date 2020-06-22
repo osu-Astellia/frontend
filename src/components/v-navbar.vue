@@ -71,6 +71,10 @@
 
 <style scoped>
 
+
+.dropdown-menu {
+    transition: 0.4s;
+}
     a.black-link {
         color: black !important;
         transition: 0.4s;
