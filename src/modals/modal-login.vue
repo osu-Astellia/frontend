@@ -33,9 +33,6 @@
                 </b-form-group>
 
 
-                <b-form-group id="input-group-3" label="Please make us sure you are not a bot" label-for="input-3">
-                    <vue-recaptcha v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
-                </b-form-group>
 
 
 
@@ -48,12 +45,11 @@
 </template>
 
 <script>
-    import VueRecaptcha from 'vue-recaptcha';
-    import { mapActions } from 'vuex';
+    import { mapActions, mapState } from 'vuex';
     export default {
         name: "Login",
-        components: {VueRecaptcha},
-        ...mapActions(['login']),
+        ...mapActions(['login', 'errorAlert', 'infoAlert']),
+        ...mapState(['ip']),
         data() {
             return {
                 username: '',
@@ -64,6 +60,13 @@
             }
         },
         methods: {
+            async verifyCaptcha(){
+                await this.$recaptchaLoaded();
+
+                const token = await this.$recaptcha('login');
+                if(!token) return this.$store.dispatch('errorAlert', {$bvtoast: this.$bvToast, title: 'Error!', message: 'Cannot valid captcha, maybe you are robot?'});
+                this.captcha = token;
+            },
             onSubmit(){
 
                 this.logining = true;
@@ -73,14 +76,26 @@
                     login: this.username,
                     password: this.password,
                     captcha: this.captcha,
-                    $bvtoast: this.$bvToast
+                    $bvtoast: this.$bvToast,
+                    ip: this.$store.state.ip,
+                    $store: this.$store,
+                    $bvModal : this.$bvModal
                 }).then(r => {
                     this.logining = false;
+
+
                 }).catch(e => {
+                    this.verifyCaptcha();
                     this.logining = false;
                 });
 
-            }
+
+
+            },
+
+        },
+        mounted() {
+            this.verifyCaptcha()
         }
     }
 </script>

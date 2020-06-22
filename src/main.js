@@ -6,17 +6,17 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { ToastPlugin } from 'bootstrap-vue'
-
-
+import {VueReCaptcha} from 'vue-recaptcha-v3'
 
 Vue.config.productionTip = false
-// Install BootstrapVue
+
+
+
 Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 Vue.use(ToastPlugin)
 Vue.use(VueAxios, axios)
-
+Vue.use(VueReCaptcha, {siteKey: '6LeOJ6cZAAAAAPlDWXxpvyzSrVU4Xep9LzN7vwKy'})
 
 
 import 'bootstrap/dist/css/bootstrap.css'

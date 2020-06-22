@@ -1,24 +1,24 @@
 <template>
-    <div>
+    <div class="topPanel">
         <b-navbar toggleable="lg" type="dark">
-            <b-navbar-brand href="#">Astellia</b-navbar-brand>
+            <b-navbar-brand to="/">Astellia</b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item><router-link to="/leaderbard">Leaderboard</router-link></b-nav-item>
+                    <b-nav-item><router-link to="/leaderboard">Leaderboard</router-link></b-nav-item>
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto">
 
-                    <b-nav-item-dropdown v-if="token" right >
+                    <b-nav-item-dropdown v-if="userdata" right >
                         <!-- Using 'button-content' slot -->
                         <template v-slot:button-content>
-                            <em>User</em>
+                            <em>{{ userdata.username }}</em>
                         </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                        <b-dropdown-item :to="data.url">Profile</b-dropdown-item>
+                        <b-dropdown-item href="#" @click.prevent="logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item v-else style="padding: 0 !important;">
                         <b-nav-item-dropdown right>
@@ -58,19 +58,56 @@
 
 
     export default {
+        ...mapActions(['logout']),
         ...mapState(['token']),
         name: "v-navbar",
         components: {ModalRegister, Login},
         data(){
             return {
-                token: this.$store.token
+                token: this.$store.state.token,
+                userdata: null,
+                data: null
             }
+        },
+        methods: {
+
+            logout(){
+                this.$store.dispatch('logout')
+            },
+            async fetchUserData(){
+                this.userdata = await this.axios.get('/frontend/api/v1/user/@me', {
+                    headers: {
+                        'Authorization': this.token
+                    }
+                }).then(res => res.data);
+                this.data = {
+                    url: `/u/${this.userdata.id}`
+                }
+
+                console.log(this.userdata);
+            },
+
+            getUsername(){
+                if(!this.userdata) return this.fetchUserData().then(r => this.userdata);
+                return this.userdata;
+            }
+        },
+        watch: {
+
+        },
+
+        mounted() {
+            this.fetchUserData();
         }
     }
 </script>
 
 <style scoped>
 
+
+.dropdown-menu {
+    transition: 0.4s;
+}
     a.black-link {
         color: black !important;
         transition: 0.4s;

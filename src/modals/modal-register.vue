@@ -42,13 +42,9 @@
                 </b-form-group>
 
 
-                <b-form-group id="input-group-4" label="Please make us sure you are not a bot" label-for="input-3">
-                    <vue-recaptcha v-model="captcha" sitekey="6LcQU9AUAAAAADuMdR5KDNLZa3TfDzFW6amhOBdj" :loadRecaptchaScript="true"></vue-recaptcha>
-                </b-form-group>
 
 
-
-                <b-button type="submit" block variant="primary">Login</b-button>
+                <b-button type="submit" block variant="primary">Register</b-button>
             </b-form>
         </b-overlay>
 
@@ -56,13 +52,12 @@
 </template>
 
 <script>
-    import VueRecaptcha from "vue-recaptcha";
-    import {mapActions} from "vuex";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: "modal-register",
-        components: {VueRecaptcha},
-        ...mapActions(['register', 'errorAlert']),
+        ...mapActions(['register', 'errorAlert', 'infoAlert']),
+        ...mapState(['ip']),
         data() {
             return {
                 username: '',
@@ -86,14 +81,30 @@
                     password: this.password,
                     email: this.email,
                     captcha: this.captcha,
-                    $bvtoast: this.$bvToast
+                    $bvtoast: this.$bvToast,
+                    ip: this.$store.state.ip,
+                    $store: this.$store,
+                    $bvModal : this.$bvModal
                 }).then(r => {
+                    this.verifyCaptcha();
                     this.logining = false;
                 }).catch(e => {
+                    this.verifyCaptcha();
                     this.logining = false;
                 });
 
+            },
+
+            async verifyCaptcha(){
+                await this.$recaptchaLoaded();
+
+                const token = await this.$recaptcha('login');
+                if(!token) return this.$store.dispatch('errorAlert', {$bvtoast: this.$bvToast, title: 'Error!', message: 'Cannot valid captcha, maybe you are robot?'});
+                this.captcha = token;
             }
+        },
+        mounted() {
+            this.verifyCaptcha();
         }
     }
 </script>
