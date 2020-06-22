@@ -12,6 +12,10 @@ export default new Vuex.Store({
       localStorage.setItem('token', token);
       state.token = token;
     },
+      removeToken(state){
+        localStorage.removeItem('token');
+        state.token = null;
+      },
 
     setIP(state, ip){
       state.ip = ip;
@@ -21,6 +25,11 @@ export default new Vuex.Store({
 
   },
   actions: {
+
+      logout({commit}){
+          commit('removeToken');
+          window.location.href = '/';
+      },
 
       async errorAlert({commit}, payload){
         payload.$bvtoast.toast(payload.message, {
@@ -32,7 +41,7 @@ export default new Vuex.Store({
       },
     async infoAlert({commit}, payload){
       payload.$bvtoast.toast(payload.message, {
-        title: payload.title,
+        title: 'info',
         variant: 'info',
         toaster: 'b-toaster-bottom-right',
         solid: true
@@ -40,6 +49,7 @@ export default new Vuex.Store({
     },
 
     async login({commit}, payload){
+
       let response = await Vue.axios.post('/frontend/api/v1/auth/login', {
           login: payload.login,
           password: payload.password,
@@ -47,8 +57,7 @@ export default new Vuex.Store({
           captcha_key: payload.captcha,
           is_bancho: false
 
-      })
-          .catch(e => {
+      }).catch(e => {
 
 
             if(e.response.data.result){
@@ -69,18 +78,23 @@ export default new Vuex.Store({
 
           })
           .then(res => {
-          console.log(res);
-          if(res.data.result) {
+
+          if(res.data.token) {
+              payload.$bvModal.hide('LoginModal');
+
+              setTimeout(() => {
+                  payload.$store.dispatch('infoAlert', {
+                      $bvtoast: payload.$bvtoast,
+                      title: 'Info',
+                      message: 'Authorized'
+                  });
+                  setTimeout(() => {window.location.href = '/'}, 300)
+              }, 300);
+              commit('setToken', res.data.token);
+
+            
 
 
-            payload.$store.dispatch({
-              type: 'infoAlert',
-              $bvtoast: options.$bvtoast,
-              title: 'Info',
-              message: 'Authorization is successful...'
-            });
-            console.log(payload);
-            payload.$bvModal.hide('loginModal');
           }
 
           else {
@@ -99,15 +113,13 @@ export default new Vuex.Store({
         }).then(async res => {
             await payload.$store.dispatch({
                 type: 'infoAlert',
-                $bvtoast: options.$bvtoast,
+                $bvtoast: payload.$bvtoast,
                 title: 'Account merged',
                 message: 'Account merged successful'
             });
         }).catch(e => {
 
             if(e.response.data.result){
-
-
                     payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
 
             }else{
@@ -125,18 +137,21 @@ export default new Vuex.Store({
         ip: payload.ip
       }).then(res => {
 
-          console.log(res);
-        if(res.data.result) {
-          console.log(res.data);
           console.log(payload);
-          commit('setToken', res.data.result)
-          payload.$store.dispatch({
-            type: 'infoAlert',
-            $bvtoast: payload.$bvtoast,
-            title: 'Info',
-            message: 'Authorization is successful...'
-          });
-          payload.$bvModal.hide('registerModal');
+        if(res.data.result) {
+
+            payload.$bvModal.hide('registerModal');
+
+            setTimeout(() => {
+                payload.$store.dispatch('infoAlert', {
+                    $bvtoast: payload.$bvtoast,
+                    title: 'Info',
+                    message: 'Authorized'
+                });
+                setTimeout(() => {window.location.href = '/'}, 300)
+            }, 300);
+            commit('setToken', res.data.result);
+
         }
         else {
           payload.$store.dispatch({type: 'errorAlert', $bvtoast: payload.$bvtoast, title: 'Error', message: 'Invalid server response'});
@@ -146,7 +161,8 @@ export default new Vuex.Store({
               payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data.result});
 
         }else{
-          payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
+          payload.$store.dispatch('errorAlert',
+              {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
         }
       })
 

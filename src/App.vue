@@ -1,5 +1,13 @@
 <template>
+
+
   <div id="app">
+    <meta property="og:site_name" content="By Astellia Team">
+    <meta property="og:title" content="ASTELLIA">
+    <meta property="og:description" content="Amelia is a private osu! server with a multiplayer, PP, active community and development team that adds new features and fixes bugs. We have a friendly community and we have open source!">
+    <meta name="theme-color" content="#3F2B5E">
+    <meta name="description" content="Amelia is a private osu! server with a multiplayer, PP, active community and development team that adds new features and fixes bugs. We have a friendly com... Join us!">
+    <meta name="keywords" content="discord, servers, server, discord servers, list, top, popular, anime, games, community, music, reviews, nsfw, join">
     <v-navbar />
       <transition name="fade">
           <router-view class="view" />
