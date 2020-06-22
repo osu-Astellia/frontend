@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="topPanel">
         <b-navbar toggleable="lg" type="dark">
             <b-navbar-brand to="/">Astellia</b-navbar-brand>
 
