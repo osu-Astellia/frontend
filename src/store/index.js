@@ -79,7 +79,6 @@ export default new Vuex.Store({
               title: 'Info',
               message: 'Authorization is successful...'
             });
-            this.$router.go(0);
             console.log(payload);
             payload.$bvModal.hide('loginModal');
           }
@@ -137,7 +136,6 @@ export default new Vuex.Store({
             title: 'Info',
             message: 'Authorization is successful...'
           });
-          this.$router.go(0);
           payload.$bvModal.hide('registerModal');
         }
         else {
