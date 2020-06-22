@@ -80,7 +80,7 @@ export default new Vuex.Store({
               message: 'Authorization is successful...'
             });
             this.$router.go(0);
-            console.log(playload);
+            console.log(payload);
             payload.$bvModal.hide('loginModal');
           }
 
