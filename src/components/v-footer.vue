@@ -5,13 +5,13 @@
     			<h2 class="vmenu__title">Help</h2>
     			<ul class="vmenu__list">
     				<li class="vmenu__item">
-    					<a href="" class="vmenu__link">Rules</a>
+    					<a href="/docs/rules" class="vmenu__link">Rules</a>
     				</li>
     				<li class="vmenu__item">
-    					<a href="" class="vmenu__link">Download</a>
+    					<a href="/files/client.exe" class="vmenu__link">Download</a>
     				</li>
     				<li class="vmenu__item">
-    					<a href="" class="vmenu__link">How To Connect</a>
+    					<router-link to="/docs/connect" class="vmenu__link">How To Connect</router-link>
     				</li>
     			</ul>
     		</nav>
@@ -21,7 +21,7 @@
     			<h2 class="vmenu__title">Social</h2>
     			<ul class="vmenu__list">
     				<li class="vmenu__item">
-    					<a href="" class="vmenu__link">Dsicord</a>
+    					<a href="https://discord.gg/hG37Tz7" class="vmenu__link">Discord</a>
     				</li>
     			</ul>
     		</nav>
@@ -31,10 +31,10 @@
     			<h2 class="vmenu__title">About Us</h2>
     			<ul class="vmenu__list">
     				<li class="vmenu__item">
-    					<a href="" class="vmenu__link">Team</a>
+    					<router-link to="/team" class="vmenu__link">Team</router-link>
     				</li>
     				<li class="vmenu__item">
-    					<a href="" class="vmenu__link">Source Code</a>
+    					<router-link to="https://github.com/osu-astellia/" class="vmenu__link">Source Code</router-link>
     				</li>
     			</ul>
     		</nav>

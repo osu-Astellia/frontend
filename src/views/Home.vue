@@ -12,12 +12,10 @@
           Astellia - уникальный сервер с собственным сайтом, активной командой разработчиков, которая добавляет новые функции и исправляет баги.
         </div>
 
-        <b-modal id="LoginModal" hide-footer title="Log In">
-          <Login />
-        </b-modal>
+
         <div class="buttongroup">
-          <button v-b-modal.registerModal>Register</button>
-          <a class="link" href="/files/client.exe">Скачать свитчер</a>
+          <button v-b-modal.registerModal>Регистрация</button>
+          <a class="link" href="/files/client.exe">Скачать клиент</a>
         </div>
 
 
