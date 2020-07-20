@@ -33,9 +33,6 @@
     				<li class="vmenu__item">
     					<router-link to="/team" class="vmenu__link">Team</router-link>
     				</li>
-    				<li class="vmenu__item">
-    					<a href="https://github.com/osu-astellia/" class="vmenu__link">Source Code</a>
-    				</li>
     			</ul>
     		</nav>
     	</div>
@@ -43,6 +40,8 @@
 </template>
 
 <script>
+
+
     export default {
         name: "v-footer"
     }

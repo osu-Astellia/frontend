@@ -14,10 +14,11 @@
 
                     <b-nav-item-dropdown v-if="userdata" right >
                         <!-- Using 'button-content' slot -->
-                        <template v-slot:button-content>
+                        <template v-slot:button-content v-if="userdata.username">
                             <em>{{ userdata.username }}</em>
                         </template>
                         <b-dropdown-item :to="data.url">Profile</b-dropdown-item>
+                        <b-dropdown-item to="/profile/settings">Settings</b-dropdown-item>
                         <b-dropdown-item href="#" @click.prevent="logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item v-else style="padding: 0 !important;">
@@ -79,16 +80,16 @@
                     headers: {
                         'Authorization': this.token
                     }
-                }).then(res => res.data);
+                }).then(res => res.data[0]);
                 this.data = {
                     url: `/u/${this.userdata.id}`
                 }
 
-                console.log(this.userdata);
+
             },
 
             getUsername(){
-                if(!this.userdata) return this.fetchUserData().then(r => this.userdata);
+                if(!this.userdata) return this.fetchUserData().then(r => this.userdata[0]);
                 return this.userdata;
             }
         },

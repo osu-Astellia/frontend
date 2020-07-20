@@ -33,7 +33,7 @@ export default new Vuex.Store({
 
       async errorAlert({commit}, payload){
         payload.$bvtoast.toast(payload.message, {
-          title: payload.title,
+          title: 'Error',
           variant: 'danger',
           toaster: 'b-toaster-bottom-right',
           solid: true
@@ -73,7 +73,7 @@ export default new Vuex.Store({
                     });
                 }
             }else{
-              payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
+              payload.$store.dispatch('errorAlert', {$bvtoast: payload.$bvtoast, title: 'Error', message: "Server can't response any data"});
             }
 
           })
@@ -162,7 +162,7 @@ export default new Vuex.Store({
 
         }else{
           payload.$store.dispatch('errorAlert',
-              {$bvtoast: payload.$bvtoast, title: 'Error', message: e.response.data});
+              {$bvtoast: payload.$bvtoast, title: 'Error', message:  "Server can't response any data"});
         }
       })
 

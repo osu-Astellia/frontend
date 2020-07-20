@@ -8,8 +8,8 @@ import VueAxios from 'vue-axios'
 import { ToastPlugin } from 'bootstrap-vue'
 import {VueReCaptcha} from 'vue-recaptcha-v3'
 
-Vue.config.productionTip = false
 
+Vue.config.productionTip = false
 
 
 Vue.use(BootstrapVue)
