@@ -62,7 +62,7 @@
         components: {VRank, VScorebox, VStatsbox, VFlag},
         methods: {
             async load_scores(){
-                let scoresbest_tmp = await this.axios.get(`/frontend/api/v1/user/best?u=${this.id} m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
+                let scoresbest_tmp = await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
 
                 for(let i = 0; i < this.limit; i++){
 
