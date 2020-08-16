@@ -26,7 +26,7 @@
             <div class="score" :key="score" v-for="score of scores.best">
                 <div class="score1">
                      <div class="rank-full">
-                         <div class="rank-A score--rank"></div>
+                         <div :class="score.rankClasses"></div>
                      </div>
                      <router-link :to="score.link" class="beatmapscorelink">{{ score.beatmap_title }} {{ score.difficulty }} {{ getScoreMods(score.mods) }} </router-link>
 
@@ -62,7 +62,7 @@
         components: {VRank, VScorebox, VStatsbox, VFlag},
         methods: {
             async load_scores(){
-                let scoresbest_tmp = await this.axios.get(`/frontend/api/v1/user/best?u=${this.id} m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
+                let scoresbest_tmp = await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
 
                 for(let i = 0; i < this.limit; i++){
 
@@ -165,7 +165,8 @@
             let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
 
             for(let i = 0; i < 5; i++){
-                scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`
+                scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
+                scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp.rank} score--rank`
                 this.scores.best.push(scoresbest_tmp[i]);   
             }
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
@@ -240,8 +241,30 @@
     height: 40px;
     transform: scale(1.5);
 }
+.rank-D {
+    background-image: url(https://osu.ppy.sh/images/badges/score-ranks-v2019/GradeSmall-D.svg?3);
+}
+
+.rank-C {
+    background-image: url(https://osu.ppy.sh/images/badges/score-ranks-v2019/GradeSmall-C.svg?3);
+}
+.rank-B {
+    background-image: url(https://osu.ppy.sh/images/badges/score-ranks-v2019/GradeSmall-B.svg?3);
+}
 .rank-A {
     background-image: url(https://osu.ppy.sh/images/badges/score-ranks-v2019/GradeSmall-A.svg?3);
+}
+.rank-S {
+    background-image: url(https://osu.ppy.sh/images/badges/score-ranks-v2019/GradeSmall-S.svg?3);
+}
+.rank-SS {
+    background-image: url(https://osu.ppy.sh/images/badges/score-ranks-v2019/GradeSmall-SS.svg?3);
+}
+.rank-SSHD {
+    background-image: url(https://osu.ppy.sh/images/badges/score-ranks-v2019/GradeSmall-SSHD.svg?3);
+}
+.rank-SHD {
+    background-image: url(https://osu.ppy.sh/images/badges/score-ranks-v2019/GradeSmall-SHD.svg?3);
 }
 
 .score-rank {
