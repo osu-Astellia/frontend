@@ -69,7 +69,6 @@
 
                 scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
                 scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`;
-                console.log(scoresbest_tmp[i])
                 this.scores.best.push(scoresbest_tmp[i]);   
             }
 
@@ -168,7 +167,8 @@
             let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
 
             for(let i = 0; i < 5; i++){
-                scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`
+                scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
+                scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`;
                 this.scores.best.push(scoresbest_tmp[i]);   
             }
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
@@ -244,9 +244,29 @@
     transform: scale(1.5);
 }
 .rank-A {
-    background-image: url(https://osu.ppy.sh/images/badges/score-ranks-v2019/GradeSmall-A.svg?3);
+    background-image: url(/static/ranks/A.svg?3);
 }
-
+.rank-B {
+    background-image: url(/static/ranks/B.svg?3);
+}
+.rank-C {
+    background-image: url(/static/ranks/C.svg?3);
+}
+.rank-D {
+    background-image: url(/static/ranks/D.svg?3);
+}
+.rank-SHD {
+    background-image: url(/static/ranks/SHD.svg?3);
+}
+.rank-S {
+    background-image: url(/static/ranks/S.svg?3);
+}
+.rank-SSHD {
+    background-image: url(/static/ranks/SSHD.svg?3);
+}
+.rank-SS {
+    background-image: url(/static/ranks/SS.svg?3);
+}
 .score-rank {
     width: 2em;
     height: 1em;
