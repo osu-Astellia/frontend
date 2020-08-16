@@ -7,7 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@fortawesome/vue-fontawesome": "^0.1.10",
+=======
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+>>>>>>> a4eccb7bbf6770ec56df476bb710c0baf73192ad
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
@@ -15,7 +19,10 @@
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-material-design-icons": "^4.7.1",
+<<<<<<< HEAD
     "vue-meta": "^2.4.0",
+=======
+>>>>>>> a4eccb7bbf6770ec56df476bb710c0baf73192ad
     "vue-recaptcha-v3": "^1.9.0",
     "vue-router": "^3.2.0",
     "vue2-transitions": "^0.3.0",
