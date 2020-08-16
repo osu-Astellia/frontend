@@ -62,10 +62,10 @@
         components: {VRank, VScorebox, VStatsbox, VFlag},
         methods: {
             async load_scores(){
-                this.limit += 5;
+                this.best_limit += 5;
                 let scoresbest_tmp = await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
 
-                for(let i = 0; i < this.limit; i++){
+                for(let i = 0; i < this.best_limit; i++){
 
                 scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`
                 this.scores.best.push(scoresbest_tmp[i]);   
@@ -127,7 +127,7 @@
         },
         data: function(){
             return {
-                    best_limut: 5,
+                    best_limit: 5,
                     isMounted: false,
                     token: this.$store.state.token,
                     id: this.$route.params.id,
