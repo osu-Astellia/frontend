@@ -26,7 +26,7 @@
             <div class="score" :key="score" v-for="score of scores.best">
                 <div class="score1">
                      <div class="rank-full">
-                         <div class="rank-A score--rank"></div>
+                         <div :class="score.rankClasses"></div>
                      </div>
                      <router-link :to="score.link" class="beatmapscorelink">{{ score.beatmap_title }} {{ score.difficulty }} {{ getScoreMods(score.mods) }} </router-link>
 
@@ -67,7 +67,8 @@
 
                 for(let i = 0; i < this.best_limit; i++){
 
-                scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`
+                scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
+                scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`
                 this.scores.best.push(scoresbest_tmp[i]);   
             }
 
