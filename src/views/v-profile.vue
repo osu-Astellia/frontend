@@ -67,7 +67,7 @@
                 for(let i = 0; i < this.limit; i++){
 
                 scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`
-                this.scores.best.push(scoresbest_tmp[i]);   
+                this.scores.best.push(scoresbest_tmp[i]);   //
             }
 
 
