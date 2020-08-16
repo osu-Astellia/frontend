@@ -12,13 +12,14 @@
 
                 <b-navbar-nav class="ml-auto">
 
-                    <b-nav-item-dropdown v-if="token" right >
+                    <b-nav-item-dropdown v-if="data" right >
                         <!-- Using 'button-content' slot -->
-                        <template v-slot:button-content>
-                            <em>User</em>
+                        <template v-slot:button-content v-if="data.username">
+                            <em>{{ data.username }}</em>
                         </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                        <b-dropdown-item :to="data.url">Profile</b-dropdown-item>
+                        <b-dropdown-item to="/profile/settings">Settings</b-dropdown-item>
+                        <b-dropdown-item href="#" @click.prevent="logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item v-else style="padding: 0 !important;">
                         <b-nav-item-dropdown right>
@@ -58,13 +59,51 @@
 
 
     export default {
+        ...mapActions(['logout']),
         ...mapState(['token']),
         name: "v-navbar",
         components: {ModalRegister, Login},
         data(){
             return {
-                token: this.$store.token
+                token: this.$store.state.token,
+                settings: null,
+                data: null
             }
+        },
+        methods: {
+//s
+            logout(){
+                this.$store.dispatch('logout')
+            },
+            async fetchUserData(){
+                this.userdata = await this.axios.get('/frontend/api/v1/user/@me', {
+                    headers: {
+                        'Authorization': this.token
+                    }
+                }).then(res => {
+                    this.user = res.data;
+
+                });
+                this.data = {
+                    url: `/u/${this.user[0].id}`,
+                    username: this.user[0].username,
+                    id: this.user[0].id
+                }
+
+
+            },
+
+            getUsername(){
+                if(!this.userdata) return this.fetchUserData().then(r => this.userdata.username);
+                return this.userdata.username;
+            }
+        },
+        watch: {
+
+        },
+
+        async mounted() {
+            await this.fetchUserData();
         }
     }
 </script>

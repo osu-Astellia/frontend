@@ -83,7 +83,8 @@
                     captcha: this.captcha,
                     $bvtoast: this.$bvToast,
                     ip: this.$store.state.ip,
-                    $store: this.$store
+                    $store: this.$store,
+                    $bvModal : this.$bvModal
                 }).then(r => {
                     this.verifyCaptcha();
                     this.logining = false;

@@ -78,10 +78,10 @@
                     captcha: this.captcha,
                     $bvtoast: this.$bvToast,
                     ip: this.$store.state.ip,
-                    $store: this.$store
+                    $store: this.$store,
+                    $bvModal : this.$bvModal
                 }).then(r => {
                     this.logining = false;
-                    this.$bvModal.hide('LoginModal');
 
 
                 }).catch(e => {

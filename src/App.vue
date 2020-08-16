@@ -1,5 +1,8 @@
 <template>
+
+
   <div id="app">
+
     <v-navbar />
       <transition name="fade">
           <router-view class="view" />
@@ -58,7 +61,17 @@ body {
     components: {VFooter, VNavbar},
     mounted() {
       this.$store.dispatch('getIP');
+    },
+    metaInfo() {
+      return {
+        title: 'Homepage',
+        meta: [
+          {property: 'og:site_name', content: 'Astellia'}
+        ]/*,
+        titleTemplate: '%s - Astellia',*/
+      }
 
-    }
+    },
+
   }
 </script>

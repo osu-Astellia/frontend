@@ -15,11 +15,17 @@
 
         <div class="buttongroup">
           <button v-b-modal.registerModal>Регистрация</button>
-          <a class="link" href="/files/client.exe">Скачать клиент</a>
+          <a class="link" href="https://cdn.discordapp.com/attachments/710219664419979405/728608274127257633/AstelliaClient.zip">Скачать клиент</a>
         </div>
 
 
       </div>
+    </div>
+
+
+    <div class="bestScores">
+      <div v-if="vanillaScore"  class="bestScore"></div>
+      <div v-if="relaxScore" class="bestScore"></div>
     </div>
   </div>
 </template>
@@ -33,10 +39,36 @@ export default {
   components: {
 
   },
+  data(){
+    return {
+
+      relaxScore: undefined,
+      vanillaScore: undefined
+
+    }
+  },
 
   methods: {
-    downloadSwitcher(){
+    async loadScores() {
+      this.relaxScore = await this.axios.get('/astellia/api/get_top_play?s=1').then(res => res.data);
+      this.relaxScore.bg = `https://assets.ppy.sh/beatmaps/${this.relaxScore.BeatmapSetId}/covers/card.jpg`;
+      this.relaxScore.bgStyle = `background-image: url(${this.relaxScore.bg}); z-index: 1;`
+      this.relaxScore.avatarStyle = this.generateAvatarCss(this.relaxScore.UserId);
+
+
+      this.vanillaScore = await this.axios.get('/astellia/api/get_top_play?s=0').then(res => res.data);
+      this.vanillaScore.bg = `https://assets.ppy.sh/beatmaps/${this.vanillaScore.BeatmapSetId}/covers/card.jpg`;
+      this.vanillaScore.bgStyle = `background-image: url(${this.vanillaScore.bg})`
+      this.vanillaScore.avatarStyle = this.generateAvatarCss(this.vanillaScore.UserId);
+
+    },
+
+    generateAvatarCss(id){
+      return`margin: 10px; background-size: cover; background-image: url(frontend/api/v1/avatar/${id}); border-radius: 20px; width: 48px; height: 48px; z-index: 2;`
     }
+  },
+  mounted() {
+    this.loadScores();
   }
 }
 </script>
@@ -44,10 +76,44 @@ export default {
 
 <style scoped>
   @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
 
+  .scoreinfo {
+      transform: translate(-50%, -50%);
+  }
+  .username {
+      font-family: 'Balsamiq Sans', cursive;
+  }
+  .bgImage {
+    height: 186px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+
+
+  }
+  .bestScores {
+    width: 90%;
+    height: auto;
+    display: inline-flex;
+  }
+
+  .bestScore:first-child {
+    margin-right: auto;
+  }
+  .bestScore:last-child {
+    margin-left: auto;
+  }
   .buttongroup {
     margin-top: 15px;
     display: inline-flex;
+  }
+
+  .MapBg {
+    z-index: 0;
+    border-radius: 20px;
+    width: 100%;
   }
 
   .link {
@@ -103,7 +169,6 @@ export default {
 
   .bigText {
     margin-left: 0;
-    width: ;
     font-size: 35px;
     font-family: 'Krona One', sans-serif;
 
@@ -124,6 +189,8 @@ export default {
       width: 500px;
       height: 400px;
       background-size: cover;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
     }
     .bigText {
       font-size: 60px;
