@@ -68,7 +68,8 @@
                 for(let i = 0; i < this.best_limit; i++){
 
                 scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
-                scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`
+                scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`ж
+                console.log(scoresbest_tmp[i])
                 this.scores.best.push(scoresbest_tmp[i]);   
             }
 
