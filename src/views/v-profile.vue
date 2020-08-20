@@ -3,10 +3,15 @@
         <div class="profileBackground" :style="bgStyle" v-if="haveBG"></div>
 
         <div class="profileBox">
+            <div class="modSelect">
+                    
+                <div :class="classes.mod0" @click="setMode(0)"></div>
+                <div :class="classes.mod1" @click="setMode(1)"></div>
+                <div :class="classes.mod2" @click="setMode(2)"></div>
+                <div :class="classes.mod3" @click="setMode(3)"></div>
+            </div>
 
             <div class="infoBox">
-
-
                 <div class="infoBoxUsernameCountry">
                     <div class="profileAvatar" :style="this.avatarStyle"></div>
                     <div class="infoUsername">{{ this.stats.username }}</div>
@@ -63,11 +68,12 @@
         components: {VRank, VScorebox, VStatsbox, VFlag},
         methods: {
             async load_scores(){
+                
                 this.best_limit += 5;
-                let scoresbest_tmp = await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${!this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
+                let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${!this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
 
                 for(let i = 0; i < this.best_limit; i++){
-
+                if(!scoresbest_tmp[i]) return;
                 scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
                 scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`;
                 this.scores.best.push(scoresbest_tmp[i]);   
@@ -80,6 +86,24 @@
                 this.best_limit = 5;
                 this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${!this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
 
+
+            },
+
+
+
+            async setMode(mode){
+                this.mode = mode;
+            for(const entry of Object.entries(this.classes)){
+                if(entry[1].split(' ')[1] === 'activemod'){
+                    this.classes[entry[0]]= this.classes[entry[0]].replace('activemod', 'inactivemod');
+                }
+            }
+                this.classes[`mod${mode}`] = `mod${mode} activemod`
+                
+                this.scores.best = [];
+                this.load_scores();
+                this.best_limit = 5;
+                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${!this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
 
             },
             getScoreMods(m, noplus) {
@@ -136,8 +160,14 @@
         },
         data: function(){
             return {
+                    classes: {
+                        'mod0': 'mod0 activemod',
+                        'mod1': 'mod1 inactivemod',
+                        'mod2': 'mod2 inactivemod',
+                        'mod3': 'mod3 inactivemod'
+                    },
                     best_limit: 5,
-                    isMounted: false,
+                    isMounted: true,
                     token: this.$store.state.token,
                     id: this.$route.params.id,
                     backgroundURL: 'https://media.discordapp.net/attachments/704347465809133638/733412691288522812/20200711_222935.jpg',
@@ -175,6 +205,7 @@
             let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
 
             for(let i = 0; i < 5; i++){
+                if(!scoresbest_tmp[i]) return;
                 scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
                 scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`;
                 this.scores.best.push(scoresbest_tmp[i]);   
@@ -197,7 +228,7 @@
     .infoBox {
         position: relative;
         display: flex;
-        padding: 100px;
+        padding: 50px;
         justify-content: space-between;
 
 
@@ -416,4 +447,60 @@
 .socreBoxTitle {
     font-size: 32px;
 }
+
+ .mod0 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osustd.png);
+  }
+
+  .activemod {
+    margin: 10px;
+    filter: brightness(1);
+  }
+
+  .inactivemod {
+    margin: 10px;
+    filter: brightness(0.60);
+    transition: 0.3s;
+  }
+
+  .inactivemod:hover {
+    filter: brightness(0.90);
+  }
+
+
+
+  .mod1 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osutaiko.png);
+  }
+
+  .mod2 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osuctb.png);
+  }
+
+  .mod3 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osumaniapng.png);
+  }
+
+  .modSelect {
+      padding: 10px;
+      display: flex;
+      justify-content: flex-end;
+      right: 0;
+  }
 </style>

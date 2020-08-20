@@ -22,10 +22,6 @@
                 <td> {{ this.watchedReplays }}</td>
             </tr>
             <tr>
-                <td>ClickedCircles</td>
-                <td> {{ this.total_hits }}</td>
-            </tr>
-            <tr>
                 <td>Accuracy</td>
                 <td>{{ this.accuracy }}% </td>
             </tr>
