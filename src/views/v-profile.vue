@@ -92,7 +92,7 @@
 
 
             async setMode(mode){
-                if(this.mode !== 0) this.relax = false;
+                if(this.mode !== 0) this.relax = true;
                 this.mode = mode;
             for(const entry of Object.entries(this.classes)){
                 if(entry[1].split(' ')[1] === 'activemod'){
