@@ -1,10 +1,11 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../views/Home.vue';
 import Leaderboard from '../views/v-leaderboard.vue';
 import Settings from '../views/v-settings';
 import v404 from '../views/v-404';
-import vProfile from '../views/v-profile'
+import vProfile from '../views/v-profile';
+import vBeatmap from '../views/v-beatmap';
 
 Vue.use(VueRouter)
 
@@ -29,16 +30,20 @@ Vue.use(VueRouter)
       component: vProfile
     },
     {
+      path: '/b/:id',
+      component: vBeatmap
+    },
+    {
       path: '*',
       name: '404',
       component: v404
     }
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
 
-export default router
+export default router;

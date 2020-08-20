@@ -21,6 +21,7 @@
 
 
                     <div class="scoreBox">
+                        <b-form-checkbox size="lg" v-model="isRelax" @change="changeRelax">Relax?</b-form-checkbox>
 
             <div class="socreBoxTitle">Best Scores</div> 
             <div class="score" :key="score" v-for="score of scores.best">
@@ -70,7 +71,14 @@
                 scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
                 scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`;
                 this.scores.best.push(scoresbest_tmp[i]);   
-            }
+            }},
+            
+            
+            async changeRelax(){
+                this.scores.best = [];
+                this.load_scores();
+                this.best_limit = 5;
+                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
 
 
             },
