@@ -104,7 +104,7 @@
                 this.scores.best = [];
                 this.load_scores();
                 this.best_limit = 5;
-                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
 
             },
             getScoreMods(m, noplus) {
@@ -175,7 +175,8 @@
                     haveBG: true,
                     bgStyle: '',
                     avatarURL: '',
-                    mode: 0,
+                    
+                    mode: this.$route.query.mode || 0,
                     isRelax: false,
                     avatarStyle: '',
                     stats: {
@@ -202,7 +203,7 @@
             }
     },
         mounted: async function () {
-            this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+            this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
             let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
 
             for(let i = 0; i < 5; i++){
