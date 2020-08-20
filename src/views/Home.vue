@@ -9,13 +9,13 @@
           Astellia
         </div>
         <div class="description cent">
-          Astellia - уникальный сервер с собственным сайтом, активной командой разработчиков, которая добавляет новые функции и исправляет баги.
+          Astellia - a unique server with its own website, an active development team that adds new features and fixes bugs.
         </div>
 
 
         <div class="buttongroup">
-          <button v-b-modal.registerModal>Регистрация</button>
-          <a class="link" href="https://cdn.discordapp.com/attachments/710219664419979405/728608274127257633/AstelliaClient.zip">Скачать клиент</a>
+          <button v-b-modal.registerModal>Register</button>
+          <a class="link" @click="alert('Unpack client to osu! folder for work')" href="https://cdn.discordapp.com/attachments/710219664419979405/728608274127257633/AstelliaClient.zip">Download client</a>
         </div>
 
 
