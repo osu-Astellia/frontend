@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <button class="score-button" @click="load_scores">
+            <button v-if="scores.best.length > 0" class="score-button" @click="load_scores">
 
                 Load more scores
             </button>
