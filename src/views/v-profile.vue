@@ -9,6 +9,7 @@
                 <div :class="classes.mod1" @click="setMode(1)"></div>
                 <div :class="classes.mod2" @click="setMode(2)"></div>
                 <div :class="classes.mod3" @click="setMode(3)"></div>
+                <div :class="classes.mod4" @click="setMode(4)"></div>
             </div>
 
             <div class="infoBox">
@@ -26,8 +27,7 @@
 
 
                     <div class="scoreBox" v-if="scores.best.length > 0">
-                        <b-form-checkbox size="lg" v-model="isRelax" @change="changeRelax">Relax?</b-form-checkbox>
-
+                        
             <div class="socreBoxTitle" >Best Scores</div> 
             <div class="score" :key="score" v-for="score of scores.best">
                 <div class="score1">
@@ -92,8 +92,9 @@
 
 
             async setMode(mode){
-                if(this.mode !== 0) this.relax = false;
-                this.mode = mode;
+                this.isRelax = mode == 4 ? true : false
+                
+                this.mode = this.isRelax ? 0 : mode;
             for(const entry of Object.entries(this.classes)){
                 if(entry[1].split(' ')[1] === 'activemod'){
                     this.classes[entry[0]]= this.classes[entry[0]].replace('activemod', 'inactivemod');
@@ -102,9 +103,9 @@
                 this.classes[`mod${mode}`] = `mod${mode} activemod`
                 
                 this.scores.best = [];
-                this.load_scores();
+                //this.load_scores();
                 this.best_limit = 5;
-                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                //this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
 
             },
             getScoreMods(m, noplus) {
@@ -165,10 +166,11 @@
                         'mod0': 'mod0 activemod',
                         'mod1': 'mod1 inactivemod',
                         'mod2': 'mod2 inactivemod',
-                        'mod3': 'mod3 inactivemod'
+                        'mod3': 'mod3 inactivemod',
+                        'mod4': 'mod4 inactivemod'
                     },
                     best_limit: 5,
-                    isMounted: false,
+                    isMounted: true,
                     token: this.$store.state.token,
                     id: this.$route.params.id,
                     backgroundURL: 'https://media.discordapp.net/attachments/704347465809133638/733412691288522812/20200711_222935.jpg',
@@ -203,8 +205,8 @@
             }
     },
         mounted: async function () {
-            this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
-            let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
+            //this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+            let scoresbest_tmp =  []//await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
 
             for(let i = 0; i < 5; i++){
                 if(!scoresbest_tmp[i]) return;
@@ -497,6 +499,14 @@
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osumaniapng.png);
+  }
+
+  .mod4 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osurx.png);
   }
 
   .modSelect {

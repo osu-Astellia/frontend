@@ -18,8 +18,8 @@
             <div :class="classes.mod1" @click="setMode(1)"></div>
             <div :class="classes.mod2" @click="setMode(2)"></div>
             <div :class="classes.mod3" @click="setMode(3)"></div>
+            <div :class="classes.mod4" @click="setMode(4)"></div>
           </div>
-          <b-form-checkbox v-model="filter.relax" switch>Relax</b-form-checkbox>
           <table class="table">
 
             <tr>
@@ -70,7 +70,8 @@ export default {
           'mod0': 'mod0 activemod',
           'mod1': 'mod1 inactivemod',
           'mod2': 'mod2 inactivemod',
-          'mod3': 'mod3 inactivemod'
+          'mod3': 'mod3 inactivemod',
+          'mod4': 'mod4 inactivemod'
         },
         leaderboard: null,
         an: false,
@@ -107,7 +108,8 @@ export default {
     },
 
     setMode(mode){
-        this.filter.mode = mode;
+      this.filter.relax = mode == 4 ? true : false;
+      this.filter.mode = this.filter.relax ? 0 : mode;
         for(const entry of Object.entries(this.classes)){
           if(entry[1].split(' ')[1] === 'activemod'){
             this.classes[entry[0]]= this.classes[entry[0]].replace('activemod', 'inactivemod');
@@ -403,6 +405,12 @@ export default {
   .me {
     color: gold;
   }
-
+  .mod4 {
+    width: 64px !important;
+    height: 64px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osurx.png);
+  }
 
 </style>
