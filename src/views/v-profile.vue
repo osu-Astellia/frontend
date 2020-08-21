@@ -25,10 +25,10 @@
             </div>
 
 
-                    <div class="scoreBox">
+                    <div class="scoreBox" v-if="score.length > 0">
                         <b-form-checkbox size="lg" v-model="isRelax" @change="changeRelax">Relax?</b-form-checkbox>
 
-            <div class="socreBoxTitle">Best Scores</div> 
+            <div class="socreBoxTitle" >Best Scores</div> 
             <div class="score" :key="score" v-for="score of scores.best">
                 <div class="score1">
                      <div class="rank-full">
