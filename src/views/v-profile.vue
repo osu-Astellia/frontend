@@ -168,7 +168,7 @@
                         'mod3': 'mod3 inactivemod'
                     },
                     best_limit: 5,
-                    isMounted: true,
+                    isMounted: false,
                     token: this.$store.state.token,
                     id: this.$route.params.id,
                     backgroundURL: 'https://media.discordapp.net/attachments/704347465809133638/733412691288522812/20200711_222935.jpg',
