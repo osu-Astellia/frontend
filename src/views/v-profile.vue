@@ -25,7 +25,7 @@
             </div>
 
 
-                    <div class="scoreBox" v-if="score.length > 0">
+                    <div class="scoreBox" v-if="scores.best.length > 0">
                         <b-form-checkbox size="lg" v-model="isRelax" @change="changeRelax">Relax?</b-form-checkbox>
 
             <div class="socreBoxTitle" >Best Scores</div> 
