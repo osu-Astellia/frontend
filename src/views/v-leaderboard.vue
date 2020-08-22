@@ -124,6 +124,10 @@ export default {
        p++;
         for(const i in res){
           p++;
+          if(res[i].id < 1000){
+            delete res[i];
+            return;
+          };
           res[i]['place'] = p;
           res[i]['flag'] = `https://osu.gatari.pw/static/images/flags/${res[i].country}.png`;
           res[i]['url'] = `/u/${res[i].id}`;
