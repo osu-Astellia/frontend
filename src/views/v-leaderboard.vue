@@ -121,14 +121,16 @@ export default {
 
     caluclatePlaces(res){
        var p = this.filter.p === 1? 1 : this.filter.p * this.filter.l -1;
+       res = res.filter(u => u.id !== 999);
        p++;
         for(const i in res){
+          
           p++;
-          if(res[i].id > 1000){
+          
             res[i]['place'] = p;
             res[i]['flag'] = `https://osu.gatari.pw/static/images/flags/${res[i].country}.png`;
             res[i]['url'] = `/u/${res[i].id}`;
-          };
+          
 
         }
 
