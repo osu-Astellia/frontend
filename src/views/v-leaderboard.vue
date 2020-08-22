@@ -124,13 +124,12 @@ export default {
        p++;
         for(const i in res){
           p++;
-          if(res[i].id < 1000){
-      
-            return;
+          if(res[i].id > 1000){
+            res[i]['place'] = p;
+            res[i]['flag'] = `https://osu.gatari.pw/static/images/flags/${res[i].country}.png`;
+            res[i]['url'] = `/u/${res[i].id}`;
           };
-          res[i]['place'] = p;
-          res[i]['flag'] = `https://osu.gatari.pw/static/images/flags/${res[i].country}.png`;
-          res[i]['url'] = `/u/${res[i].id}`;
+
         }
 
         return res;
