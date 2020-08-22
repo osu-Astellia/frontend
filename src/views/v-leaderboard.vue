@@ -125,7 +125,7 @@ export default {
         for(const i in res){
           p++;
           if(res[i].id < 1000){
-            delete res[i];
+      
             return;
           };
           res[i]['place'] = p;
