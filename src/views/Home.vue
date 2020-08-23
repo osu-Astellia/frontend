@@ -15,7 +15,7 @@
 
         <div class="buttongroup">
           <button v-b-modal.registerModal>Register</button>
-          <a class="link" @click="alert('Unpack client to osu! folder for work')" href="https://cdn.discordapp.com/attachments/710219664419979405/728608274127257633/AstelliaClient.zip">Download client</a>
+          <a class="link" href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe">Download Switcher</a>
         </div>
 
 
