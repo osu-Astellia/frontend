@@ -2,24 +2,20 @@
     <div class="statsbox">
         <table>
             <tr>
-                <td>PP</td>
-                <td>{{ this.pp }}</td>
-            </tr>
-            <tr>
                 <td>Ranked Score</td>
-                <td> {{ this.rankedScore }}</td>
+                <td> {{ String(this.rankedScore).replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</td>
             </tr>
             <tr>
                 <td>Total Score</td>
-                <td> {{ this.totalScore }}</td>
+                <td> {{ String(this.totalScore).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}}</td>
             </tr>
             <tr>
                 <td>Playcount</td>
-                <td> {{ this.totalPlaycount }}</td>
+                <td> {{  String(this.totalPlaycount).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}}</td>
             </tr>
             <tr>
                 <td>Watched Replays</td>
-                <td> {{ this.watchedReplays }}</td>
+                <td> {{String(this.watchedReplays).replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</td>
             </tr>
             <tr>
                 <td>Accuracy</td>
@@ -27,7 +23,7 @@
             </tr>
             <tr>
                 <td>Level</td>
-                <td> {{ this.level }}</td>
+                <td> {{  String(this.level).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}}</td>
             </tr>
             <tr>
                 <td></td>

@@ -29,7 +29,7 @@
             </div>
             
             <div class="rankBox">
-                <v-stat name="PP" :description="`${stats.pp}`" color="red" descsize="32px"></v-stat>
+                <v-stat name="PP" :description="`${String(stats.pp).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`" color="red" descsize="32px"></v-stat>
 
                 <div class="ranks">
                     <v-stat name="A" class="stat" :description="stats.a_ranks" color="lime"></v-stat>
@@ -41,11 +41,10 @@
             </div>
 
             <div class="ranking">
-                <!--- Rank graph --->
-                <div class="nothing"></div>
+                <v-ppchart v-if="chartLoaded" style="display: flex; flex: 1; width: 70%;" :is-relax="this.isRelax" :pp-history="this.ppHistory"></v-ppchart>
                 <div class="rankingPlaces">
-                    <v-stat name="Global Ranking" :description="`#${stats.place}`" color="pink" descsize="40px"></v-stat>
 
+                    <v-stat name="Global Ranking" :description="`#${String(stats.place).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`" color="pink" descsize="40px"></v-stat>
                 </div>
             </div>
             <div class="scoreBox" v-if="scores.best.length > 0">
@@ -86,10 +85,11 @@
     import VScorebox from "@/components/v-scorebox";
     import VRank from "@/components/v-rank";
     import VStat from "@/components/v-stat";
+    import VPpchart from "../components/v-ppchart";
 
     export default {
         name: "v-profile",
-        components: {VStat, VRank, VScorebox, VStatsbox, VFlag},
+        components: {VPpchart, VStat, VRank, VScorebox, VStatsbox, VFlag},
         data(){
             return {
                 classes: {
@@ -111,6 +111,8 @@
 
                 mode:  0,
                 isRelax: false,
+                chartLoaded: false,
+                ppHistory: [],
                 avatarStyle: '',
                 stats: {
                     id: 1,
@@ -157,9 +159,15 @@
                 this.scores.best = [];
                 await this.load_scores();
                 this.best_limit = 5;
+                await this.setPPHistory();
                 this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+            },
 
-
+            async setPPHistory(){
+                this.chartLoaded = false;
+                this.ppHistory = await fetch(`https://astellia.club/frontend/api/v1/user/pp_graph?id=${this.id}&r=${this.isRelax}`).then(res => res.json());
+                this.ppHistory = this.ppHistory.result.filter(score => this.isRelax ? score.is_relax : !score.is_relax);
+                this.chartLoaded = true;
             },
 
 
@@ -179,7 +187,7 @@
                 await this.load_scores();
                 this.best_limit = 5;
                 this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
-
+                await this.setPPHistory();
             },
             getScoreMods(m, noplus) {
                 let modsString = ["NF","EZ","NV","HD","HR","SD","DT","RX","HT","NC","FL","AU","SO","AP","PF","K4","K5","K6","K7","K8","K9","RN","LM","K9", "K0", "K1", "K3", "K2",];
@@ -216,6 +224,7 @@
                 if(r.data.length < 1) this.$router.push({path: '/404'})
                 else r.data[0]
             }).catch(e => this.$router.push({path: '/404'}));
+
 
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
             this.avatarURL = `https://astellia.club/frontend/api/v1/avatar/${this.id}`;
