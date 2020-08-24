@@ -81,7 +81,7 @@ export default {
   },
   methods: {
       async fetchLeaderboard(){
-        this.leaderboard = await this.axios.get(`/frontend/api/v1/leaderboard?mode=${this.filter.mode}&p=${this.filter.p}&l=${this.filter.l}&relax=${this.filter.relax}`)
+        this.leaderboard = await this.axios.get(`https://astellia.club/frontend/api/v1/leaderboard?mode=${this.filter.mode}&p=${this.filter.p}&l=${this.filter.l}&relax=${this.filter.relax}`)
 
                 .then(res => this.caluclatePlaces(res.data));
 

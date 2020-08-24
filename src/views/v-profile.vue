@@ -20,12 +20,34 @@
                 </div>
 
 
+
+
+
                 <div class="statsBoxTable">
                     <v-statsbox class="mr-auto" :pp="this.stats.pp" :accuracy="this.stats.accuracy.toFixed(2)" :level="this.stats.level" :ranked-score="this.stats.ranked_score" :total-playcount="this.stats.playcount"  :watched-replays="this.stats.replays_watched" :totalScore="this.stats.total_score" :total_hits="this.stats.total_hits" />
                 </div>
             </div>
             
+            <div class="rankBoxs">
+                <v-stat name="PP" :description="`${stats.pp}`" color="red" descsize="32px"></v-stat>
 
+                <div class="ranks">
+                    <v-stat name="A" class="stat" :description="stats.a_ranks" color="lime"></v-stat>
+                    <v-stat name="S" class="stat" :description="stats.a_ranks" color="gold"></v-stat>
+                    <v-stat name="SS" class="stat" :description="stats.a_ranks" color="yellow"></v-stat>
+                </div>
+
+
+            </div>
+
+            <div class="ranking">
+                <!--- Rank graph --->
+                <div class="nothing"></div>
+                <div class="rankingPlaces">
+                    <v-stat name="Global Ranking" :description="`#${stats.place}`" color="pink" descsize="40px"></v-stat>
+
+                </div>
+            </div>
             <div class="scoreBox" v-if="scores.best.length > 0">
                         
             <div class="socreBoxTitle" >Best Scores</div> 
@@ -46,10 +68,11 @@
                 </div>
             </div>
 
-            <button v-if="scores.best.length > 0" class="score-button" @click="load_scores">
+            <button v-if="scores.best.length > 0 && !this.moreLoading" class="score-button" @click="load_scores">
 
                 Load more scores
             </button>
+
         </div>
     </div>
 
@@ -58,33 +81,37 @@
 </template>
 
 <script>
-    import VFlag from "../components/v-flag";
-    import VStatsbox from "../components/v-statsbox";
-    import VScorebox from "../components/v-scorebox";
-    import VRank from "../components/v-rank";
+    import VFlag from "@/components/v-flag";
+    import VStatsbox from "@/components/v-statsbox";
+    import VScorebox from "@/components/v-scorebox";
+    import VRank from "@/components/v-rank";
+    import VStat from "@/components/v-stat";
 
     export default {
         name: "v-profile",
-        components: {VRank, VScorebox, VStatsbox, VFlag},
+        components: {VStat, VRank, VScorebox, VStatsbox, VFlag},
         methods: {
             async load_scores(){
-                
+                this.scores.best = [];
+                this.moreLoading = true;
                 this.best_limit += 5;
-                let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
+                let scoresbest_tmp =  await this.axios.get(`https://astellia.club/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
 
                 for(let i = 0; i < this.best_limit; i++){
-                if(!scoresbest_tmp[i]) return;
-                scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
-                scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`;
-                this.scores.best.push(scoresbest_tmp[i]);   
+                    let item = scoresbest_tmp[i];
+                if(!item) return;
+                item.link = `/b/${item.beatmap_id}`;
+                item.rankClasses = `rank-${item.rank} score--rank`;
+                this.scores.best.push(item);
+                this.moreLoading = false;
             }},
             
             
             async changeRelax(){
                 this.scores.best = [];
-                this.load_scores();
+                await this.load_scores();
                 this.best_limit = 5;
-                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
 
 
             },
@@ -92,7 +119,7 @@
 
 
             async setMode(mode){
-                this.isRelax = mode == 4 ? true : false
+                this.isRelax = mode === 4
                 
                 this.mode = this.isRelax ? 0 : mode;
             for(const entry of Object.entries(this.classes)){
@@ -103,9 +130,9 @@
                 this.classes[`mod${mode}`] = `mod${mode} activemod`
                 
                 this.scores.best = [];
-                this.load_scores();
+                await this.load_scores();
                 this.best_limit = 5;
-                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
 
             },
             getScoreMods(m, noplus) {
@@ -170,7 +197,8 @@
                         'mod4': 'mod4 inactivemod'
                     },
                     best_limit: 5,
-                    isMounted: true,
+                    isMounted: false,
+                    moreLoading: true,
                     token: this.$store.state.token,
                     id: this.$route.params.id,
                     backgroundURL: 'https://media.discordapp.net/attachments/704347465809133638/733412691288522812/20200711_222935.jpg',
@@ -205,8 +233,8 @@
             }
     },
         mounted: async function () {
-            this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
-            let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
+            this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+            let scoresbest_tmp =  await this.axios.get(`https://astellia.club/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
 
             for(let i = 0; i < 5; i++){
                 if(!scoresbest_tmp[i]) return;
@@ -216,7 +244,8 @@
             }
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
             this.avatarURL = `https://astellia.club/frontend/api/v1/avatar/${this.id}`;
-            this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`
+            this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`;
+            this.moreLoading = false;
             this.isMounted = true;
         }
     }
@@ -515,4 +544,25 @@
       justify-content: flex-end;
       right: 0;
   }
+
+
+  .rankBoxs {
+      display: flex;
+      justify-content: space-between;
+      padding: 50px;
+
+  }
+
+    .ranks {
+        display: flex;
+    }
+    .stat {
+        margin: 0 3px;
+    }
+
+    .ranking {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 50px;
+    }
 </style>

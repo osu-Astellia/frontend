@@ -76,7 +76,7 @@
                 this.$store.dispatch('logout')
             },
             async fetchUserData(){
-                this.userdata = await this.axios.get('/frontend/api/v1/user/@me', {
+                this.userdata = await this.axios.get('https://astellia.club/frontend/api/v1/user/@me', {
                     headers: {
                         'Authorization': this.token
                     }
