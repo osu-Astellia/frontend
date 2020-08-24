@@ -203,8 +203,8 @@
             },
 
             async getID(){
-                const { result } = await fetch(`/frontend/api/v1/users/whatid?u=${this.id}`).then(res => res.json()).catch(e => {window.location.href = '/u/404'})
-                if(!parseInt(result)) return window.location.href = '/404';
+                const { result } = await fetch(`/frontend/api/v1/users/whatid?u=${this.id}`).then(res => res.json()).catch(e => {this.$router.push({path: '/404'})})
+                if(!parseInt(result)) return this.$router.push({path: '/404'})
                 window.location.href = `/u/${result}`;
             }
 
