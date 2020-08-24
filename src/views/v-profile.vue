@@ -16,7 +16,7 @@
                 <div class="infoBoxUsernameCountry">
                     <div class="profileAvatar" :style="this.avatarStyle"></div>
                     <div class="infoUsername">{{ this.stats.username }}</div>
-                    <div class="infoCountry"> <v-flag size="30" :country="this.stats.country"/> </div>
+                    <div class="infoCountry" v-if="this.stats.country !== 'XX'"> <v-flag size="30" :country="this.stats.country"/> </div>
                 </div>
 
 
@@ -24,9 +24,9 @@
                     <v-statsbox class="mr-auto" :pp="this.stats.pp" :accuracy="this.stats.accuracy.toFixed(2)" :level="this.stats.level" :ranked-score="this.stats.ranked_score" :total-playcount="this.stats.playcount"  :watched-replays="this.stats.replays_watched" :totalScore="this.stats.total_score" :total_hits="this.stats.total_hits" />
                 </div>
             </div>
+            
 
-
-                    <div class="scoreBox" v-if="scores.best.length > 0">
+            <div class="scoreBox" v-if="scores.best.length > 0">
                         
             <div class="socreBoxTitle" >Best Scores</div> 
             <div class="score" :key="score" v-for="score of scores.best">
@@ -70,7 +70,7 @@
             async load_scores(){
                 
                 this.best_limit += 5;
-                let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
+                let scoresbest_tmp =  []//await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
 
                 for(let i = 0; i < this.best_limit; i++){
                 if(!scoresbest_tmp[i]) return;
@@ -84,7 +84,7 @@
                 this.scores.best = [];
                 this.load_scores();
                 this.best_limit = 5;
-                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                //this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
 
 
             },
@@ -105,7 +105,7 @@
                 this.scores.best = [];
                 this.load_scores();
                 this.best_limit = 5;
-                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                //this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
 
             },
             getScoreMods(m, noplus) {
@@ -205,8 +205,8 @@
             }
     },
         mounted: async function () {
-            this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
-            let scoresbest_tmp =  await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
+            //this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+            let scoresbest_tmp =  []//await this.axios.get(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
 
             for(let i = 0; i < 5; i++){
                 if(!scoresbest_tmp[i]) return;
