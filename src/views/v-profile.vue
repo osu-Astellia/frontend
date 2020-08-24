@@ -212,7 +212,10 @@
 
         mounted: async function () {
             if(!parseInt(this.id)) return await this.getID();
-            this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+            this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => {
+                if(r.data.length < 1) this.$router.push({path: '/404'})
+                else r.data[0]
+            }).catch(e => this.$router.push({path: '/404'}));
 
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
             this.avatarURL = `https://astellia.club/frontend/api/v1/avatar/${this.id}`;
