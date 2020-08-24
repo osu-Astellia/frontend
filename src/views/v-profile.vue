@@ -28,7 +28,7 @@
                 </div>
             </div>
             
-            <div class="rankBoxs">
+            <div class="rankBox">
                 <v-stat name="PP" :description="`${stats.pp}`" color="red" descsize="32px"></v-stat>
 
                 <div class="ranks">
@@ -90,6 +90,51 @@
     export default {
         name: "v-profile",
         components: {VStat, VRank, VScorebox, VStatsbox, VFlag},
+        data(){
+            return {
+                classes: {
+                    'mod0': 'mod0 activemod',
+                    'mod1': 'mod1 inactivemod',
+                    'mod2': 'mod2 inactivemod',
+                    'mod3': 'mod3 inactivemod',
+                    'mod4': 'mod4 inactivemod'
+                },
+                best_limit: 0,
+                isMounted: false,
+                moreLoading: true,
+                token: this.$store.state.token,
+                id: this.$route.params.id,
+                backgroundURL: 'https://media.discordapp.net/attachments/704347465809133638/733412691288522812/20200711_222935.jpg',
+                haveBG: true,
+                bgStyle: '',
+                avatarURL: '',
+
+                mode:  0,
+                isRelax: false,
+                avatarStyle: '',
+                stats: {
+                    id: 1,
+                    username: 'Egg',
+                    place: 0,
+                    level: 1337,
+                    playcount: 0,
+                    pp: 0,
+                    country: 'XX',
+                    ss_ranks: 0,
+                    s_ranks: 0,
+                    a_ranks: 0,
+                    replays_watched: 0,
+                    ranked_score: 0,
+                    total_score: 0,
+                    total_hits: 0,
+                    accuracy: 100.0
+                },
+                scores: {
+                    best: [],
+                    recent: []
+                }
+            }
+        },
         methods: {
             async load_scores(){
                 this.scores.best = [];
@@ -101,6 +146,7 @@
                     let item = scoresbest_tmp[i];
                 if(!item) return;
                 item.link = `/b/${item.beatmap_id}`;
+                item.beatmap_title = item.beatmap_title.length > 16 ? item.beatmap_title.slice(0, 17) : item.beatmap_title;
                 item.rankClasses = `rank-${item.rank} score--rank`;
                 this.scores.best.push(item);
                 this.moreLoading = false;
@@ -136,117 +182,50 @@
 
             },
             getScoreMods(m, noplus) {
-                
-                var modsString = [
-                "NF",
-                "EZ",
-                "NV",
-                "HD",
-                "HR",
-                "SD",
-                "DT",
-                "RX",
-                "HT",
-                "NC",
-                "FL",
-                "AU", // Auto.
-                "SO",
-                "AP", // Autopilot.
-                "PF",
-                "K4",
-                "K5",
-                "K6",
-                "K7",
-                "K8",
-                "K9",
-                "RN", // Random
-                "LM", // LastMod. Cinema?
-                "K9",
-                "K0",
-                "K1",
-                "K3",
-                "K2",
-                ];
-            var r = [];
-            // has nc => remove dt
-            if ((m & 512) == 512)
-                m = m & ~64;
-            // has pf => remove sd
-            if ((m & 16384) == 16384)
-                m = m & ~32;
-            modsString.forEach(function (v, idx) {
-                var val = 1 << idx;
-                if ((m & val) > 0)
-                r.push(v);
-            });
-            if (r.length > 0) {
-                return (noplus ? "" : "+ ") + r.join(", ");
-            } else {
-                return (noplus ? T('None') : '');
-            }
+                let modsString = ["NF","EZ","NV","HD","HR","SD","DT","RX","HT","NC","FL","AU","SO","AP","PF","K4","K5","K6","K7","K8","K9","RN","LM","K9", "K0", "K1", "K3", "K2",];
+                let r = [];
+                // has nc => remove dt
+                if ((m & 512) === 512)
+                    m = m & ~64;
+                // has pf => remove sd
+                if ((m & 16384) === 16384)
+                    m = m & ~32;
+                modsString.forEach(function (v, idx) {
+                    let val = 1 << idx;
+                    if ((m & val) > 0)
+                    r.push(v);
+                });
+                if (r.length > 0) {
+                    return (noplus ? "" : "+ ") + r.join(", ");
+                } else {
+                    return '';
+                }
+            },
+
+            async getID(){
+                const { result } = await fetch(`/frontend/api/v1/users/whatid?u=${this.id}`).then(res => res.json()).catch(e => {window.location.href = '/u/404'})
+                if(!parseInt(result)) return window.location.href = '/404';
+                window.location.href = `/u/${result}`;
             }
 
         },
-        data: function(){
-            return {
-                    classes: {
-                        'mod0': 'mod0 activemod',
-                        'mod1': 'mod1 inactivemod',
-                        'mod2': 'mod2 inactivemod',
-                        'mod3': 'mod3 inactivemod',
-                        'mod4': 'mod4 inactivemod'
-                    },
-                    best_limit: 5,
-                    isMounted: false,
-                    moreLoading: true,
-                    token: this.$store.state.token,
-                    id: this.$route.params.id,
-                    backgroundURL: 'https://media.discordapp.net/attachments/704347465809133638/733412691288522812/20200711_222935.jpg',
-                    haveBG: true,
-                    bgStyle: '',
-                    avatarURL: '',
-                    
-                    mode: this.$route.query.mode || 0,
-                    isRelax: false,
-                    avatarStyle: '',
-                    stats: {
-                        id: 1,
-                        username: 'Egg',
-                        place: 0,
-                        level: 1337,
-                        playcount: 0,
-                        pp: 0,
-                        country: 'XX',
-                        ss_ranks: 0,
-                        s_ranks: 0,
-                        a_ranks: 0,
-                        replays_watched: 0,
-                        ranked_score: 0,
-                        total_score: 0,
-                        total_hits: 0,
-                        accuracy: 100.0
-                    },
-                scores: {
-                        best: [],
-                        recent: []
-                }
-            }
-    },
-        mounted: async function () {
-            this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
-            let scoresbest_tmp =  await this.axios.get(`https://astellia.club/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data);
 
-            for(let i = 0; i < 5; i++){
-                if(!scoresbest_tmp[i]) return;
-                scoresbest_tmp[i].link = `/b/${scoresbest_tmp[i].beatmap_id}`;
-                scoresbest_tmp[i].rankClasses = `rank-${scoresbest_tmp[i].rank} score--rank`;
-                this.scores.best.push(scoresbest_tmp[i]);   
-            }
+        mounted: async function () {
+            if(!parseInt(this.id)) return await this.getID();
+            this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
             this.avatarURL = `https://astellia.club/frontend/api/v1/avatar/${this.id}`;
-            this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`;
-            this.moreLoading = false;
+            this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`
             this.isMounted = true;
+            await this.load_scores();
+            if(this.$route.query.relax === 'true') await this.setMode(4);
+            else await this.setMode(this.$route.query.mode || 0);
+
+            this.moreLoading = false;
+
+
+
         }
     }
 </script>
@@ -546,7 +525,7 @@
   }
 
 
-  .rankBoxs {
+  .rankBox {
       display: flex;
       justify-content: space-between;
       padding: 50px;
