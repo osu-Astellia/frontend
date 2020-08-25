@@ -1,4 +1,5 @@
 
+<script src="../router/index.js"></script>
 <script>
 
     import { Line } from 'vue-chartjs';
@@ -17,20 +18,30 @@
         },
         mounted() {
 
+            let labels = this.ppHistory.map(v => require('moment')(Date.parse(v.time)).fromNow());
+            //labels = [...new Set(labels)]
 
+            //console.log([...new Set(this.ppHistory)].filter(score => labels.includes(require('moment')(Date.parse(score.date)).fromNow())))
             this.renderChart({
-                labels: this.ppHistory.filter(score => this.isRelax ? score.is_relax : !score.is_relax ).map(v => v.time),
+                labels: labels,
                 datasets: [
                     {
+
                         label: 'PP',
                         backgroundColor: 'gold',
-                        data: this.ppHistory.map(v => v.pp),
+                        data: this.ppHistory.map(val => val.pp),
                         fill: false,
                         borderColor: 'gold'
 
                     }
                 ]
-            }, {responsive: true, maintainAspectRatio: false})
+            }, {responsive: true, maintainAspectRatio: false, legend: {display: false}, scales: {
+                xAxes: [{
+                    ticks: {
+                        display: false
+                    }
+                }]
+                }})
         }
     }
 </script>
