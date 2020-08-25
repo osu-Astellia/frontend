@@ -150,7 +150,7 @@
                 item.link = `/b/${item.beatmap_id}`;
                 item.beatmap_title_full = item.beatmap_title;
 
-                item.beatmap_title = `${item.beatmap_title.split(' - ')[0]} - ${item.beatmap_title.split(' - ')[1].length > 16 ? item.beatmap_title.split(' - ')[1].slice(0, 17) : item.beatmap_title.split(' - ')[1]}`;
+                item.beatmap_title = `${item.beatmap_title.split(' - ')[0]} - ${item.beatmap_title.split(' - ')[1].length > 16 ? item.beatmap_title.split(' - ')[1].slice(0, 17) + '...' : item.beatmap_title.split(' - ')[1]}`;
 
                 item.rankClasses = `rank-${item.rank} score--rank`;
                 this.scores.best.push(item);
