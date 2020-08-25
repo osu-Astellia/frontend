@@ -6,7 +6,7 @@ import Settings from '../views/v-settings';
 import v404 from '../views/v-404';
 import vProfile from '../views/v-profile';
 import vBeatmap from '../views/v-beatmap';
-
+import VchangePassword from '../views/admin/v-changepassword';
 Vue.use(VueRouter)
 
   const routes = [
@@ -32,6 +32,10 @@ Vue.use(VueRouter)
     {
       path: '/b/:id',
       component: vBeatmap
+    },
+    {
+      path: '/admin/pass',
+      component: VchangePassword
     },
     {
       path: '*',

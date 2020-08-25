@@ -22,6 +22,9 @@ export default new Vuex.Store({
     setIP(state, ip){
       state.ip = ip;
     },
+    setUser(state, user){
+        state.user = user;
+    }
 
 
 
@@ -50,6 +53,15 @@ export default new Vuex.Store({
       })
     },
 
+      async getUser({commit}, payload){
+
+          let me = await fetch('/frontend/api/v1/user/@me', {
+              headers: {
+                  'Authorization': payload.token
+              }
+          })
+          commit('setUser', me);
+      },
     async login({commit}, payload){
 
       let response = await Vue.axios.post('/frontend/api/v1/auth/login', {
