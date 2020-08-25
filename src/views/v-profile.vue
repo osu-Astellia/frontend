@@ -55,7 +55,7 @@
                      <div class="rank-full">
                          <div :class="score.rankClasses"></div>
                      </div>
-                     <router-link :to="score.link" class="beatmapscorelink">{{ score.beatmap_title }} {{ score.difficulty }} {{ getScoreMods(score.mods) }} </router-link>
+                     <router-link :to="score.link" class="beatmapscorelink" v-b-tooltip.hover :title=score.beatmap_title_full>{{ score.beatmap_title }} {{ score.difficulty }} {{ getScoreMods(score.mods) }} </router-link>
 
 
                 </div>
@@ -148,7 +148,10 @@
                     let item = scoresbest_tmp[i];
                 if(!item) return;
                 item.link = `/b/${item.beatmap_id}`;
-                item.beatmap_title = item.beatmap_title.length > 16 ? item.beatmap_title.slice(0, 17) : item.beatmap_title;
+                item.beatmap_title_full = item.beatmap_title;
+
+                item.beatmap_title = `${item.beatmap_title.split(' - ')[0]} - ${item.beatmap_title.split(' - ')[1].length > 16 ? item.beatmap_title.slice(0, 17) : item.beatmap_title}`;
+
                 item.rankClasses = `rank-${item.rank} score--rank`;
                 this.scores.best.push(item);
                 this.moreLoading = false;
@@ -235,9 +238,15 @@
             else await this.setMode(this.$route.query.mode || 0);
 
             this.moreLoading = false;
+            this.$meta().addApp('custom').set({
+                title: `${this.stats.username}\`s Profile - Astellia`
+            })
 
 
 
+        },
+        metaInfo: {
+            title: 'Profile'
         }
     }
 </script>

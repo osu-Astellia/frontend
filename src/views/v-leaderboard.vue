@@ -144,6 +144,9 @@ export default {
       'filter.relax'(val, oldval){
         this.fetchLeaderboard();
       }
+  },
+  metaInfo: {
+      title: 'Leaderboard'
   }
 
 }

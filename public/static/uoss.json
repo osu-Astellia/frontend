@@ -1,7 +1,7 @@
 {
     "name":"Astellia",
     "ip":"92.255.183.181",
-    "icon_url":"https://media.discordapp.net/attachments/704709247157403658/744595364346069112/1111.png",
-    "certificate_url":"https://cdn.discordapp.com/attachments/704709247157403658/744596106511515698/cer.cer",
+    "icon_url":"https://astellia.club/static/uoss_logo.png",
+    "certificate_url":"https://astellia.club/static/uoss_cer.cer",
     "discord_url":"https://discord.gg/hG37Tz7"
   }

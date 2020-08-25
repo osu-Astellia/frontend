@@ -160,6 +160,9 @@
         },
         mounted() {
             this.fetchUserData();
+        },
+        metaInfo: {
+            title: 'Settings'
         }
     }
 </script>

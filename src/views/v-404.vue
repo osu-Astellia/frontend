@@ -9,7 +9,10 @@
 
 <script>
     export default {
-        name: "v-404"
+        name: "v-404",
+        metaInfo: {
+            title: 'Not Found'
+        }
     }
 </script>
 

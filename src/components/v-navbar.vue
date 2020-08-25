@@ -1,7 +1,7 @@
 <template>
     <div class="topPanel">
         <b-navbar toggleable="lg" type="dark">
-            <b-navbar-brand to="/">Astellia</b-navbar-brand>
+            <b-navbar-brand to="/"><div class="custom-nav-logo"></div></b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -153,4 +153,17 @@
 .navbar-brand {
     color: black;
 }
+
+    .custom-nav-logo {
+        width: 32px;
+        height: 32px;
+        background-image: url("/static/uoss_logo.png");
+        background-size: cover;
+        transition: 0.3s;
+    }
+
+    .custom-nav-logo:hover {
+        width: 48px;
+        height: 48px;
+    }
 </style>

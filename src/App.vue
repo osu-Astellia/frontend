@@ -65,6 +65,7 @@ body {
     metaInfo() {
       return {
         title: 'Homepage',
+        titleTemplate: '%s - Astellia',
         meta: [
           {property: 'og:site_name', content: 'Astellia'}
         ]/*,
