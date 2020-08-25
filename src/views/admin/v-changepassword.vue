@@ -1,6 +1,6 @@
 <template>
     <div class="box" v-if="mounted">
-        <form @click.prevent="send">
+        <form>
             <div class="DataGroup">
                 <div class="DataGroupTitle">
                     Security
@@ -10,7 +10,7 @@
                     <div class="DataInput">
                         <span>ID<input v-model="data.username"></span><br>
                         <span>New password<input v-model="data.newpassword"></span><br>
-                        <button type="submit">Save</button>
+                        <button @click.prevent="send">Save</button>
                     </div>
 
                 </div>
@@ -35,14 +35,15 @@
         mounted(){
 
             if(!this.$store.state.token) return this.$router.push({path: '/404'});
-            let token = this.$store.state.token;
-            this.$store.dispatch('getUser', token);
-            if(((this.$store.state.user[0].privileges >> 16) & 1) < 1) return this.$router.push({path: '/404'});
+            //let token = this.$store.state.token;
+            //this.$store.dispatch('getUser', token);
+            //if(((this.$store.state.user[0].privileges >> 16) & 1) < 1) return this.$router.push({path: '/404'});
             this.mounted = true;
         },
         methods: {
             async send(){
-                let a = await fetch(`/frontend/api/v1/users/password_reset?u=${data.username}&p=${data.newpassword}`, {
+                console.log('a')
+                let a = await fetch(`/frontend/api/v1/users/password_reset?u=${this.data.username}&p=${this.data.newpassword}`, {
                     headers: {
                         'Authorization': this.$store.state.token
                     }
