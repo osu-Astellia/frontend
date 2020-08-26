@@ -44,9 +44,9 @@
 
           </table>
 
-          <div class="paginator">
-            <button v-if="an" @click="nextPage" class="button-back enabled"></button>
-            <button v-if="nn" @click="prevPage" class="button-next enabled">></button>
+          <div class="paginator" :style="nn && !an ? `flex-direction: column; align-items: flex-end`: ``">
+            <button v-if="an" @click="prevPage" class="button-back enabled"><</button>
+            <button v-if="nn" @click="nextPage" class="button-next enabled">></button>
           </div>
 
         </div>
@@ -62,7 +62,7 @@ export default {
       return {
         filter: {
           mode: 0,
-          p: 0,
+          p: 1,
           l: 50,
           relax: false
         },
@@ -71,7 +71,11 @@ export default {
           'mod1': 'mod1 inactivemod',
           'mod2': 'mod2 inactivemod',
           'mod3': 'mod3 inactivemod',
-          'mod4': 'mod4 inactivemod'
+          'mod4': 'mod4 inactivemod',
+          buttons: {
+            'p': 'button-back enabled',
+            'n': 'button-next enabled'
+          }
         },
         leaderboard: null,
         an: false,
@@ -81,19 +85,28 @@ export default {
   },
   methods: {
       async fetchLeaderboard(){
-        this.leaderboard = await this.axios.get(`https://astellia.club/frontend/api/v1/leaderboard?mode=${this.filter.mode}&p=${this.filter.p}&l=${this.filter.l}&relax=${this.filter.relax}`)
+        this.nn = false;
+        this.an = false;
+        this.leaderboard = [];
+        this.classes.buttons.p = this.classes.buttons.p.replace('enabled', 'hidden')
+
+        this.leaderboard = await this.axios.get(`https://astellia.club/frontend/api/v1/leaderboard?mode=${this.filter.mode}&p=${this.filter.p}&l=${this.filter.l}&relax=${this.filter.relax}&country=`)
 
                 .then(res => this.caluclatePlaces(res.data));
 
-        if(this.leaderboard.length < this.filter.l - 1){
-          this.nn = false
+        if(this.leaderboard.length > this.filter.l - 1){
+          this.classes.buttons.n = this.classes.buttons.n.replace('hidden', 'enabled')
+          this.nn = false;
         }else{
+          this.classes.buttons.n = this.classes.buttons.p.replace('enabled', 'hidden')
           this.nn = true;
         }
-        if(this.filter.p > 0){
+        if(this.filter.p > 1){
           this.an = true;
+          this.classes.buttons.n = this.classes.buttons.n.replace('hidden', 'enabled')
         }else{
           this.an = false;
+          this.classes.buttons.n = this.classes.buttons.n.replace('enabled', 'hidden')
         }
 
       },
@@ -108,10 +121,11 @@ export default {
     },
 
     setMode(mode){
-      this.filter.relax = mode == 4 ? true : false;
+      this.filter.relax = mode === 4;
       this.filter.mode = this.filter.relax ? 0 : mode;
         for(const entry of Object.entries(this.classes)){
-          if(entry[1].split(' ')[1] === 'activemod'){
+ 
+          if(typeof entry[1].split !== 'undefined' && entry[1].split(' ')[1] === 'activemod'){
             this.classes[entry[0]]= this.classes[entry[0]].replace('activemod', 'inactivemod');
           }
         }
@@ -120,9 +134,10 @@ export default {
     },
 
     caluclatePlaces(res){
-       var p = this.filter.p === 1? 1 : this.filter.p * this.filter.l -1;
-       res = res.filter(u => u.id !== 999);
-       p++;
+        res = res.filter(u => u.id !== 999);
+        let p = this.filter.p === 1 ? 0 : this.filter.p * this.filter.l -1;
+
+
         for(const i in res){
           
           p++;
@@ -243,8 +258,8 @@ export default {
     border-radius: 5px;
     width: 70px;
     font-size: 15px;
-    margin-right: 100px;
     transition: 0.4s;
+    margin-right: 150px;
 
   }
 
@@ -419,6 +434,10 @@ export default {
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osurx.png);
+  }
+
+  .hidden {
+    visibility: hidden;
   }
 
 </style>

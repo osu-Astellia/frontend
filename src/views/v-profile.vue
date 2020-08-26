@@ -15,8 +15,11 @@
             <div class="infoBox">
                 <div class="infoBoxUsernameCountry">
                     <div class="profileAvatar" :style="this.avatarStyle"></div>
-                    <div class="infoUsername">{{ this.stats.username }}</div>
-                    <div class="infoCountry" v-if="this.stats.country !== 'XX'"> <v-flag size="30" :country="this.stats.country"/> </div>
+                    <div class="usernamecr">
+                        <div class="infoUsername">{{ this.stats.username }}</div>
+                        <div class="infoCountry" v-if="this.stats.country !== 'XX'"> <v-flag size="30" :country="this.stats.country"/> </div>
+                    </div>
+
                 </div>
 
 
@@ -224,9 +227,14 @@
         mounted: async function () {
             if(!parseInt(this.id)) return await this.getID();
             this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => {
-                if(r.data.length < 1) this.$router.push({path: '/404'})
-                else r.data[0]
+                console.log(r.data)
+                if(r.data.constructor.name !== 'Array') {
+                    this.$router.push({path: '/404'});
+                }else {
+                    return r.data[0];
+                }
             }).catch(e => this.$router.push({path: '/404'}));
+            console.log(this.stats)
 
 
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
@@ -275,6 +283,13 @@
     .infoUsername {
         font-size: 30px;
         margin-left: 5px;
+        border-bottom: 2px solid white;
+    }
+
+    .infoUsernamePremium {
+        font-size: 30px;
+        margin-left: 5px;
+        border-bottom: 2px solid gold;
     }
 
     .profileBox {
@@ -289,7 +304,6 @@
 
     .infoBoxUsernameCountry {
         display: flex;
-        flex-direction: column;
         justify-content: space-between;
     }
     .scoreinfo {
@@ -503,7 +517,9 @@
   .inactivemod:hover {
     filter: brightness(0.90);
   }
-
+  .infoCountry {
+      margin-top: 10px;
+  }
 
 
   .mod1 {
@@ -564,5 +580,9 @@
         display: flex;
         justify-content: space-between;
         padding: 0 50px;
+    }
+    .usernamecr {
+        display:flex;
+        flex-direction: column;
     }
 </style>

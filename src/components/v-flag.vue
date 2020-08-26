@@ -22,5 +22,7 @@
 </script>
 
 <style scoped>
-
+.country {
+    width: 48px;
+}
 </style>

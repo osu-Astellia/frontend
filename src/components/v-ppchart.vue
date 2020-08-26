@@ -28,10 +28,10 @@
                     {
 
                         label: 'PP',
-                        backgroundColor: 'gold',
+                        backgroundColor: 'rgba(255,215,0, .50)',
                         data: this.ppHistory.map(val => val.pp),
-                        fill: false,
-                        borderColor: 'gold'
+
+                        borderColor: 'rgb(255,215,0)'
 
                     }
                 ]
