@@ -269,7 +269,9 @@
                         'Authorization': this.$store.state.token
                     }
                 }).then(res => res.json());
+
                 let id = myProfile[0].id;
+                console.log(id)
                 if(this.id === id) this.isMe = true;
             }
 

@@ -196,7 +196,8 @@
                 this.settings.nc_instead_dt = val;
                 this.axios.patch('/frontend/api/v1/updateUser', this.settings, {
                     headers: {
-                        'Authorization': this.token
+                        'Authorization': this.token,
+                        'Content-Type': 'application/json'
                     }
                 }).then(res => {this.loaded = true}).catch(e => {
                     this.$router.push({path: '/'})
