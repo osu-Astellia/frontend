@@ -123,7 +123,8 @@
                 await fetch('/frontend/api/v1/updateUser/userpage', {
                     method: 'PATCH',
                     headers: {
-                        'Authorization': this.$store.state.token
+                        'Authorization': this.$store.state.token,
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         content: this.data.userpage_content

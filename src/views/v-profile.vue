@@ -263,7 +263,8 @@
                     return r.data[0];
                 }
             }).catch(e => this.$router.push({path: '/404'}));
-            if(!this.$store.state.token){
+
+            if(this.token){
                 let myProfile = await fetch('/frontend/api/v1/user/@me', {
                     headers: {
                         'Authorization': this.$store.state.token
