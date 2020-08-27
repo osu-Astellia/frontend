@@ -2,7 +2,7 @@
     <b-overlay :show="!loaded">
     <div class="settings">
 
-        <form>
+
             <div class="DataGroup">
                 <div class="DataGroupTitle">
                     Account
@@ -61,7 +61,31 @@
                 </div>
             </div>
 
-        </form>
+            <div class="DataGroup" style="padding: 30px 0;">
+                <div class="DataGroupTitle">
+                    Userpage
+                </div>
+
+                <div class="DataInputs" id="userpage">
+                    <div class="DataInput">
+                        <textarea class="userpageInput" v-model="data.userpage_content"></textarea>
+                    </div>
+                    <button @click="saveUserpage">
+                        Save
+                    </button>
+                </div>
+                <div class="DataGroupTitle">
+                    Preview
+                </div>
+                <div class="preview" v-html="parsedUserpage">
+                </div>
+
+
+
+            </div>
+
+
+
 
     </div>
     </b-overlay>
@@ -69,6 +93,7 @@
 
 <script>
     import { mapState, mapActions  } from 'vuex';
+    import bbCodeParser from 'js-bbcode-parser';
     export default {
         name: "v-settings",
         ...mapState(['token']),
@@ -78,8 +103,11 @@
                 token: this.$store.state.token,
                 nc_instead_dt: false,
                 userdata: null,
+                isParsing: false,
+                parsedUserpage: '',
                 data: {
-                    username: null
+                    username: null,
+                    userpage_content: ''
                 },
                 settings: {
                     nc_instead_dt: false
@@ -90,6 +118,23 @@
             }
         },
         methods: {
+            async saveUserpage(){
+                this.loaded = false;
+                await fetch('/frontend/api/v1/updateUser/userpage', {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': this.$store.state.token
+                    },
+                    body: JSON.stringify({
+                        content: this.data.userpage_content
+                    })
+                }).then(res => {
+                    this.loaded = true;
+                }).catch(e => {
+                    console.log(e);
+                    alert('Error during userpage update, check console for more info')
+                })
+            },
             avatarUpload(file){
                 this.loaded = false;
                 const data = new FormData();
@@ -145,7 +190,7 @@
         },
 
         watch: {
-            'settings.nc_instead_dt'(val, oldval){
+            'settings.nc_instead_dt'(val){
                 if(!this.loaded) return;
                 this.loaded = false;
                 this.settings.nc_instead_dt = val;
@@ -156,6 +201,9 @@
                 }).then(res => {this.loaded = true}).catch(e => {
                     this.$router.push({path: '/'})
                 });
+            },
+            'data.userpage_content'(val){
+                this.parsedUserpage = bbCodeParser.parse(val);
             }
         },
         mounted() {
@@ -274,5 +322,32 @@ input:focus {
         font-size: 30px;
     }
 
+    .userpageInput {
+        max-width: 100%;
+        width: 90% !important;
+        min-height: 250px;
+        height: auto;
+    }
+textarea {
+    outline: none;
+    margin: 0;
+    background: none;
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 4px;
+    flex: 1;
+    max-width: 250px;
+    align-self: stretch;
+    background-color: #3D3946;
+    border: 2px solid transparent;
+    color: #fff;
+    font-weight: 400;
+    padding: 5px;
+}
+
+textarea:focus {
+    border: 3px solid #C2B8E0;
+}
 
 </style>

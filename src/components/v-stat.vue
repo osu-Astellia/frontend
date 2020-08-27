@@ -2,7 +2,7 @@
   <div class="stat">
 
       
-      <div class="smallText">
+      <div class="smallText" :v-b-tooltip="this.tooltip">
           {{ name }}
       </div>
       <div :style="statStyle">
@@ -15,7 +15,7 @@
 <script>
 export default {
     name: 'v-stat',
-    props: ['name', 'color', 'description', 'descsize'],
+    props: ['name', 'color', 'description', 'descsize', 'tooltip'],
     data(){
         return {
             statStyle: `border-top: 3px solid ${this.color}; font-size: ${this.descsize ? this.descsize : '24px'};`

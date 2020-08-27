@@ -14,11 +14,18 @@
 
             <div class="infoBox">
                 <div class="infoBoxUsernameCountry">
-                    <div class="profileAvatar" :style="this.avatarStyle"></div>
-                    <div class="usernamecr">
-                        <div class="infoUsername">{{ this.stats.username }}</div>
-                        <div class="infoCountry" v-if="this.stats.country !== 'XX'"> <v-flag size="30" :country="this.stats.country"/> </div>
+                    <router-link to="/profile/settings#avatarFile" v-if="isMe">
+                        <div class="profileAvatar" :style="this.avatarStyle">
+                            <router-link v-if="isMe" to="/profile/settings#avatarFile"></router-link>
+                        </div>
+                    </router-link>
+                    <div class="profileAvatar" v-else :style="this.avatarStyle">
+                        <router-link v-if="isMe" to="/profile/settings#avatarFile"></router-link>
                     </div>
+                        <div class="usernamecr">
+                            <div class="infoUsername">{{ this.stats.username }}</div>
+                            <div class="infoCountry" v-if="this.stats.country !== 'XX'"> <v-flag size="30" :country="this.stats.country"/> </div>
+                        </div>
 
                 </div>
 
@@ -38,6 +45,7 @@
                     <v-stat name="A" class="stat" :description="stats.a_ranks" color="lime"></v-stat>
                     <v-stat name="S" class="stat" :description="stats.a_ranks" color="gold"></v-stat>
                     <v-stat name="SS" class="stat" :description="stats.a_ranks" color="yellow"></v-stat>
+                    <v-stat name="Joined" class="stat" :description="joined" color="#2B6632"></v-stat>
                 </div>
 
 
@@ -49,6 +57,15 @@
 
                     <v-stat name="Global Ranking" :description="`#${String(stats.place).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`" color="pink" descsize="40px"></v-stat>
                 </div>
+            </div>
+
+            <div class="userpageContent" v-if="parsedUserpage.length > 0">
+                <div class="socreBoxTitle">Userpage</div>
+                <router-link to="/profile/settings#userpage" v-if="isMe">Edit</router-link>
+                <div class="userpage" v-html="parsedUserpage">
+
+                </div>
+
             </div>
             <div class="scoreBox" v-if="scores.best.length > 0">
                         
@@ -91,6 +108,8 @@
     import VStat from "@/components/v-stat";
     import VPpchart from "../components/v-ppchart";
     import moment from 'moment';
+    import bbCodeParser from 'js-bbcode-parser';
+
     export default {
         name: "v-profile",
         components: {VPpchart, VStat, VRank, VScorebox, VStatsbox, VFlag},
@@ -104,7 +123,7 @@
                     'mod3': 'mod3 inactivemod',
                     'mod4': 'mod4 inactivemod'
                 },
-                best_limit: 0,
+                best_limit: 5,
                 isMounted: false,
                 moreLoading: true,
                 token: this.$store.state.token,
@@ -113,11 +132,14 @@
                 haveBG: true,
                 bgStyle: '',
                 avatarURL: '',
+                joined: '',
+                isMe: false,
 
                 mode:  0,
                 isRelax: false,
                 chartLoaded: false,
                 ppHistory: [],
+                parsedUserpage: '',
                 avatarStyle: '',
                 stats: {
                     id: 1,
@@ -134,7 +156,8 @@
                     ranked_score: 0,
                     total_score: 0,
                     total_hits: 0,
-                    accuracy: 100.0
+                    accuracy: 100.0,
+                    account_created_at: 1
                 },
                 scores: {
                     best: [],
@@ -144,6 +167,7 @@
         },
         methods: {
             async load_scores(){
+
                 this.scores.best = [];
                 this.moreLoading = true;
                 this.best_limit += 5;
@@ -239,7 +263,15 @@
                     return r.data[0];
                 }
             }).catch(e => this.$router.push({path: '/404'}));
-            console.log(this.stats)
+            if(!this.$store.state.token){
+                let myProfile = await fetch('/frontend/api/v1/user/@me', {
+                    headers: {
+                        'Authorization': this.$store.state.token
+                    }
+                }).then(res => res.json());
+                let id = myProfile[0].id;
+                if(this.id === id) this.isMe = true;
+            }
 
 
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
@@ -249,7 +281,8 @@
             await this.load_scores();
             if(this.$route.query.relax === 'true') await this.setMode(4);
             else await this.setMode(this.$route.query.mode || 0);
-
+            this.joined = moment(new Date(this.stats.account_created_at * 1000)).fromNow();
+            this.parsedUserpage = bbCodeParser.parse(this.stats.userpage_content);
             this.moreLoading = false;
             this.$meta().addApp('custom').set({
                 title: `${this.stats.username}\`s Profile - Astellia`
@@ -589,5 +622,17 @@
     .usernamecr {
         display:flex;
         flex-direction: column;
+    }
+
+    .userpage {
+        background-color: #1F2051;
+        padding: 0 40px;
+        min-height: 400px;
+        border: 1px solid transparent;
+        border-radius: 10px;
+    }
+
+    .userpageContent {
+        padding: 0 40px;
     }
 </style>

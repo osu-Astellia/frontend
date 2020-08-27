@@ -7,7 +7,7 @@
                 <b-form-group
                         style="padding-top: 20px"
                         id="input-group-1"
-                        label="Username:"
+                        label="Username"
                         label-for="input-1"
                 >
                     <b-form-input
@@ -21,7 +21,7 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-form-group id="input-group-2" label="Your Password:" label-for="input-2">
+                <b-form-group id="input-group-2" label="Your Password" label-for="input-2">
                     <b-form-input
                             type="password"
                             id="input-2"
@@ -31,7 +31,7 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-form-group id="input-group-3" label="Email:" label-for="input-3">
+                <b-form-group id="input-group-3" label="Email" label-for="input-3">
                     <b-form-input
                             type="email"
                             id="input-3"
@@ -39,6 +39,16 @@
                             required
                             placeholder="Email"
                     ></b-form-input>
+                </b-form-group>
+
+                <b-form-group id="input-group-4" label="Avatar (Optional)" label-for="input-4">
+                    <div  style="display: flex; flex-direction: column; width: auto; align-items: center;">
+                        <img v-if="avatarURL" :src="avatarURL"  height="128px" width="128px" style="object-fit: cover">
+
+                        <input @change="avatarUpload" class="inputFile" id="avatarFile" type="file" accept="image/png, image/jpeg">
+                        <label class="uploadeBtn" for="avatarFile">Upload</label>
+
+                    </div>
                 </b-form-group>
 
 
@@ -65,10 +75,24 @@
                 captcha: '',
                 email: '',
                 show: true,
-                logining: false
+                avatar: '',
+                avatarURL: '',
+                logining: false,
+                avatarFile: null
             }
         },
         methods: {
+            avatarUpload(file){
+                let fr = new FileReader();
+                fr.onload = ()=> {
+                    console.log('as')
+                    this.avatarURL = fr.result;
+                }
+                fr.readAsDataURL(file.target.files[0]);
+                this.avatarFile = file.target.files[0];
+
+              //this.avatarURL = file.target.files[0].bytes;
+            },
             onSubmit(){
 
                 this.logining = true;
@@ -88,10 +112,23 @@
                 }).then(r => {
                     this.verifyCaptcha();
                     this.logining = false;
+                    let token = this.$store.state.token;
+                    if(this.avatarFile){
+                        let fm = new FormData();
+                        fm.append('File', this.avatarFile);
+                        fetch('/frontend/api/v1/updateUser/avatar', {
+                            method: 'POST',
+                            body: fm
+                        })
+                    }
                 }).catch(e => {
                     this.verifyCaptcha();
                     this.logining = false;
                 });
+
+
+
+
 
             },
 
@@ -144,5 +181,30 @@
     * {
         margin: 0 auto;
         text-align: center;
+    }
+    .uploadeBtn {
+        display: inline-block;
+        height: 30px;
+        width: 128px;
+        background-color: #5639AC;
+        margin-top: 10px;
+        border: 2px solid #5639AC;
+        border-radius: 10px;
+        transition: 0.4s;
+        color: white;
+    }
+
+    .uploadeBtn:hover {
+        background-color: #5639D5;
+        border: 2px solid #5639D5;
+    }
+    .inputFile {
+
+        height: 0.1px;
+        width: 0.1px;
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        z-index: -1;
     }
 </style>
