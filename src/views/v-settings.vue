@@ -186,7 +186,7 @@
                     currentpassword: ''
                 }
                 this.avatarURL = `https://astellia.club/frontend/api/v1/avatar/${this.userdata[0].id}`;
-                this.userpage_content = this.profileInfo[0].userpage_content;
+                data.userpage_content = this.profileInfo[0].userpage_content;
 
                 this.nc_instead_dt = this.userdata.nc_instead_dt ? this.userdata.nc_instead_dt : false
                 this.settings = this.userdata[1];
