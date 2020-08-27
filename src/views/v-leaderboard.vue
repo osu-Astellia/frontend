@@ -94,7 +94,7 @@ export default {
 
                 .then(res => this.caluclatePlaces(res.data));
 
-        if(this.leaderboard.length > this.filter.l - 1){
+        if(this.leaderboard.length > this.filter.l - 2){
           this.classes.buttons.n = this.classes.buttons.n.replace('hidden', 'enabled')
           this.nn = false;
         }else{
@@ -124,7 +124,7 @@ export default {
       this.filter.relax = mode === 4;
       this.filter.mode = this.filter.relax ? 0 : mode;
         for(const entry of Object.entries(this.classes)){
- 
+
           if(typeof entry[1].split !== 'undefined' && entry[1].split(' ')[1] === 'activemod'){
             this.classes[entry[0]]= this.classes[entry[0]].replace('activemod', 'inactivemod');
           }
@@ -144,7 +144,7 @@ export default {
           
             res[i]['place'] = p;
             res[i]['flag'] = `https://osu.gatari.pw/static/images/flags/${res[i].country}.png`;
-            res[i]['url'] = `/u/${res[i].id}`;
+            res[i]['url'] = `/u/${res[i].id}${this.filter.mode < 4 && !this.filter.relax ? `?mode=${this.filter.mode}` : '?relax=true'}`;
           
 
         }

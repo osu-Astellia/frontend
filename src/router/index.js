@@ -7,6 +7,9 @@ import v404 from '../views/v-404';
 import vProfile from '../views/v-profile';
 import vBeatmap from '../views/v-beatmap';
 import VchangePassword from '../views/admin/v-changepassword';
+import VRules from '../views/docs/v-rules'
+import VDocsList from '../views/docs/v-list';
+
 Vue.use(VueRouter)
 
   const routes = [
@@ -32,6 +35,14 @@ Vue.use(VueRouter)
     {
       path: '/b/:id',
       component: vBeatmap
+    },
+    {
+      path: '/docs/list',
+      component: VDocsList
+    },
+    {
+      path: '/docs/rules',
+      component: VRules
     },
     {
       path: '/admin/pass',

@@ -35,7 +35,13 @@
 
                     }
                 ]
-            }, {responsive: true, maintainAspectRatio: false, legend: {display: false}, scales: {
+            }, {
+                responsive: true, maintainAspectRatio: false,
+                legend:
+                    {
+                        display: false
+                    },
+                scales: {
                 xAxes: [{
                     ticks: {
                         display: false

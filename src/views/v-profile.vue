@@ -58,7 +58,8 @@
                      <div class="rank-full">
                          <div :class="score.rankClasses"></div>
                      </div>
-                     <router-link :to="score.link" class="beatmapscorelink" v-b-tooltip.hover :title=score.beatmap_title_full>{{ score.beatmap_title }} {{ score.difficulty }} {{ getScoreMods(score.mods) }} </router-link>
+
+                        <router-link :to="score.link" class="beatmapscorelink" v-b-tooltip.hover :title=score.beatmap_title_full>{{ score.beatmap_title }} {{ score.difficulty }} {{ getScoreMods(score.mods) }} </router-link>
 
 
                 </div>
@@ -89,10 +90,11 @@
     import VRank from "@/components/v-rank";
     import VStat from "@/components/v-stat";
     import VPpchart from "../components/v-ppchart";
-
+    import moment from 'moment';
     export default {
         name: "v-profile",
         components: {VPpchart, VStat, VRank, VScorebox, VStatsbox, VFlag},
+
         data(){
             return {
                 classes: {
@@ -151,10 +153,13 @@
                     let item = scoresbest_tmp[i];
                 if(!item) return;
                 item.link = `/b/${item.beatmap_id}`;
-                item.beatmap_title_full = item.beatmap_title;
+                item.beatmap_title_full = `${item.beatmap_title} was set ${moment(new Date(Date.parse(item.timestamp))).fromNow()}`
+                item.beatmap_title_full += `\n`
+                    try {
+                        item.beatmap_title = `${item.beatmap_title.split(' - ')[0]} - ${item.beatmap_title.split(' - ')[1].length > 16 ? item.beatmap_title.split(' - ')[1].slice(0, 17) + '...' : item.beatmap_title.split(' - ')[1]}`
+                    }catch(e){
 
-                item.beatmap_title = `${item.beatmap_title.split(' - ')[0]} - ${item.beatmap_title.split(' - ')[1].length > 16 ? item.beatmap_title.split(' - ')[1].slice(0, 17) + '...' : item.beatmap_title.split(' - ')[1]}`;
-
+                    }
                 item.rankClasses = `rank-${item.rank} score--rank`;
                 this.scores.best.push(item);
                 this.moreLoading = false;
