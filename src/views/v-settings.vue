@@ -112,6 +112,7 @@
                 settings: {
                     nc_instead_dt: false
                 },
+                profileInfo: null,
                 avatarURL: '',
                 avatarStyle: '',
                 loaded: false
