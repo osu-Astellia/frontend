@@ -41,7 +41,7 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-form-group id="input-group-4" label="Avatar (Optional)" label-for="input-4">
+               <!-- <b-form-group id="input-group-4" label="Avatar (Optional)" label-for="input-4">
                     <div  style="display: flex; flex-direction: column; width: auto; align-items: center;">
                         <img v-if="avatarURL" :src="avatarURL"  height="128px" width="128px" style="object-fit: cover">
 
@@ -49,7 +49,7 @@
                         <label class="uploadeBtn" for="avatarFile">Upload</label>
 
                     </div>
-                </b-form-group>
+                </b-form-group> -->
 
 
 

@@ -50,6 +50,10 @@ body {
   opacity: 0;
 }
 
+.topPanel {
+  height: 58px !important;
+}
+
 </style>
 <script>
   import { mapActions } from 'vuex';

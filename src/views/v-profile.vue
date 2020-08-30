@@ -264,13 +264,13 @@
                 }
             }).catch(e => this.$router.push({path: '/404'}));
 
-            if(this.token){
+            if(this.$store.state.token){
                 let myProfile = await fetch('/frontend/api/v1/user/@me', {
                     headers: {
                         'Authorization': this.$store.state.token
                     }
-                }).then(res => res.json());
-
+                }).then(res => res.json().catch(e => {}));
+                if(!myProfile) myProfile = [{id: 0}];
                 let id = myProfile[0].id;
                 if(parseInt(this.id) === id) this.isMe = true;
             }
