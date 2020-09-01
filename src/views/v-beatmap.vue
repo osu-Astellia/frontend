@@ -37,7 +37,7 @@
       </div>
 
 
-      <b-modal id="rankBeatmap" title="Rank beatmap" >
+      <b-modal id="rankBeatmap" title="Rank beatmap" @ok="rankBeatmap">
 
           <b-form-group label="Beatmap ID">
               <b-form-input id="BeatmapID" v-model="bn.beatmapID" required name="Beatnamp ID"> {{ beatmap.beatmapID }}</b-form-input>
@@ -50,10 +50,10 @@
           <b-form-group label="diffs" v-if="!bn.isSet">
 
               <b-form-checkbox
-                               v-for="diffname of Object.entries(diffs)"
+                               v-for="(diffname, index) of Object.entries(diffs)"
                                @change="selBeatmapID(diffname[0])"
-                               :key="diffname[0]"
-              > {{ diffname[1] }}</b-form-checkbox>
+                               :key="index"
+              > {{ diffname[1].name }}</b-form-checkbox>
 
           </b-form-group>
 
