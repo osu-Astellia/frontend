@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td>BPM</td>
-                <td> {{  this.bpm }}</td>
+                <td> {{  this.BPM }}</td>
             </tr>
             <tr>
                 <td></td>
