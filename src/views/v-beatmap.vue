@@ -178,7 +178,7 @@ export default {
 
                 this.diffs[diff.id] = {
                     id: diff.id,
-                    link: `/b/${diff.id}`,
+                    link: `/b/${this.beatmap.beatmapSetID}`,
                     name: diff.difficulty_name
                 };
             });
@@ -192,7 +192,7 @@ export default {
                 CS: data.CS,
                 time: this.fancyTimeFormat(data.time),
                 bpm: data.bpm,
-                stars: ~~data.stars.toFixed(3),
+                stars: data.stars.toFixed(3),
                 beatmapSetID: data.beatmapSetID,
                 diff: this.diffs[data.beatmapID],
                 diffname: this.diffs[data.beatmapID].name
@@ -222,7 +222,7 @@ export default {
 
             if(!r[0]) return;
 
-            if((r[0].privileges & ( 2 << 7)) > 0) this.isNominator = true;
+            if((r[0].permissions & (2 << 7)) > 1) this.isNominator = true;
         }
 
 
