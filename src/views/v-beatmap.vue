@@ -152,7 +152,8 @@ export default {
                     status: this.bn.state
                 }),
                 headers: {
-                    'Authorization': this.$store.state.token
+                    'Authorization': this.$store.state.token,
+                    'Content-Type': 'application/json'
                 }
             }).then(e => {
                 alert('OK')
