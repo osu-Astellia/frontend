@@ -203,7 +203,7 @@ export default {
             this.bn.beatmapID = data.beatmapID;
 
             this.bgStyle = `background-image: url("https://assets.ppy.sh/beatmaps/${data.beatmapSetID}/covers/cover@2x.jpg")`;
-            this.beatmap.downloadURL = `/d/${data.beatmapID}`;
+            this.beatmap.downloadURL = `/d/${data.beatmapSetID}`;
             this.beatmap.osuURL = `osu://b/${data.beatmapID}`;
         }
     },
