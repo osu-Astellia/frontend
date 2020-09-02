@@ -215,7 +215,7 @@ export default {
         this.isMounted = true;
 
         if(this.$store.state.token){
-            let r = await fetch('/frontend/api/user/@me', {
+            let r = await fetch('/frontend/api/v1/user/@me', {
                 headers: {
                     'Authorization': this.$store.state.token
                 }
