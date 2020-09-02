@@ -179,7 +179,7 @@ export default {
 
                 this.diffs[diff.id] = {
                     id: diff.id,
-                    link: `/b/${this.beatmap.beatmapSetID}`,
+                    link: `/b/${diff.id}`,
                     name: diff.difficulty_name
                 };
             });
@@ -223,7 +223,7 @@ export default {
 
             if(!r[0]) return;
 
-            if((r[0].permissions & (2 << 7)) > 1) this.isNominator = true;
+            if((r[0].privileges & (2 << 7)) > 1) this.isNominator = true;
         }
 
 
@@ -253,7 +253,7 @@ export default {
     .beatmapInfo {
         width: auto;
         min-width: 70%;
-        max-width: 80%;
+        max-width: 100%;
         min-height: 300px;
         background: #282C34;
         height: auto;
@@ -262,7 +262,7 @@ export default {
         justify-content: space-between;
     }
     .beatmapBG {
-        width: 70%;
+        width: 100%;
         height: 250px;
         margin: 0 auto;
         background-size: cover;
