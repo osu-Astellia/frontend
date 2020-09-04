@@ -31,7 +31,8 @@
     			<h2 class="vmenu__title">About Us</h2>
     			<ul class="vmenu__list">
     				<li class="vmenu__item">
-    					<router-link to="/team" class="vmenu__link">Team</router-link>
+    					<router-link to="/team" class="vmenu__link">Team</router-link><br>
+						<a class="vmenu__link" href="https://github.com/osu-astellia/">Source code</a>
     				</li>
     			</ul>
     		</nav>
@@ -49,6 +50,7 @@
 
 <style scoped>
 	.footer {
+		margin-top: 30px;
 		bottom: 0;
 		padding: 40px 0;
 		background-color: #21263E;

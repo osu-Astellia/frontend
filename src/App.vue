@@ -54,6 +54,9 @@ body {
   height: 58px !important;
 }
 
+.grecaptcha-badge {
+  visibility: hidden;
+}
 </style>
 <script>
   import { mapActions } from 'vuex';
@@ -65,6 +68,7 @@ body {
     components: {VFooter, VNavbar},
     mounted() {
       this.$store.dispatch('getIP');
+
     },
     metaInfo() {
       return {

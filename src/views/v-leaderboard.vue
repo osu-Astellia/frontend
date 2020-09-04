@@ -6,7 +6,7 @@
 
         <div class="headers">
           <div class="bgImage"></div>
-          <h1 class="bgText">Leaderboard</h1>
+          <h1 class="bgText"><label class="pink-lb">L</label>eaderboar<label class="blue-lb">d</label></h1>
 
         </div>
 
@@ -63,7 +63,7 @@ export default {
         filter: {
           mode: 0,
           p: 1,
-          l: 50,
+          l: 51,
           relax: false
         },
         classes: {
@@ -94,7 +94,7 @@ export default {
 
                 .then(res => this.caluclatePlaces(res.data));
 
-        if(this.leaderboard.length > this.filter.l - 2){
+        if(this.leaderboard.length < this.filter.l - 2){
           this.classes.buttons.n = this.classes.buttons.n.replace('hidden', 'enabled')
           this.nn = false;
         }else{
@@ -175,19 +175,27 @@ export default {
   @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap%27');
   @import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Arvo&display=swap');
+
+
   table {
     color: white;
     width: 75%;
     border-collapse: collapse;
-    color: white;
     margin: 0 auto;
     font-size: 0.9em;
     min-width: 500px;
   }
 
-  .container {
-    padding: 30px;
+
+  @font-face {
+    font-family: 'geoma_regular_demoregular';
+    src: url('/static/fonts/geoma-demo.regular-demo-webfont.woff2') format('woff2'),
+    url('/static/fonts/geoma-demo.regular-demo-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
   }
+
 
   td {
     height: 30px;
@@ -329,7 +337,7 @@ export default {
   }
   .headers {
     position: relative;
-    display: inline-flex;
+
     z-index: -1;
 
   }
@@ -341,19 +349,18 @@ export default {
     z-index: 0;
     height: 250px;
     width: 1000px;
-    background-image: url(/static/img/lbheader.jpg);
+    background-image: url(/static/img/lbheader.png);
     background-size: 1000px 250px;
     background-repeat: no-repeat;
-    filter: blur(8px);
   }
 
   .bgText {
-    font-family: 'Varela Round', sans-serif;
+    font-family: 'geoma_regular_demoregular';
     width: 100%;
-    font-size: 50px;
+    font-size: 60px;
     filter: none;
     position: absolute;
-    top: 50%;
+    top: 40%;
     z-index: 1;
 
   }
@@ -369,9 +376,11 @@ export default {
 
     width: 10px;
     height: 20px;
-    border-color: purple;
+    border-color: transparent;
     background-color: #2F2C54;
   }
+
+
 
   .table {
     width: 80%;
@@ -438,6 +447,14 @@ export default {
 
   .hidden {
     visibility: hidden;
+  }
+
+  .pink-lb {
+    color: #FF8CAC;
+  }
+
+  .blue-lb {
+    color: #8CE3FF;
   }
 
 </style>
