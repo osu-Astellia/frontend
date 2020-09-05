@@ -49,9 +49,9 @@
                 <div class="usermenuBG" :style="userbgStyle"></div>
                 <div class="usermenumenu">
 
-                    <router-link @click="isOpenDropdown = false" :to="data.url" class="usermenulink">Profile</router-link><br>
-                    <router-link @click="isOpenDropdown = false" to="/profile/settings" class="usermenulink">Settings</router-link><br>
-                    <router-link @click="isOpenDropdown = false" to="#" @click.prevent="logout" class="usermenulink logoutbtn">Logout</router-link><br>
+                    <router-link @click="isOpenDropdown = !isOpenDropdown" :to="data.url" class="usermenulink">Profile</router-link><br>
+                    <router-link @click="isOpenDropdown = !isOpenDropdown" to="/profile/settings" class="usermenulink">Settings</router-link><br>
+                    <router-link @click="isOpenDropdown = !isOpenDropdown" to="#" @click.prevent="logout" class="usermenulink logoutbtn">Logout</router-link><br>
                 </div>
 
             </div>
