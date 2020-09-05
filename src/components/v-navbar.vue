@@ -18,10 +18,6 @@
                     <b-nav-item v-else style="padding: 0 !important;">
 
 
-
-
-                    </b-nav-item>
-
                         <b-nav-item-dropdown right>
                             <template v-slot:button-content >
                                 <AccountIcon /> Guest
@@ -42,6 +38,10 @@
                                 <modal-register />
                             </b-modal>
                         </b-nav-item-dropdown>
+
+                    </b-nav-item>
+
+
 
 
                 </b-navbar-nav>
