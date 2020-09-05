@@ -5,7 +5,7 @@
     			<h2 class="vmenu__title">Help</h2>
     			<ul class="vmenu__list">
     				<li class="vmenu__item">
-    					<a href="/docs/rules" class="vmenu__link">Rules</a>
+    					<router-link href="/docs/rules" class="vmenu__link">Rules</router-link>
     				</li>
     				<li class="vmenu__item">
     					<a href="/files/client.exe" class="vmenu__link">Download</a>
@@ -31,7 +31,7 @@
     			<h2 class="vmenu__title">About Us</h2>
     			<ul class="vmenu__list">
     				<li class="vmenu__item">
-    					<router-link to="/team" class="vmenu__link">Team</router-link><br>
+
 						<a class="vmenu__link" href="https://github.com/osu-astellia/">Source code</a>
     				</li>
     			</ul>
@@ -56,6 +56,8 @@
 		background-color: #21263E;
 		display: flex;
 		align-self:flex-end;
+
+
 	}
 	.footer__item {
 		width: 30%;

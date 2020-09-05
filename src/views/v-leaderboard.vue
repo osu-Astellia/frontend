@@ -141,6 +141,7 @@ export default {
         for(const i in res){
           
           p++;
+          if(p >= this.filter.l) break;
           
             res[i]['place'] = p;
             res[i]['flag'] = `https://osu.gatari.pw/static/images/flags/${res[i].country}.png`;
@@ -378,6 +379,7 @@ export default {
     height: 20px;
     border-color: transparent;
     background-color: #2F2C54;
+      text-align: center;
   }
 
 
@@ -388,6 +390,7 @@ export default {
 
   .table th, .table td {
     padding: 2px !important;
+      text-align: center;
 
   }
 
