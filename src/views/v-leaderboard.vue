@@ -32,7 +32,7 @@
               <th class="col">Level</th>
             </tr>
 
-            <tr class="table-last" :key=user v-for="user of this.leaderboard">
+            <tr class="table-last"  v-for="(user, index) of this.leaderboard" :key=index>
               <th class="col" style="font-weight: bold;">{{user.place}}</th>
               <th class="col"><img class="flag" :src="user.flag"></th>
               <th class="col"><router-link :to="user.url">{{user.username}}</router-link></th>

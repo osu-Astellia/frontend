@@ -71,7 +71,7 @@
             <div class="scoreBox" v-if="scores.best.length > 0">
                         
             <div class="socreBoxTitle" >Best Scores</div> 
-            <div class="score" :key="score" v-for="score of scores.best">
+            <div class="score" v-for="(score, index) of scores.best" :key="index" >
                 <div class="score1">
                      <div class="rank-full">
                          <div :class="score.rankClasses"></div>
