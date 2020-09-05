@@ -206,7 +206,8 @@
         background-position: center;
         transition: 0.3s;
         border: 3px solid transparent;
-        border-radius: 5px;
+        border-radius: 60px;
+        background-repeat: no-repeat;
     }
 
     .profileavatar:hover {
