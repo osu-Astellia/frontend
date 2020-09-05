@@ -49,9 +49,9 @@
                 <div class="usermenuBG" :style="userbgStyle"></div>
                 <div class="usermenumenu">
 
-                    <router-link :to="data.url" class="usermenulink">Profile</router-link><br>
-                    <router-link to="/profile/settings" class="usermenulink">Settings</router-link><br>
-                    <router-link to="#" @click.prevent="logout" class="usermenulink logoutbtn">Logout</router-link><br>
+                    <router-link @click="isOpenDropdown = false" :to="data.url" class="usermenulink">Profile</router-link><br>
+                    <router-link @click="isOpenDropdown = false" to="/profile/settings" class="usermenulink">Settings</router-link><br>
+                    <router-link @click="isOpenDropdown = false" to="#" @click.prevent="logout" class="usermenulink logoutbtn">Logout</router-link><br>
                 </div>
 
             </div>
@@ -205,6 +205,12 @@
         background-size: cover;
         background-position: center;
         transition: 0.3s;
+        border: 3px solid transparent;
+        border-radius: 5px;
+    }
+
+    .profileavatar:hover {
+        cursor: pointer;
     }
     .usermenuBG {
         width: 130px;
