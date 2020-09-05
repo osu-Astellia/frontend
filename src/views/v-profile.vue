@@ -52,7 +52,8 @@
             </div>
 
             <div class="ranking">
-                <v-ppchart v-if="chartLoaded" style="display: flex; flex: 1; width: 70%;" :is-relax="this.isRelax" :pp-history="this.ppHistory"></v-ppchart>
+                <v-ppchart v-if="chartLoaded" style="display: flex; flex: 1; width: 70%;" :is-relax="this.isRelax" :pp-history="this.ppHistory" :gamemode="mode"></v-ppchart>
+                <div class="nothing" v-else></div>
                 <div class="rankingPlaces">
 
                     <v-stat name="Global Ranking" :description="`#${String(stats.place).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`" color="pink" descsize="40px"></v-stat>
@@ -60,8 +61,8 @@
             </div>
 
             <div class="userpageContent" v-if="parsedUserpage.length > 0">
-                <div class="socreBoxTitle">Userpage</div>
-                <router-link to="/profile/settings#userpage" v-if="isMe">Edit</router-link>
+                <div class="socreBoxTitle">Userpage <router-link to="/profile/settings#userpage" v-if="isMe"><edit-icon /></router-link></div>
+
                 <div class="userpage" v-html="parsedUserpage">
 
                 </div>
@@ -109,10 +110,11 @@
     import VPpchart from "../components/v-ppchart";
     import moment from 'moment';
     import bbCodeParser from 'js-bbcode-parser';
+    import editIcon from 'vue-material-design-icons/Pencil'
 
     export default {
         name: "v-profile",
-        components: {VPpchart, VStat, VRank, VScorebox, VStatsbox, VFlag},
+        components: {VPpchart, VStat, VRank, VScorebox, VStatsbox, VFlag, editIcon},
 
         data(){
             return {
