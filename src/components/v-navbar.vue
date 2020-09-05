@@ -47,11 +47,11 @@
         <transition name="fade" appear>
             <div class="usermenu hidden mr-auto" v-if="isOpenDropdown && data">
                 <div class="usermenuBG" :style="userbgStyle"></div>
-                <div class="usermenumenu">
+                <div class="usermenumenu" @click="isOpenDropdown = !isOpenDropdown">
 
-                    <router-link @click="isOpenDropdown = !isOpenDropdown" :to="data.url" class="usermenulink">Profile</router-link><br>
-                    <router-link @click="isOpenDropdown = !isOpenDropdown" to="/profile/settings" class="usermenulink">Settings</router-link><br>
-                    <router-link @click="isOpenDropdown = !isOpenDropdown" to="#" @click.prevent="logout" class="usermenulink logoutbtn">Logout</router-link><br>
+                    <router-link :to="data.url" class="usermenulink">Profile</router-link><br>
+                    <router-link to="/profile/settings" class="usermenulink">Settings</router-link><br>
+                    <router-link to="#" @click.prevent="logout" class="usermenulink logoutbtn">Logout</router-link><br>
                 </div>
 
             </div>
@@ -87,7 +87,9 @@
         methods: {
 //s
             logout(){
-                this.$store.dispatch('logout')
+                this.isOpenDropdown = false;
+                this.$store.dispatch('logout');
+
             },
             async fetchUserData(){
                 this.userdata = await this.axios.get('/frontend/api/v1/user/@me', {

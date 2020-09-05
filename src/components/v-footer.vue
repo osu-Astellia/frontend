@@ -8,7 +8,7 @@
     					<router-link href="/docs/rules" class="vmenu__link">Rules</router-link>
     				</li>
     				<li class="vmenu__item">
-    					<a href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe class="vmenu__link">Download</a>
+    					<a href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe" class="vmenu__link">Download</a>
     				</li>
     				<li class="vmenu__item">
     					<router-link to="/docs/connect" class="vmenu__link">How To Connect</router-link>
