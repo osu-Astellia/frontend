@@ -11,10 +11,7 @@
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto">
-
-                    <b-nav-item-dropdown v-if="data" right >
-                        <div class="profileavatar" :style="userbgStyle" @click="isOpenDropdown = !isOpenDropdown"></div>
-                    </b-nav-item-dropdown>
+                    <div right class="profileavatar" :style="userbgStyle" @click="isOpenDropdown = !isOpenDropdown"></div>
                     <b-nav-item v-else style="padding: 0 !important;">
 
 
