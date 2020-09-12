@@ -145,7 +145,8 @@ export default {
             fetch('/frontend/api/v1/beatmaps/rank', {
                 method: 'POST',
                 body: JSON.stringify({
-                    beatmap_id: this.beatmap.beatmapSetID,
+                    set_id: this.beatmap.beatmapSetID,
+                    beatmap_id: this.beatmap.beatmapID,
                     is_set: this.bn.isSet,
                     diffs: Object.keys(this.bn.diffsToRank),
                     status: this.bn.state
