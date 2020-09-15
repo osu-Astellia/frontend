@@ -16,14 +16,14 @@
                 default: false
             },
             gamemode: {
-                type: Number,
-                default: 0
+                type: String,
+                default: '0'
             }
         },
         mounted() {
 
 
-            this.ppHistory = this.ppHistory.filter(pp => pp.gamemode === this.gamemode && pp.is_relax === this.isRelax);
+            this.ppHistory = this.ppHistory.filter(pp => pp.gamemode === parseInt(this.gamemode) && pp.is_relax === this.isRelax);
             let labels = this.ppHistory.map(v => require('moment')(Date.parse(v.time)).fromNow());
             //labels = [...new Set(labels)]
 

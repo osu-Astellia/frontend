@@ -45,7 +45,7 @@
           </table>
 
           <div class="paginator" :style="nn && !an ? `flex-direction: column; align-items: flex-end`: ``">
-            <button v-if="an" @click="prevPage" class="button-back enabled"><</button>
+            <button v-if="an" @click="prevPage" class="button-back enabled"> < </button>
             <button v-if="nn" @click="nextPage" class="button-next enabled">></button>
           </div>
 

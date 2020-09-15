@@ -137,9 +137,9 @@ export default {
         changeBM(){
 
             if(!this.isMounted) return;
-            console.log('a')
+
             this.loadMap(Object.values(this.diffs).find(s => s.link === this.beatmap.diff.link).id);
-            //console.log(Object.entries(this.diffs).find(e => this.diff === e[1])[0])
+           
         },
         rankBeatmap(){
             fetch('/frontend/api/v1/beatmaps/rank', {
