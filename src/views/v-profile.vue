@@ -355,6 +355,8 @@
                 }
             }).catch(e => this.$router.push({path: '/404'}));
 
+
+
             if(this.$store.state.token){
                 let myProfile = await fetch('/frontend/api/v1/user/@me', {
                     headers: {
@@ -366,11 +368,11 @@
                 if(parseInt(this.id) === id) this.isMe = true;
             }
 
-
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
             this.avatarURL = `https://astellia.club/frontend/api/v1/avatar/${this.id}`;
             this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`
             this.isMounted = true;
+            this.verified_type = this.stats.verification_type;
             this.setVerifiedType();
             await this.load_scores();
             if(this.$route.query.relax === 'true') await this.setMode(4);
