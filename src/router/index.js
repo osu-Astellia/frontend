@@ -9,7 +9,8 @@ import vBeatmap from '../views/v-beatmap';
 import VchangePassword from '../views/admin/v-changepassword';
 import VRules from '../views/docs/v-rules'
 import VDocsList from '../views/docs/v-list';
-import VSupport from '../views/v-support'
+import VSupport from '../views/v-support';
+import VCheck from '../views/v-check';
 
 Vue.use(VueRouter)
 
@@ -53,7 +54,10 @@ Vue.use(VueRouter)
       path: '/admin/pass',
       component: VchangePassword
     },
-
+    {
+      path: '/payments/check',
+      component: VCheck
+    },
     {
       path: '*',
       name: '404',

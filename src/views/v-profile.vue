@@ -24,7 +24,7 @@
                         <router-link v-if="isMe" to="/profile/settings#avatarFile"></router-link>
                     </div>
                         <div class="usernamecr">
-                            <div class="infoUsername">{{ this.stats.username }}</div>
+                            <div :class="isSupporter ? 'infoUsernamePremium' : 'infoUsername'">{{ this.stats.username }}</div>
                             <div style="display: flex; margin-left: 5px; margin-top: 5px;">
                                 <div class="infoBadge" v-for="(badge, index) of verifyed_types_str" :key=index>
                                     <div v-b-tooltip.hover :title="badge.tooltip">
@@ -146,7 +146,7 @@
                 token: this.$store.state.token,
                 id: this.$route.params.id,
                 backgroundURL: 'https://media.discordapp.net/attachments/704347465809133638/733412691288522812/20200711_222935.jpg',
-                haveBG: true,
+                haveBG: false,
                 bgStyle: '',
                 avatarURL: '',
                 joined: '',
@@ -182,7 +182,8 @@
                     recent: []
                 },
                 verified_type: 0,
-                verifyed_types_str: []
+                verifyed_types_str: [],
+                isSupporter: false
             }
         },
         methods: {
@@ -368,11 +369,15 @@
                 if(parseInt(this.id) === id) this.isMe = true;
             }
 
+
+            this.isSupporter = (this.stats.is_supporter) > (Date.now() / 1000);
+
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
             this.avatarURL = `https://astellia.club/frontend/api/v1/avatar/${this.id}`;
             this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`
             this.isMounted = true;
-            this.verified_type = this.stats.verification_type;
+            this.haveBG = this.isSupporter && this.stats.bg ? true : false
+            this.verified_type = this.tats.verification_type;
             this.setVerifiedType();
             await this.load_scores();
             if(this.$route.query.relax === 'true') await this.setMode(4);

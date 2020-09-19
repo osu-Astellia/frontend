@@ -8,6 +8,7 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                     <b-nav-item><router-link to="/leaderboard">Leaderboard</router-link></b-nav-item>
+                    <b-nav-item v-if="token"><router-link to="/support">Support Project</router-link></b-nav-item>
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto">
@@ -160,7 +161,7 @@
     }
 
     a {
-
+        margin: 0 3px;
         text-decoration: none;
         color: white;
         transition: 0.4s;
