@@ -80,7 +80,7 @@
 
             <div class="supporter__payment">
                 <div class="supporter__payment__title">
-                    Get supporter
+                    Get supporter for 2$
                 </div>
                 
                 <div v-if="supporterStatus.expires_at > Date.now() / 1000" class="supporter__payment__already">
@@ -152,17 +152,12 @@ import moment from 'moment'
         async mounted(){
 
             let token = 'd4e0207c-f3cf-447d-a22e-17f6e9ab7444';
-            this.supporterStatus = {
-                expires_at: 0,
-                expires_at_localizated: moment.duration(0).humanize()
-                
-                
-                } /* await fetch('https://astellia.club/frontend/api/v1/donations/status', {
+            this.supporterStatus = await fetch('/frontend/api/v1/donations/status', {
               
                 headers: {
                     'Authorization': token
                 }
-            }).then(d => d.json());*/
+            }).then(d => d.json());
         }
     }
 </script>
