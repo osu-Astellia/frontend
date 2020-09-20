@@ -8,8 +8,13 @@
                     Account
                 </div>
                 <div class="DataInputs">
-                    <span>Username <input v-model="data.username" type="text" disabled></span>
+                    <span v-if="!userdata[0].supporter">Username <input v-b-tooltip.hover title="To change username please support our project!" v-model="data.username" type="text" readonly></span>
+                    <span v-else>
+                        Username <input v-model="data.username" type="text"><br>
+                        </span>
 
+                        <button @click="updateUsername">Save</button>
+                    
                     <br>
 
                 </div>
@@ -215,6 +220,25 @@
                             alert('ok');
                         }
                 })
+            },
+            async updateUsername(){
+                fetch('/frontend/api/v1/update/username', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': this.token
+                    },
+                    body: JSON.stringify({
+                        password: '',
+                        username: this.data.username
+                    })
+                }).then(async res => {
+                    let { message } = await res.json();
+                    if(!res.ok) return alert(message);
+                    alert('OK, now please reloag');
+                    localStorage.removeItem('token');
+                    window.location.reload();
+                }).catch(e => {alert(e.message)});
             }
         },
 
