@@ -52,10 +52,10 @@
 
                 <div class="DataInputs">
                     <div class="DataInput">
-                       <span>Email<input v-model="data.email"></span><br>
+                       <span>Email<input readonly v-b-tooltip.hover title="Email can be change only by administrators" v-model="data.email"></span><br>
                         <span>New password<input v-model="data.newpassword"></span><br>
                         <span>Current password<input v-model="data.currentpassword"></span><br>
-                        <button>Save</button>
+                        <button @click="savePassword">Save</button>
                     </div>
 
                 </div>
@@ -181,7 +181,7 @@
                 this.data = {
                     url: `/u/${this.userdata.id}`,
                     username: this.userdata[0].username,
-                    email: '',
+                    email: this.userdata[0].email,
                     new_password: '',
                     currentpassword: '',
                     userpage_content: ''
@@ -192,6 +192,25 @@
                 this.nc_instead_dt = this.userdata.nc_instead_dt ? this.userdata.nc_instead_dt : false
                 this.settings = this.userdata[1];
                 this.loaded = true;
+            },
+
+
+            async savePassword(){
+                fetch('/frontend/api/v1/updateUser/password', {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        email: this.data.email,
+                        newpassword: this.data.new_password,
+                        currentpassword: this.data.currentpassword
+                    }).then(async res => {
+                        if(res.status !== 200){
+                            let message = await res.json();
+                            alert(`Error while changing password: ${message.message}`); 
+                        }else{
+                            alert('ok');
+                        }
+                    })
+                })
             }
         },
 
