@@ -182,7 +182,7 @@
                     url: `/u/${this.userdata.id}`,
                     username: this.userdata[0].username,
                     email: this.userdata[0].email,
-                    new_password: '',
+                    newpassword: '',
                     currentpassword: '',
                     userpage_content: ''
                 }
