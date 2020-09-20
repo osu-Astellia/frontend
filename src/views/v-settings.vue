@@ -204,7 +204,7 @@
                     },
                     body: JSON.stringify({
                         email: this.data.email,
-                        newpassword: this.data.new_password,
+                        newpassword: this.data.newpassword,
                         currentpassword: this.data.currentpassword
                     })
                 }).then(async res => {
