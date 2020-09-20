@@ -53,8 +53,8 @@
                 <div class="DataInputs">
                     <div class="DataInput">
                        <span>Email<input readonly v-b-tooltip.hover title="Email can be change only by administrators" v-model="data.email"></span><br>
-                        <span>New password<input v-model="data.newpassword"></span><br>
-                        <span>Current password<input v-model="data.currentpassword"></span><br>
+                        <span>New password<input type="password" v-model="data.newpassword"></span><br>
+                        <span>Current password<input type="password" v-model="data.currentpassword"></span><br>
                         <button @click="savePassword">Save</button>
                     </div>
 
