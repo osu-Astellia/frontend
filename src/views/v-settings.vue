@@ -202,14 +202,14 @@
                         email: this.data.email,
                         newpassword: this.data.new_password,
                         currentpassword: this.data.currentpassword
-                    }).then(async res => {
+                    })
+                }).then(async res => {
                         if(res.status !== 200){
                             let message = await res.json();
                             alert(`Error while changing password: ${message.message}`); 
                         }else{
                             alert('ok');
                         }
-                    })
                 })
             }
         },
