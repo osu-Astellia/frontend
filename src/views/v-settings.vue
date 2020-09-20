@@ -187,7 +187,7 @@
                     url: `/u/${this.userdata.id}`,
                     username: this.userdata[0].username,
                     email: this.userdata[0].email,
-                    new_password: '',
+                    newpassword: '',
                     currentpassword: '',
                     userpage_content: ''
                 }
@@ -209,7 +209,7 @@
                     },
                     body: JSON.stringify({
                         email: this.data.email,
-                        newpassword: this.data.new_password,
+                        newpassword: this.data.newpassword,
                         currentpassword: this.data.currentpassword
                     })
                 }).then(async res => {
