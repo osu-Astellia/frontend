@@ -198,6 +198,9 @@
             async savePassword(){
                 fetch('/frontend/api/v1/updateUser/password', {
                     method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         email: this.data.email,
                         newpassword: this.data.new_password,
