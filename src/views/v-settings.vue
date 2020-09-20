@@ -199,7 +199,8 @@
                 fetch('/frontend/api/v1/updateUser/password', {
                     method: 'PATCH',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': this.token
                     },
                     body: JSON.stringify({
                         email: this.data.email,
