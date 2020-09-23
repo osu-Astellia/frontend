@@ -1,10 +1,117 @@
 <template>
-
     <div class="profile" v-if="isMounted">
-        <div class="profile__container">
-            <img class="" src='https://worldofmeat.ru/wp-content/uploads/2020/01/barred_rock_laying_hen.jpg' alt="">
+        <div class="profileBackground" :style="bgStyle" v-if="haveBG"></div>
+
+        <div class="profileBox">
+            <div class="modSelect">
+                    
+                <div :class="classes.mod0" @click="setMode(0)"></div>
+                <div :class="classes.mod1" @click="setMode(1)"></div>
+                <div :class="classes.mod2" @click="setMode(2)"></div>
+                <div :class="classes.mod3" @click="setMode(3)"></div>
+                <div :class="classes.mod4" @click="setMode(4)"></div>
+            </div>
+            <!-- <v-score-tooltip beatmapID="1324224" scoreID="1" /> -->
+
+            <div class="infoBox">
+                <div class="infoBoxUsernameCountry">
+                    <router-link to="/profile/settings#avatarFile" v-if="isMe">
+                        <div class="profileAvatar" :style="this.avatarStyle">
+                            <router-link v-if="isMe" to="/profile/settings#avatarFile"></router-link>
+                        </div>
+                    </router-link>
+                    <div class="profileAvatar" v-else :style="this.avatarStyle">
+                        <router-link v-if="isMe" to="/profile/settings#avatarFile"></router-link>
+                    </div>
+                        <div class="usernamecr">
+                            <div :class="isSupporter ? 'infoUsernamePremium' : 'infoUsername'">{{ this.stats.username }}</div>
+                            <div style="display: flex; margin-left: 5px; margin-top: 5px;">
+                                <div class="infoBadge" v-for="(badge, index) of verifyed_types_str" :key=index>
+                                    <div v-b-tooltip.hover :title="badge.tooltip">
+                                        <img :src="badge.badgeURL" width="32" height="32">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-left: 5px;" class="infoCountry" v-if="this.stats.country !== 'XX'"> <v-flag size="30" :country="this.stats.country"/> </div>
+                        </div>
+
+                </div>
+
+
+
+
+
+                <div class="statsBoxTable">
+                    <v-statsbox class="mr-auto" :pp="this.stats.pp" :accuracy="this.stats.accuracy.toFixed(2)" :level="this.stats.level" :ranked-score="this.stats.ranked_score" :total-playcount="this.stats.playcount"  :watched-replays="this.stats.replays_watched" :totalScore="this.stats.total_score" :total_hits="this.stats.total_hits" />
+                </div>
+            </div>
+            
+            <div class="rankBox">
+                <v-stat name="PP" :description="`${String(stats.pp).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`" color="red" descsize="32px"></v-stat>
+
+                <div class="ranks">
+                    <v-stat name="A" class="stat" :description="stats.a_ranks" color="lime"></v-stat>
+                    <v-stat name="S" class="stat" :description="stats.a_ranks" color="gold"></v-stat>
+                    <v-stat name="SS" class="stat" :description="stats.a_ranks" color="yellow"></v-stat>
+                    <v-stat name="Joined" class="stat" :description="joined" color="#2B6632"></v-stat>
+                </div>
+
+
+            </div>
+
+            <div class="ranking">
+                <v-ppchart v-if="chartLoaded" style="display: flex; flex: 1; width: 70%;" :is-relax="this.isRelax" :pp-history="this.ppHistory" :gamemode="mode"></v-ppchart>
+                <div class="nothing" v-else></div>
+                <div class="rankingPlaces">
+
+                    <v-stat name="Global Ranking" :description="`#${String(stats.place).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`" color="pink" descsize="40px"></v-stat>
+                </div>
+            </div>
+
+            <div class="userpageContent" v-if="parsedUserpage.length > 0">
+                <div class="socreBoxTitle">Userpage <router-link to="/profile/settings#userpage" v-if="isMe"><edit-icon /></router-link></div>
+
+                <div class="userpage" v-html="parsedUserpage">
+
+                </div>
+
+            </div>
+
+
+            
+            
+            <div class="scoreBox" v-if="scores.best.length > 0">
+                        
+            <div class="socreBoxTitle" >Best Scores</div> 
+            <div class="score" v-for="(score, index) of scores.best" :key="index" >
+                <div class="score1">
+                     <div class="rank-full">
+                         <div :class="score.rankClasses"></div>
+                     </div>
+
+                        <router-link :to="score.link" class="beatmapscorelink" v-b-tooltip.hover :title=score.beatmap_title_full>{{ score.beatmap_title }} {{ score.difficulty }} {{ getScoreMods(score.mods) }} </router-link>
+
+
+                </div>
+                    <div class="score2">
+
+                        <div class="acc">{{ score.accuracy.toFixed(2) }}%</div>
+                        <div class="pp">{{ score.pp }} PP</div>  
+                    </div>
+                </div>
+            </div>
+
+            <button v-if="scores.best.length > 0 && !this.moreLoading" class="score-button" @click="load_scores">
+
+                Load more scores
+            </button>
+
         </div>
     </div>
+
+
     
 </template>
 
@@ -270,7 +377,7 @@
             this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`
             this.isMounted = true;
             this.haveBG = this.isSupporter && this.stats.bg ? true : false
-            this.verified_type = this.stats.verification_type;
+            this.verified_type = this.tats.verification_type;
             this.setVerifiedType();
             await this.load_scores();
             if(this.$route.query.relax === 'true') await this.setMode(4);
@@ -293,11 +400,341 @@
 </script>
 
 <style scoped>
-    .profile__container {
+
+    .profileBackground {
+        filter: brightness(.4);
+
+    }
+
+    .infoBox {
+        position: relative;
+        display: flex;
+        padding: 50px;
+        justify-content: space-between;
+
+
+    }
+
+    .profileAvatar {
+        padding: 70px;
+        border-radius: 30px;
+    }
+
+    .infoUsername {
+        font-size: 30px;
+        margin-left: 5px;
+        border-bottom: 2px solid white;
+    }
+
+    .infoUsernamePremium {
+        font-size: 30px;
+        margin-left: 5px;
+        border-bottom: 2px solid gold;
+    }
+
+    .profileBox {
+        background-color: #1F2036;
+        width: 90%;
+        height: auto;
         margin: 0 auto;
-        width: 80%;
-        height: 100px;
-        background: #21263E;
-        margin-bottom: 400px;
+        padding-bottom: 50px;
+
+
+    }
+
+    .infoBoxUsernameCountry {
+        display: flex;
+        justify-content: space-between;
+    }
+    .scoreinfo {
+	width: 600px;
+	height: 50px;
+	border: 2px;
+	border-radius: 10px;
+	background-color: #2F2C70;
+
+
+}
+
+.rankContainer {
+	display: block;
+	width: 40px;
+	height: 30px;
+}
+
+.rankA {
+	position: relative;
+    left: 50%;
+    top: 50%;
+    height: 40px;
+    transform: scale(1.5);
+}
+.rank-A {
+    background-image: url(/static/ranks/A.svg?3);
+}
+.rank-B {
+    background-image: url(/static/ranks/B.svg?3);
+}
+.rank-C {
+    background-image: url(/static/ranks/C.svg?3);
+}
+.rank-D {
+    background-image: url(/static/ranks/D.svg?3);
+}
+.rank-SHD {
+    background-image: url(/static/ranks/SHD.svg?3);
+}
+.rank-S {
+    background-image: url(/static/ranks/S.svg?3);
+}
+.rank-SSHD {
+    background-image: url(/static/ranks/SSHD.svg?3);
+}
+.rank-SS {
+    background-image: url(/static/ranks/SS.svg?3);
+}
+.score-rank {
+    width: 2em;
+    height: 1em;
+    background-size: 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: scale(1.5);
+}
+
+.scoreleft {
+    flex: 1;
+    align-items: center;
+    display: flex;
+    min-width: 0;
+    border-radius: 10px 0 0 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 0;
+}
+
+@media (min-width: 900px){
+.play-detail__icon--main {
+    display: block;
+    height: 20px;
+    width: 40px;
+}
+}
+
+@media (min-width: 900px){
+.score {
+    display: flex;
+    min-height: auto;
+}
+}
+
+.score {
+    border-radius: 10px;
+    background-color: #2F2C70;
+    line-height: normal;
+    color: #fff;
+    font-size: 12px;
+    min-height: 60px;
+    margin: 0 auto;
+    margin-top: 2px;
+    width: 850px;
+}
+
+.scoreBox {
+    justify-content: space-between;
+    display: block;
+    background-color: #1F2036;
+    min-width: auto;
+    min-height: auto;
+    align-content: center;
+}
+
+.score--rank {
+    width: 128px;
+    height: 64px;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: scale(0.4);
+}
+
+.rank {
+    font-size: 48px;
+}
+.score1 {
+    display: inline-flex;
+    flex: 1;
+}
+
+.score2 {
+    width: 128;
+    font-size: 24px;
+    display: flex;
+    background-color: #2F2C50;
+}
+
+.score2::before {
+    content: "";
+    width: 10px;
+    height: 100%;
+
+    left: 0;
+    top: 0;
+    background-color: #2F2C70;
+    -webkit-clip-path: polygon(0 0,100% 50%,0 100%);
+    clip-path: polygon(0 0,100% 50%,0 100%);
+
+}
+
+.beatmapscorelink {
+    font-size: 18px;
+    text-decoration: none;
+    color: white;
+    height: 25px;
+    margin-top: 20px;
+}
+
+.beatmapscorelink:hover {
+     text-decoration: none;
+     color: white;
+}
+
+.acc {
+    padding: 0 10px;
+    height: 30px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+.pp {
+    height: 30px;
+    margin-top: 20px;
+    font-size: 20px;
+    padding-right: 20px;
+}
+
+
+.score-button {
+    outline: none;
+    background-color: #5639AC;
+    border: 1px solid #5639AC;
+    color: white;
+    margin-top: 15px;
+    width: 156px;
+    height: 40px;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.score-button:hover {
+    background-color: #5639D5;
+    border: 1px solid #5639D5;
+}
+
+.socreBoxTitle {
+    font-size: 32px;
+}
+
+ .mod0 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osustd.png);
+  }
+
+  .activemod {
+    margin: 10px;
+    filter: brightness(1);
+  }
+
+  .inactivemod {
+    margin: 10px;
+    filter: brightness(0.60);
+    transition: 0.3s;
+  }
+
+  .inactivemod:hover {
+    filter: brightness(0.90);
+  }
+  .infoCountry {
+      margin-top: 10px;
+  }
+
+
+  .mod1 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osutaiko.png);
+  }
+
+  .mod2 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osuctb.png);
+  }
+
+  .mod3 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osumaniapng.png);
+  }
+
+  .mod4 {
+    width: 32px !important;
+    height: 32px !important;
+    z-index: 10;
+    background-size: cover;
+    background-image: url(/static/img/osurx.png);
+  }
+
+  .modSelect {
+      padding: 10px;
+      display: flex;
+      justify-content: flex-end;
+      right: 0;
+  }
+
+
+  .rankBox {
+      display: flex;
+      justify-content: space-between;
+      padding: 50px;
+
+  }
+
+    .ranks {
+        display: flex;
+    }
+    .stat {
+        margin: 0 3px;
+    }
+
+    .ranking {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 50px;
+    }
+    .usernamecr {
+        display:flex;
+        flex-direction: column;
+    }
+
+    .userpage {
+        background-color: #1F2051;
+        padding: 0 40px;
+        min-height: 400px;
+        border: 1px solid transparent;
+        border-radius: 10px;
+    }
+
+    .userpageContent {
+        padding: 0 40px;
     }
 </style>
