@@ -45,6 +45,7 @@
                     </div>
                 </div>
             </div>
+            <div class="" id="">
                 <h1 style="color: white;">Purchase supporter</h1>
             </div>
             <div class="slider__container">
