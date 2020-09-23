@@ -8,7 +8,7 @@
     					<router-link to="/docs/rules" class="vmenu__link">Rules</router-link>
     				</li>
     				<li class="vmenu__item">
-    					<a href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe" class="vmenu__link">Download</a>
+    					<a href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe" class="vmenu__link">Switcher</a>
     				</li>
     			
     			</ul>
@@ -35,6 +35,10 @@
     			</ul>
     		</nav>
     	</div>
+    	<div class="footer__item footer__title">
+    		<h1>Astellia</h1>
+    		<p>Unique osu!server</p>
+    	</div>
     </footer>
 </template>
 
@@ -53,16 +57,26 @@
 		padding: 40px 0;
 		background-color: #21263E;
 		display: flex;
-		align-self:flex-end;
-
-
+		padding-left: 25%;
+		width: 100%;
 	}
 	.footer__item {
-		width: 30%;
-		padding: 20px;
+		width: 15%;
+		margin-right: -70px;
 	}
-	.footer__item:not(:last-child) {
-		border-right: 1px solid rgba(255,255,255,0.6);
+
+	.footer__title {
+		margin-top: -10px;
+		margin-left: 325px;
+	}
+
+	.footer__title h1 {
+		font-family: 'geoma_regular_demoregular';
+		color: #FFFFFF;
+	}
+	.footer__title p {
+		font-family: 'geoma_regular_demoregular';
+		color: #FFFFFF;
 	}
 	.vmenu {
 		
@@ -74,6 +88,9 @@
 		font-size: 20px;
 		line-height: 0.7;
 		color: #FFFFFF;
+		font-weight: 700;
+		font-family: 'geoma_regular_demoregular';
+		letter-spacing: 1.3px;
 	}
 	.vmenu__list {
 		margin-top: 0;
@@ -81,6 +98,7 @@
 		padding-left: 0;
 		list-style-type: none;
 		text-align: left;
+		font-family: 'Cabin', sans-serif;
 	}
 	.vmenu__item {
 		

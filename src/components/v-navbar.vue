@@ -261,4 +261,10 @@
     * {
     font-family: 'geoma_regular_demoregular'
     }
+
+    @media only screen and (max-width: 600px) {
+        .usermenu {
+            display: none !important;
+        }
+    }
 </style>

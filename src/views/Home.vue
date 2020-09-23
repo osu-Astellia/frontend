@@ -1,32 +1,36 @@
 <template>
-  <div class="home">
-    <div class="content">
-      <div class="image"></div>
+  <div>
+
+    <div class="home__container">
+        <div class="content">
+          <div class="image"></div>
 
 
-      <div class="serverText">
-        <div class="bigText">
-          Astellia
+          <div class="serverText">
+            <div class="bigText">
+              Astellia
+            </div>
+            <div class="description cent">
+              Astellia - a unique server with its own website, an active development team that adds new features and fixes bugs.
+            </div>
+
+
+            <div class="buttongroup">
+              <button v-b-modal.registerModal>Register</button>
+              <a class="link" href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe">Download Switcher</a>
+            </div>
+
+
+          </div>
         </div>
-        <div class="description cent">
-          Astellia - a unique server with its own website, an active development team that adds new features and fixes bugs.
+
+
+        <div class="bestScores">
+          <div v-if="vanillaScore"  class="bestScore"></div>
+          <div v-if="relaxScore" class="bestScore"></div>
         </div>
-
-
-        <div class="buttongroup">
-          <button v-b-modal.registerModal>Register</button>
-          <a class="link" href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe">Download Switcher</a>
-        </div>
-
-
-      </div>
     </div>
-
-
-    <div class="bestScores">
-      <div v-if="vanillaScore"  class="bestScore"></div>
-      <div v-if="relaxScore" class="bestScore"></div>
-    </div>
+    
   </div>
 </template>
 
@@ -180,7 +184,7 @@ export default {
   }
 
 
-  @media only screen and (min-width: 900px) {
+  @media only screen and (min-width: 600px) {
 
 
 
@@ -201,5 +205,12 @@ export default {
       font-size: 20px;
     }
 
+    .home__container {
+      margin: 0 auto;
+      width: 95%;
+    }
+
   }
+
+
 </style>

@@ -1,6 +1,6 @@
 <template>
     <b-overlay :show="!loaded">
-    <div class="settings">
+    <div class="container">
 
 
             <div class="DataGroup">
@@ -187,7 +187,7 @@
                     url: `/u/${this.userdata.id}`,
                     username: this.userdata[0].username,
                     email: this.userdata[0].email,
-                    newpassword: '',
+                    new_password: '',
                     currentpassword: '',
                     userpage_content: ''
                 }
@@ -209,7 +209,7 @@
                     },
                     body: JSON.stringify({
                         email: this.data.email,
-                        newpassword: this.data.newpassword,
+                        newpassword: this.data.new_password,
                         currentpassword: this.data.currentpassword
                     })
                 }).then(async res => {
@@ -288,7 +288,7 @@ button:hover {
     border: 1px solid #5639D5;
 }
 
-.settings {
+.container {
     background-color: #302E38;
 }
 .view {
@@ -296,7 +296,7 @@ button:hover {
     margin: 0 auto;
 }
 
-.settings {
+.container {
     border-radius: 30px;
     margin: 30px;
 }

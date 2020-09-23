@@ -23,7 +23,7 @@
           <table class="table">
 
             <tr>
-              <th class="col">#</th>
+              <th class="col"></th>
               <th class="col"></th>
               <th class="col">Username</th>
               <th class="col">pp</th>
@@ -33,13 +33,13 @@
             </tr>
 
             <tr class="table-last"  v-for="(user, index) of this.leaderboard" :key=index>
-              <th class="col" style="font-weight: bold;">{{user.place}}</th>
-              <th class="col"><img class="flag" :src="user.flag"></th>
-              <th class="col"><router-link :to="user.url">{{user.username}}</router-link></th>
-              <th class="col">{{user.pp}}</th>
+              <th class="col place lines" style="font-weight: bold;">{{user.place}}</th>
+              <th class="col lines"><img class="flag" :src="user.flag"></th>
+              <th class="col lines"><router-link :to="user.url">{{user.username}}</router-link></th>
+              <th class="col lines">{{user.pp}}</th>
 
-              <th class="col">{{user.accuracy.toFixed(2)}}%</th>
-              <th class="col">{{user.level}}</th>
+              <th class="col lines">{{user.accuracy.toFixed(2)}}%</th>
+              <th class="col level lines">{{user.level}}</th>
             </tr>
 
           </table>
@@ -187,6 +187,12 @@ export default {
     min-width: 500px;
   }
 
+  th.place {
+    background: #302E63 !important;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
 
   @font-face {
     font-family: 'geoma_regular_demoregular';
@@ -204,11 +210,12 @@ export default {
   }
 
 
-  tr.table-last{
+  tr.table-last {
     border-bottom: 2px solid #2F2C54;
     border-top: 2px solid #2F2C54;
     border-radius: 10px;
     height: 10px !important;
+    padding-top: 2px !important;
     background-color: #2F2C7D !important;
   }
 
@@ -279,7 +286,6 @@ export default {
   .options {
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
     background-color: #2F2C54;
     width: 1000px;
     border-top-left-radius: 10px;
@@ -289,8 +295,8 @@ export default {
   }
 
   .mod0 {
-    width: 64px !important;
-    height: 64px !important;
+    width: 48px !important;
+    height: 48px !important;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osustd.png);
@@ -314,24 +320,24 @@ export default {
 
 
   .mod1 {
-    width: 64px !important;
-    height: 64px !important;
+    width: 48px !important;
+    height: 48px !important;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osutaiko.png);
   }
 
   .mod2 {
-    width: 64px !important;
-    height: 64px !important;
+    width: 48px !important;
+    height: 48px !important;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osuctb.png);
   }
 
   .mod3 {
-    width: 64px !important;
-    height: 64px !important;
+    width: 48px !important;
+    height: 48px !important;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osumaniapng.png);
@@ -366,6 +372,11 @@ export default {
 
   }
 
+  th.level {
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+  }
+
   * {
     color: white;
     margin: 0px;
@@ -375,21 +386,24 @@ export default {
   }
   th.col {
 
-    width: 10px;
+    width: 12px;
     height: 20px;
     border-color: transparent;
-    background-color: #2F2C54;
-      text-align: center;
+    text-align: center;
+  }
+
+  th.lines {
+    background-color: #302E55;
   }
 
 
 
   .table {
-    width: 80%;
+    width: 90%;
   }
 
   .table th, .table td {
-    padding: 2px !important;
+    padding: 5px !important;
       text-align: center;
 
   }
@@ -398,8 +412,8 @@ export default {
   .content {
     background-color: #2F2C54;
     width: 1000px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
 
   }
 
@@ -419,6 +433,7 @@ export default {
 
   .flag {
     height: 16px;
+    margin-left: -10px;
   }
 
 
@@ -441,8 +456,8 @@ export default {
     color: gold;
   }
   .mod4 {
-    width: 64px !important;
-    height: 64px !important;
+    width: 48px !important;
+    height: 48px !important;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osurx.png);

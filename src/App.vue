@@ -4,7 +4,7 @@
   <div id="app">
 
     <v-navbar />
-      <transition name="slide-fade">
+      <transition name="slide-fade" mode="out-in">
           <router-view class="view" />
       </transition>
     <v-footer />
@@ -36,11 +36,6 @@ body {
 .view {
   text-align: center;
   color:white;
-
-  border: 0px solid black;
-  border-radius: 20px;
-  width: 100%;
-  height: 100%;
 
 }
 .fade-enter-active, .fade-leave-active {
