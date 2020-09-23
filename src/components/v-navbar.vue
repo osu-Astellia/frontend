@@ -261,13 +261,4 @@
     * {
     font-family: 'geoma_regular_demoregular'
     }
-<<<<<<< HEAD
-
-    @media only screen and (max-width: 600px) {
-        .usermenu {
-            display: none !important;
-        }
-    }
-=======
->>>>>>> 403b9ff... update files
 </style>
