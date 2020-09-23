@@ -45,8 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="supporter__banner" id="purchase__supporter">
-                <h1>Purchase supporter</h1>
+                <h1 style="color: white;">Purchase supporter</h1>
             </div>
             <div class="slider__container">
                 <input type="range" min="1" max="12" value="1" class="slider" id="myRange" v-b-tooltip.focus
