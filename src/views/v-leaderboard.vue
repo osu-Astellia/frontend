@@ -164,7 +164,7 @@ export default {
   metaInfo: {
       title: 'Leaderboard'
   }
-
+//bruh
 }
 </script>
 
