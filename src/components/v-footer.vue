@@ -38,6 +38,8 @@
     	<div class="footer__item footer__title">
     		<h1>Astellia</h1>
     		<p>Unique osu!server</p>
+    		<a href="//freekassa.ru/"><img src="//www.free-kassa.ru/img/fk_btn/16.png" title="Приём оплаты на сайте картами"></a>
+
     	</div>
     </footer>
 </template>
