@@ -18,6 +18,6 @@
 
 <style scoped>
 div {
-    margin: auto auto;
+    text-align: center;
 }
 </style>

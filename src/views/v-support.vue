@@ -1,125 +1,67 @@
 <template>
-    <div>
-
+    <div class="page">
         <div class="supporter__container">
-
-
             <div class="supporter__header">
-                <div class="supporter__status">
-                    You are 
-                    <bold v-if="supporterStatus.expires_at > Date.now() / 1000">
-                        Supporter for {{ supporterStatus.expires_at_localizated }}
-                        
-                        </bold>
-                        
-                        <bold v-else>Not supporter</bold>
-                        <br>
-                        I don't know what i can put on this place
+                <div class="supporter__text">
+                    <h2>Purchase supporter</h2>
+                    <p>vstavit' suda vue script na proverku supportera</p>
                 </div>
-
-                <div class="supporter__image">
+                <a id="to__purchase"><button class="purchase__button">Purchase</button></a>
+                <div class="supporter__img">
                     <img src="/imgs/old.nekoha.png" height="400">
                 </div>
             </div>
-
-
-            <div class="supporter__perks">
-                
-
-                <div class="supporter__perk">
-
-              
-
-                    <div class="supporter__perk__title">
-                        Change your nickname
-                    </div>
-                    <div class="supporter__perk__description">
-                        You can change your nickname on our server
-                    </div>
-                </div>
-
-                <div class="supporter__perk">
-
-              
-
-                    <div class="supporter__perk__title">
-                        Customazible line
-                    </div>
-                    <div class="supporter__perk__description">
-                        Customazible line bellow your badges and country
-                    </div>
-                </div>
-
-
-                <div class="supporter__perk">
-
-              
-
-                    <div class="supporter__perk__title">
-                        Special role on our server!
-                    </div>
-                    <div class="supporter__perk__description">
-                        You can get special role on our server!
-                    </div>
-                </div>
-
-                <div class="supporter__perk">
-
-              
-
-                    <div class="supporter__perk__title">
-                        and much more!
-                    </div>
-                    <div class="supporter__perk__description">
-                        check this page often to learn about new perks
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="supporter__payment">
-                <div class="supporter__payment__title">
-                    Get supporter for 2$
-                </div>
-                
-                <div v-if="supporterStatus.expires_at > Date.now() / 1000" class="supporter__payment__already">
-                    You already supporter
-                </div>
-
-                <div class="supporter__payment__select" v-else>
-
-                    <div class="supporter__payment__paywith">
-                        Pay with
-                    </div>
-                    <img class="supporter__payment__qiwi" v-b-modal.supporter__pay__qiwi src="https://static.qiwi.com/img/qiwi_com/header/qiwi-wallet-logo.svg" width=128 height="128">
-
-                    <b-modal id="supporter__pay__qiwi" hide-footer title="Pay it with Qiwi/Card">
-                            <form ref="form" @submit.stop.prevent="pay('qiwi')">
-                                <b-form-group
-                             
-                                label="Phone Number"
-                                label-for="name-input"
-                                invalid-feedback="Number is required"
-                                >
-                                <b-form-input
-                                    id="number-input"
-                                    v-model="qiwi.number"
-                                   
-                                    required
-                                ></b-form-input>
-                                </b-form-group>
-
-                                <button class="supporter__payment__qiwi__pay" type="submit">Pay with Qiwi/Card</button>
-                            </form>
-                    </b-modal>
-                </div>
-                
-            </div>
-
-
-            
         </div>
+        <div class="supporter__container__info">
+            <div class="supporter__row__container">
+                <div class="row flex">
+                    <div class="col-3">
+                        <div class="square__number">
+                            1
+                        </div>
+                        <h4 class="bonus__title">Change your nickname</h4>
+                        <p class="bonus__body">You can change your nickname on our server</p>
+                    </div>
+                    <div class="col-3">
+                        <div class="square__number">
+                            2
+                        </div>
+                        <h4 class="bonus__title">Customazible line</h4>
+                        <p class="bonus__body">Customazible line bellow your badges and country</p>
+                    </div>
+                    <div class="col-3">
+                        <div class="square__number">
+                            3
+                        </div>
+                        <h4 class="bonus__title">Special role on our server!</h4>
+                        <p class="bonus__body">You can get special role on our server!</p>
+                    </div>
+                    <div class="col-3">
+                        <div class="square__number">
+                            4
+                        </div>
+                        <h4 class="bonus__title">and much more!</h4>
+                        <p class="bonus__body">check this page often to learn about new perks</p>
+                    </div>
+                </div>
+            </div>
+            <div class="supporter__banner" id="purchase__supporter">
+                <h1>Purchase supporter</h1>
+            </div>
+            <div class="slider__container">
+                <input type="range" min="1" max="12" value="1" class="slider" id="myRange" v-b-tooltip.focus
+  title="suda chenu">
+                <div class="text-center">
+                    <input class="input__nickname" type="text" placeholder="Nickname">
+                </div>
+                <div class="text-center">
+                    <button class="btn__pay">Purchase</button>
+                </div>
+            </div>
+        </div>
+    <b-tooltip target="link-button" show="True" title="suda chenu" triggers="focus">
+      suda chenu
+    </b-tooltip>
     </div>
 </template>
 
@@ -147,7 +89,7 @@ import moment from 'moment'
 
                 window.location.href = `https://astellia.club/frontend/api/v1/donations/support?phone=${this.qiwi.number}&token=${this.token}`;
                 
-            }
+            },
         },
         async mounted(){
 
@@ -165,102 +107,143 @@ import moment from 'moment'
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
-.supporter__payment__qiwi__pay {
-    margin: 0 auto;
-    background-color: purple;
-    border: 0px solid purple;
-    transition: 0.4s;
-    padding: 10px 20px;
-    color: white;
+.btn__pay {
+    margin-top: 20px;
+    padding: 5px 20px;
+    border: 0;
     border-radius: 10px;
-    width: 100%;
-    
-
+    color: #fff;
+    background: #302E63;
 }
 
-.supporter__payment__qiwi__pay:hover {
-    background-color: black;
-    border: 0px solid white;
-    color: white;
-
-}
-
-
-.supporter__container {
-    margin: 0 auto;
-    background-color: #222533;
-    width: 90%;
-    height: auto;
-    min-height: 30%;
+.input__nickname {
     border-radius: 5px;
+    border: 0;
+    font-family: 'geoma_regular_demoregular';
+    background: #302E63;
+    color: #fff !important;
+    margin-top: 20px;
+    padding: 10px 10px;
 }
 
-
-.view {
-    margin: 0 0 !important;
-    
+.slider__container {
+    margin: 0 auto;
+    width: 30%;
+    margin-top: 100px;
 }
 
-
-.supporter__header {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 40px;
+.supporter__banner {
+    margin: 0 auto;
+    width: 100%;
+    background: url("https://images-ext-2.discordapp.net/external/-T2N5DuiwfhfzyOh-nWjGjSufHtUGarrOhrgunpqqlI/https/i.imgur.com/6IwBYsp.png?width=1442&height=94");
+    height: 100px;
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 100px;
 }
 
-.supporter__status {
-    margin-top: 5rem;
-    font-family: 'Poppins', sans-serif;
+.supporter__banner h1 {
+    color: black;
 }
 
-.supporter__perks {
-    margin-top: 2rem;
-    display: flex;
-    padding: 0 50px;
-    align-items: flex-start;
-    flex-wrap: nowrap;
+.slider {
+    width: 100%;
 }
 
-.supporter__perk {
-    display: block;
-    border: 2px solid white;
-    height: auto;
-    width: auto;
-    flex: 1;
-    min-height: 150px;
-
-
-}
-
-
-.supporter__perk__title {
-    font-size: 24px;
-    color: gold;
-}
-
-.supporter__payment__qiwi {
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    background: #4CAF50;
     cursor: pointer;
 }
 
-.supporter__payment__title {
-    font-size: 32px;
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
 }
 
-.supporter__payment__already {
-    font-size: 28px;
+.bonus__title {
+    margin-top: 10px;
+    font-weight: 500;
 }
 
-.supporter__payment__paywith {
-    font-size: 28px;
-}
-
-.supporter__payment__qiwi {
+.square__number {
+    width: 40px;
+    height: 40px;
+    background: #302E63;
+    border-radius: 5px;
     text-align: center;
-    margin: 0 auto;
+    font-size: 24px;
 }
 
-.supporter__payment__qiwi {
-    text-align: center;
+.supporter__row__container {
     margin: 0 auto;
+    width: 90%; 
+    padding-top: 40px;
 }
+
+.flex {
+    display: flex;
+}
+
+.supporter__header {
+    margin-left: 80px;
+    padding-top: 70px;
+    font-family: 'geoma_regular_demoregular';
+}
+
+.supporter__container__info h1, h2, h3, h4, h5, p, li, ul {
+    font-family: 'geoma_regular_demoregular';
+} 
+
+.supporter__container__info {
+    background-color: #21263E;
+    width: 80%;
+    height: 800px;
+    margin: 0 auto;
+    margin-top: 5px;
+    font-family: 'geoma_regular_demoregular';
+}
+
+.purchase__button {
+    border: 0;
+    border-radius: 10px;
+    background-color: #302e63;
+    color: #fff;
+    padding: 5px 15px;
+}
+
+.purchase__button:hover {
+    border: 0;
+    border-radius: 10px;
+    background-color: #292de3;
+    color: #fff;
+    padding: 5px 15px;
+}
+
+.supporter__header h2 {
+    color: #fff;
+}
+
+.supporter__container {
+    margin: 0 auto;
+    background-color: #21263E;
+    width: 80%;
+    height: 300px;
+    margin-top: 100px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.supporter__img {
+    margin-left: 80%;
+    margin-top: -300px;
+}
+
 </style>
