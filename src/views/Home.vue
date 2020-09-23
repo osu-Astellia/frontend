@@ -78,13 +78,10 @@ export default {
   @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
 
-<<<<<<< HEAD
-=======
   .home {
     text-align: center;
   }
 
->>>>>>> 403b9ff... update files
   .scoreinfo {
       transform: translate(-50%, -50%);
   }
@@ -97,11 +94,6 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 403b9ff... update files
   }
   .bestScores {
     width: 90%;

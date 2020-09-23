@@ -4,11 +4,7 @@
   <div id="app">
 
     <v-navbar />
-<<<<<<< HEAD
-      <transition name="slide-fade" mode="out-in">
-=======
       <transition name="slide-fade">
->>>>>>> 403b9ff... update files
           <router-view class="view" />
       </transition>
     <v-footer />
@@ -23,13 +19,6 @@ html,body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-<<<<<<< HEAD
-  text-align: center;
-=======
-  #text-align: center;
->>>>>>> 403b9ff... update files
-  color: #2c3e50;
-	min-height:100%;
 	display:grid;
 }
 body {
@@ -42,11 +31,6 @@ body {
 
 }
 .view {
-<<<<<<< HEAD
-  text-align: center;
-  color:white;
-
-=======
   color:white;
 
   border: 0px solid black;
@@ -54,7 +38,6 @@ body {
   width: 100%;
   height: 100%;
 
->>>>>>> 403b9ff... update files
 }
 .fade-enter-active, .fade-leave-active {
   transition: opacity 500ms;
