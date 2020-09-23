@@ -377,7 +377,7 @@
             this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`
             this.isMounted = true;
             this.haveBG = this.isSupporter && this.stats.bg ? true : false
-            this.verified_type = this.tats.verification_type;
+            this.verified_type = this.stats.verification_type;
             this.setVerifiedType();
             await this.load_scores();
             if(this.$route.query.relax === 'true') await this.setMode(4);
