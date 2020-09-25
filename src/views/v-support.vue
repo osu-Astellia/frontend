@@ -4,7 +4,10 @@
             <div class="supporter__header">
                 <div class="supporter__text">
                     <h2>Purchase supporter</h2>
-                    <p>vstavit' suda vue script na proverku supportera</p>
+                    <p v-if="supporterStatus.expires_at > Date.now() / 1000">
+
+                        You are supporter for {{ supporterStatus.expires_at_localizated }}
+                    </p>
                 </div>
                 <a id="to__purchase"><button class="purchase__button">Purchase</button></a>
                 <div class="supporter__img">
@@ -49,19 +52,19 @@
                 <h1 style="color: white; text-align: center;">Purchase supporter</h1>
             </div>
             <div class="slider__container">
-                <input type="range" min="1" max="12" value="1" class="slider" id="myRange" v-b-tooltip.focus
-  title="suda chenu">
+                <input type="range" v-model="months" min="1" max="12" value="1" class="slider" id="myRange" v-b-tooltip
+  :title="`${months} monts for ${2 * months}$`">
                 <div class="text-center">
-                    <input class="input__nickname" type="text" placeholder="Nickname">
+                    <input class="input__nickname" type="text" v-model="gift.username" placeholder="Nickname(leave blank if not gift)">
                 </div>
                 <div class="text-center">
-                    <button class="btn__pay">Purchase</button>
+
+                    <button class="btn__pay" @click="pay" v-if="localStorage.getItem('token')">Purchase</button>
+
+                    <button class="btn__pay" @click="token" v-else v-b-tooltip.focus title="You must be logged in to do it!" disabled>Purchase</button>
                 </div>
             </div>
         </div>
-    <b-tooltip target="link-button" show="True" title="suda chenu" triggers="focus">
-      suda chenu
-    </b-tooltip>
     </div>
 </template>
 
@@ -81,25 +84,40 @@ import moment from 'moment'
                 },
                 qiwi: {
                     number: ''
-                }
+                },
+                gift: {
+                    username: ''
+                },
+                months: 1
             }
         },
         methods: {
-            pay(system){
+            async pay(system){
 
-                window.location.href = `https://astellia.club/frontend/api/v1/donations/support?phone=${this.qiwi.number}&token=${this.token}`;
+                if(this.gift.username.trim() != ''){
+                    let userResponse = await fetch(`https://astellia.club/frontend/api/v1/users/whatid?u=${this.gift.username}`).then(res => res.json());
+
+                    if(!!parseInt(userResponse.id)) return alert('Invalid username!')
+                }
+
+
+                window.location.href = `https://astellia.club/frontend/api/v1/donations/support?m=${this.months}&phone=null&token=${this.token}&m=${this.months}${this.gift.username == '' ? '' : `&username=${this.gift.username}`}`;
                 
             },
         },
         async mounted(){
+            if(!localStorage.getItem('token')) return this.$router.push({
+                path: '/'
+            });
 
-            let token = 'd4e0207c-f3cf-447d-a22e-17f6e9ab7444';
+            
             this.supporterStatus = await fetch('/frontend/api/v1/donations/status', {
               
                 headers: {
-                    'Authorization': token
+                    'Authorization': localStorage.getItem('token')
                 }
             }).then(d => d.json());
+            this.supporterStatus.expires_at_localizated = moment.duration(this.supporterStatus / 1000).humanize();
         }
     }
 </script>
