@@ -59,7 +59,7 @@
                 </div>
                 <div class="text-center">
 
-                    <button class="btn__pay" @click="pay" v-if="localStorage.getItem('token')">Purchase</button>
+                    <button class="btn__pay" @click="pay" v-if="token">Purchase</button>
 
                     <button class="btn__pay" @click="token" v-else v-b-tooltip.focus title="You must be logged in to do it!" disabled>Purchase</button>
                 </div>
