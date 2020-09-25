@@ -117,7 +117,7 @@ import moment from 'moment'
                     'Authorization': localStorage.getItem('token')
                 }
             }).then(d => d.json());
-            this.supporterStatus.expires_at_localizated = moment.duration(this.supporterStatus / 1000).humanize();
+            this.supporterStatus.expires_at_localizated = moment.duration(this.supporterStatus.expires_at / 1000).humanize();
         }
     }
 </script>
