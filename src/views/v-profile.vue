@@ -73,7 +73,7 @@
             <div class="userpageContent" v-if="parsedUserpage.length > 0">
                 <div class="socreBoxTitle">Userpage <router-link to="/profile/settings#userpage" v-if="isMe"><edit-icon /></router-link></div>
 
-                <div class="userpage" v-html="parsedUserpage">
+                <div class="userpage">
 
                 </div>
 
