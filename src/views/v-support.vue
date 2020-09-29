@@ -168,9 +168,13 @@ export default {
     "gift.username": async function (val) {
 //      let user = await fetch(`https://astellia.club/frontend/api/v1/users/whatid?u=${val}`, {mode: "no-cors"} ).then(res => res.json());
       let user = await fetch(`/frontend/api/v1/users/whatid?u=${val}`).then(res => res.json());
-      gift.user = user.result;
+      this,gift.user = user.result;
       if (!user.result) this.enabled = false;
       else this.enabled = true;
+      
+    },
+
+    "enabled": async function (val){
       let f = await fetch(
           `/frontend/api/v1/donations/generate?m=${
             this.months
@@ -178,8 +182,8 @@ export default {
         ).then(res => res.json());
 
         this.generationResult = f;
-      
-    },
+
+    }
   },
 };
 </script>
