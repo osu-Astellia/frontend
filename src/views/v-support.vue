@@ -78,6 +78,7 @@
             <input type="hidden" name="o" :value="generationResult.lifetime">
             <input type="hidden" name="s" :value="generationResult.sign"> 
             <input type="hidden" name="us_userid" :value="gift.user">
+            <input type="hidden" name="us_guid" :value="generationResult.guid">
             <button class="btn__pay" type="submit" v-if="enabled && token">Purchase</button>
 
             <button
