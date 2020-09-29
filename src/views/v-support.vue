@@ -77,7 +77,7 @@
           >
 
             <input type="hidden" name="m" :value="generationResult.merchantId">
-            <input type="hidden" name="oa" :value="`${190 & months}`">
+            <input type="hidden" name="oa" :value="190 * months">
             <input type="hidden" name="o" :value="generationResult.id">
             <input type="hidden" name="s" :value="generationResult.sign"> 
             <input type="hidden" name="us_userid" :value="gift.user">
