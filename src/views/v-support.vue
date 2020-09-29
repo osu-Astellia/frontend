@@ -168,7 +168,7 @@ export default {
     "gift.username": async function (val) {
 //      let user = await fetch(`https://astellia.club/frontend/api/v1/users/whatid?u=${val}`, {mode: "no-cors"} ).then(res => res.json());
       let user = await fetch(`/frontend/api/v1/users/whatid?u=${val}`).then(res => res.json());
-      this,gift.user = user.result;
+      this.gift.user = user.result;
       if (!user.result) this.enabled = false;
       else this.enabled = true;
       
