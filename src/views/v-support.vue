@@ -170,18 +170,24 @@ export default {
       let user = await fetch(`/frontend/api/v1/users/whatid?u=${val}`).then(res => res.json());
       this.gift.user = user.result;
       if (!user.result) this.enabled = false;
-      else this.enabled = true;
-      
-    },
-
-    "enabled": async function (val){
-      let f = await fetch(
+      else {
+        
+        this.enabled = true
+        
+        let f = await fetch(
           `/frontend/api/v1/donations/generate?m=${
             this.months
           }&username=${val == "" ? "auto" : val}&token=${this.token}`
         ).then(res => res.json());
 
         this.generationResult = f;
+        
+        };
+      
+    },
+
+    "enabled": async function (val){
+      
 
     }
   },
