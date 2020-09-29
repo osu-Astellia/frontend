@@ -71,14 +71,11 @@
           />
         </div>
         <div class="text-center">
-          <form
-            action="https://www.free-kassa.ru/merchant/cash.php"
-            method="GET"
-          >
+          <form action="https://www.free-kassa.ru/merchant/cash.php" method="GET">
 
             <input type="hidden" name="m" :value="generationResult.merchantId">
             <input type="hidden" name="oa" :value="supporterStatus.donorCost * months">
-            <input type="hidden" name="o" :value="generationResult.id">
+            <input type="hidden" name="o" :value="generationResult.lifetime">
             <input type="hidden" name="s" :value="generationResult.sign"> 
             <input type="hidden" name="us_userid" :value="gift.user">
             <button class="btn__pay" type="submit" v-if="enabled && token">Purchase</button>
