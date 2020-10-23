@@ -16,8 +16,8 @@
                 default: false
             },
             gamemode: {
-                type: String,
-                default: '0'
+                type: Number,
+                default: 0
             }
         },
         mounted() {

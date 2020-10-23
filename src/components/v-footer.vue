@@ -72,14 +72,6 @@
 		margin-left: 325px;
 	}
 
-	.footer__title h1 {
-		font-family: 'geoma_regular_demoregular';
-		color: #FFFFFF;
-	}
-	.footer__title p {
-		font-family: 'geoma_regular_demoregular';
-		color: #FFFFFF;
-	}
 	.vmenu {
 		
 	}
@@ -91,7 +83,7 @@
 		line-height: 0.7;
 		color: #FFFFFF;
 		font-weight: 700;
-		font-family: 'geoma_regular_demoregular';
+	
 		letter-spacing: 1.3px;
 	}
 	.vmenu__list {
@@ -111,5 +103,9 @@
 	}
 	.vmenu__link:hover {
 		color: #FFFFFF;
+	}
+
+	.footer__item.footer__title {
+		color: white;
 	}
 </style>

@@ -33,10 +33,12 @@
             </tr>
 
             <tr class="table-last"  v-for="(user, index) of this.leaderboard" :key=index>
-              <th class="col place lines" style="font-weight: bold;">{{user.place}}</th>
-              <th class="col lines"><img class="flag" :src="user.flag"></th>
-              <th class="col lines"><router-link :to="user.url">{{user.username}}</router-link></th>
-              <th class="col lines">{{user.pp}}</th>
+              
+              
+              <th  :class="`col place lines index__${user.place}`" style="font-weight: bold;">{{user.place}}</th>
+              <th  class="col lines"><img class="flag" :src="user.flag"></th>
+              <th  class="col lines"><router-link :to="user.url">{{user.username}}</router-link></th>
+              <th  class="col lines">{{user.pp}}</th>
 
               <th class="col lines">{{user.accuracy.toFixed(2)}}%</th>
               <th class="col level lines">{{user.level}}</th>
@@ -64,7 +66,8 @@ export default {
           mode: 0,
           p: 1,
           l: 51,
-          relax: false
+          relax: false,
+          startat: 1
         },
         classes: {
           'mod0': 'mod0 activemod',
@@ -135,22 +138,21 @@ export default {
 
     caluclatePlaces(res){
         res = res.filter(u => u.id !== 999);
-        let p = this.filter.p === 1 ? 0 : this.filter.p * this.filter.l -1;
+        let p = this.filter.p === 1 ? 0 : this.filter.p * this.filter.l;
 
+        res = res.map((res, index) => {
+         
+  
+            res.place = (this.filter.p == 1 ? 0 : this.filter.l * (this.filter.p > 2 ? this.filter.p : 1)) + (index + 1) ;
+            res.flag = `https://osu.gatari.pw/static/images/flags/${res.country}.png`;
+            res.url = `/u/${res.id}${this.filter.mode < 4 && !this.filter.relax ? `?mode=${this.filter.mode}` : '?relax=true'}`;
+            return res;
 
-        for(const i in res){
-          
-          p++;
-          if(p >= this.filter.l) break;
-          
-            res[i]['place'] = p;
-            res[i]['flag'] = `https://osu.gatari.pw/static/images/flags/${res[i].country}.png`;
-            res[i]['url'] = `/u/${res[i].id}${this.filter.mode < 4 && !this.filter.relax ? `?mode=${this.filter.mode}` : '?relax=true'}`;
-          
+        })
 
-        }
+        res[res.length - 1].place = 0;
 
-        return res;
+        return res.filter(u => u.place !== 0);
     }
   },
   async mounted(){
@@ -475,4 +477,15 @@ export default {
     color: #8CE3FF;
   }
 
+  .index__1 {
+    color: gold;
+  }
+
+  .index__2 {
+    color: silver;
+  }
+
+  .index__3 {
+    color: brown;
+  }
 </style>

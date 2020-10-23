@@ -258,7 +258,5 @@
 
     }
 
-    * {
-    font-family: 'geoma_regular_demoregular'
-    }
+
 </style>
