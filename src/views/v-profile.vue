@@ -140,7 +140,7 @@
 
 
                 <div class="profile__scores__score" v-for="(score, index) of scores.best" :key=index>
-                    <div :class="`rank-${score.rank}`" style="width: 64px; height: 64px; background-repeat: no-repeat; background-size: contain; background-position: center;"></div>
+                    <div :class="`rank-${score.rank}`" style="width: 64px; height: 32px; background-repeat: no-repeat; background-size: contain; background-position: center;"></div>
 
                     <div class="profile__scores__score__main">
                         
@@ -210,7 +210,7 @@
                     'mod3': 'mod3 inactivemod',
                     'mod4': 'mod4 inactivemod'
                 },
-                best_limit: 5,
+                best_limit: 0,
                 isMounted: false,
                 moreLoading: true,
                 token: this.$store.state.token,
@@ -263,11 +263,12 @@
                 this.scores.best = [];
                 this.moreLoading = true;
                 this.best_limit += 5;
-                let scoresbest_tmp =  await this.axios.get(`https://astellia.club/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data).catch(e => alert(e.message));
+                let scoresbest_tmp =  await fetch(`https://astellia.club/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}&limit=${this.best_limit}`).then(r => r.json()).catch(e => alert(e.message));
                 scoresbest_tmp = scoresbest_tmp.filter(score => score.pp > 0);
                 
                 for(let i = 0; i < this.best_limit; i++){
                     let item = scoresbest_tmp[i];
+                    console.log(item);
                 if(!item) return;
                 item.link = `/b/${item.beatmap_id}`;
                 item.beatmap_title_full = `${item.beatmap_title} was set ${moment(new Date(Date.parse(item.timestamp))).fromNow()}`
@@ -418,7 +419,7 @@
 
         mounted: async function () {
             if(!parseInt(this.id)) return await this.getID();
-            this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => {
+            this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`, this.token ? {headers: {'authorization': this.token}} : {}).then(r => {
              
                 if(r.data.constructor.name !== 'Array') {
                     this.$router.push({path: '/404'});
@@ -948,5 +949,13 @@
 
 .profile__info__badges {
     display: flex;
+}
+
+.profile__scores__score__main {
+    width: 60%;
+}
+
+.profile__info__badges {
+    margin-bottom: 3px;
 }
 </style>

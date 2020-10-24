@@ -124,6 +124,7 @@ export default {
     },
 
     setMode(mode){
+      this.filter.p = 1;
       this.filter.relax = mode === 4;
       this.filter.mode = this.filter.relax ? 0 : mode;
         for(const entry of Object.entries(this.classes)){

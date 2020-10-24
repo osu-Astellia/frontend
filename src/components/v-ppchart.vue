@@ -16,7 +16,7 @@
                 default: false
             },
             gamemode: {
-                type: Number,
+                type: String,
                 default: 0
             }
         },
