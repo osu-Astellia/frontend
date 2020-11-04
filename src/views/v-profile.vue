@@ -84,7 +84,14 @@
                     </div>
 
                     <div class="profile__info__body__ranks">
-                                         <div class="ssHD">
+                        <div class="followers">
+
+                            <v-stat :style="{margin: '0 10px'}" name="Joined"  color="green" :description="joined" />
+
+                            <v-stat name="Followers" color="purple" :description="stats.followers"/>
+
+                        </div>
+                    <!--- <div class="ssHD">
                         <div class="rank score-rank putin rank-SSHD"></div>
                         <p>0</p>
                     </div>
@@ -104,7 +111,7 @@
                         <div class="rank score-rank rank-A"></div>
                         <p>0</p>
                     </div>  
-                    </div>
+                    </div>--->
                 </div>
 
    
@@ -180,6 +187,7 @@
 
     </div>
     </div>
+</div>
 </div>
     
 </template>
@@ -957,5 +965,9 @@
 
 .profile__info__badges {
     margin-bottom: 3px;
+}
+
+.followers {
+    display: flex;
 }
 </style>
