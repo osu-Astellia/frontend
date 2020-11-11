@@ -1,23 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {lazy} from 'react';
+import 'rsuite/dist/styles/rsuite-default.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+
+const Homepage = lazy(() => import('./views/Homepage'));
+const Navbar = lazy(() => import('./components/Navbar'));
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Navbar />
+          <Homepage/>
+        </Router>
     </div>
   );
 }
