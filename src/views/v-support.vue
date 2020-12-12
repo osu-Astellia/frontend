@@ -68,6 +68,7 @@
             type="text"
             v-model="gift.username"
             placeholder="Nickname(leave blank if not gift)"
+            width="200px"
           />
         </div>
         <div class="text-center">
@@ -79,13 +80,13 @@
             <input type="hidden" name="s" :value="generationResult.sign"> 
             <input type="hidden" name="us_userid" :value="gift.user">
             <input type="hidden" name="us_guid" :value="generationResult.guid">
-            <button class="btn__pay" type="submit" v-if="enabled && token">Purchase</button>
+            <button class="btn__pay" type="submit" v-if="allowed && token">Purchase</button>
 
             <button
               class="btn__pay"
               v-else
               v-b-tooltip.hover
-              title="You must be logged in to do it!"
+              :title="warning"
               disabled
             >
               Purchase
@@ -106,7 +107,8 @@ export default {
   data() {
     return {
       token: this.$store.state.token,
-      enabled: false,
+      allowed: false,
+      warning: '',
       supporterStatus: {
         expires_at: 0,
         donorCost: 190,
@@ -133,6 +135,7 @@ export default {
         gift_by: 0,
         sign: ''
       },
+      giftedUser: null
     };
   },
   methods: {
@@ -157,7 +160,7 @@ export default {
       },
     }).then((d) => d.json());
     this.supporterStatus.expires_at_localizated = moment
-      .duration(this.supporterStatus.expires_at)
+      .duration(this.supporterStatus.expires_at / 1000)
       .humanize();
 
     this.enabled = true;
@@ -177,17 +180,21 @@ export default {
           `/frontend/api/v1/donations/generate?m=${
             this.months
           }&username=${val == "" ? "auto" : val}&token=${this.token}`
-        ).then(res => res.json());
+        ).then(async res => {
+          let r = await res.json();
+          if(!res.ok) {
+            this.allowed = false;
+            this.warning = r.message;
+            return;
+          }
+
+          return r;
+        } );
 
         this.generationResult = f;
 
         };
       
-    },
-
-    "enabled": async function (val){
-      
-
     }
   },
 };
@@ -213,6 +220,8 @@ export default {
   color: #fff !important;
   margin-top: 20px;
   padding: 10px 10px;
+  width: 300px;
+  text-align: center;
 }
 
 .slider__container {

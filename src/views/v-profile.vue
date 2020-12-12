@@ -16,7 +16,7 @@
                     <div class="profile__info__avatar__username">
 
 
-                        <div class="profile__image" :style="`background-image: url(https://astellia.club/frontend/api/v1/avatar/${stats.id}); width: 150px; height: 150px; background-size: cover; background-position: center;`" > </div>
+                        <div class="profile__image" :style="`background-image: url(/frontend/api/v1/avatar/${stats.id}); width: 150px; height: 150px; background-size: cover; background-position: center;`" > </div>
                         <div class="baseInfo">
                         <h5 class="nickname">{{stats.username}}</h5>
                         <div class="duiashduash" style="display: block;">
@@ -271,7 +271,7 @@
                 this.scores.best = [];
                 this.moreLoading = true;
                 this.best_limit += 5;
-                let scoresbest_tmp =  await fetch(`https://astellia.club/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}&limit=${this.best_limit}`).then(r => r.json()).catch(e => alert(e.message));
+                let scoresbest_tmp =  await fetch(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}&limit=${this.best_limit}`).then(r => r.json()).catch(e => alert(e.message));
                 scoresbest_tmp = scoresbest_tmp.filter(score => score.pp > 0);
                 
                 for(let i = 0; i < this.best_limit; i++){
@@ -367,12 +367,12 @@
                 await this.load_scores();
                 this.best_limit = 5;
                 await this.setPPHistory();
-                this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
             },
 
             async setPPHistory(){
                 this.chartLoaded = false;
-                this.ppHistory = await fetch(`https://astellia.club/frontend/api/v1/user/pp_graph?id=${this.id}&r=${this.isRelax}`).then(res => res.json());
+                this.ppHistory = await fetch(`/frontend/api/v1/user/pp_graph?id=${this.id}&r=${this.isRelax}`).then(res => res.json());
                 this.ppHistory = this.ppHistory.result.filter(score => this.isRelax ? score.is_relax : !score.is_relax);
                 this.chartLoaded = true;
             },
@@ -393,7 +393,7 @@
                 this.scores.best = [];
                 await this.load_scores();
                 this.best_limit = 5;
-                this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
                 await this.setPPHistory();
             },
             getScoreMods(m, noplus) {
@@ -427,7 +427,7 @@
 
         mounted: async function () {
             if(!parseInt(this.id)) return await this.getID();
-            this.stats = await this.axios.get(`https://astellia.club/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`, this.token ? {headers: {'authorization': this.token}} : {}).then(r => {
+            this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`, this.token ? {headers: {'authorization': this.token}} : {}).then(r => {
              
                 if(r.data.constructor.name !== 'Array') {
                     this.$router.push({path: '/404'});
@@ -453,7 +453,7 @@
             this.isSupporter = (this.stats.is_supporter) > (Date.now() / 1000);
 
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
-            this.avatarURL = `https://astellia.club/frontend/api/v1/avatar/${this.id}`;
+            this.avatarURL = `/frontend/api/v1/avatar/${this.id}`;
             this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`
             this.isMounted = true;
             this.haveBG = this.isSupporter && this.stats.bg ? true : false

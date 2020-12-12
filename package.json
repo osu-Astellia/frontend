@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
+  "proxy": "https://astellia.club",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "axios": "^0.19.2",

@@ -12,7 +12,7 @@
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto">
-                    <div v-if="data" right class="profileavatar" :style="userbgStyle" @click="isOpenDropdown = !isOpenDropdown"></div>
+                    <div v-if="getToken() && this.$store.state.user" right class="profileavatar" :style="userbgStyle" @click="isOpenDropdown = !isOpenDropdown"></div>
                     <b-nav-item v-else style="padding: 0 !important;">
 
 
@@ -46,13 +46,13 @@
             </b-collapse>
         </b-navbar>
         <transition name="fade" appear>
-            <div class="usermenu hidden mr-auto" v-if="isOpenDropdown && data">
+            <div class="usermenu hidden mr-auto" v-if="isOpenDropdown && getToken() && this.$store.state.user">
                 <div class="usermenuBG" :style="userbgStyle"></div>
                 <div class="usermenumenu" @click="isOpenDropdown = !isOpenDropdown">
 
                     <router-link :to="data.url" class="usermenulink">Profile</router-link><br>
                     <router-link to="/profile/settings" class="usermenulink">Settings</router-link><br>
-                    <router-link to="#" @click.prevent="logout" class="usermenulink logoutbtn">Logout</router-link><br>
+                    <a :style="{color: 'white'}" @click.prevent="logout" class="usermenulink logoutbtn">Logout</a><br>
                 </div>
 
             </div>
@@ -82,14 +82,22 @@
                 settings: null,
                 data: null,
                 isOpenDropdown: false,
-                userbgStyle: ''
+                userbgStyle: '',
             }
         },
         methods: {
+            getToken(){
+                return localStorage.getItem('token');
+            },
 //s
             logout(){
                 this.isOpenDropdown = false;
-                this.$store.dispatch('logout');
+                
+                this.$store.dispatch('logout', {});
+                this.data = null;
+                this.settings = null;
+                this.$forceUpdate();
+                
 
             },
             async fetchUserData(){
@@ -106,7 +114,7 @@
                     username: this.user[0].username,
                     id: this.user[0].id
                 };
-                this.userbgStyle = `background-image: url(https://astellia.club/frontend/api/v1/avatar/${this.data.id})`;
+                this.userbgStyle = `background-image: url(/frontend/api/v1/avatar/${this.data.id}); background-size: cover;`;
 
 
             },
@@ -121,13 +129,18 @@
         },
 
         async mounted() {
+            
             await this.fetchUserData();
         }
     }
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+* {
+    font-family: 'Comfortaa', cursive;
 
+}
     .fade-enter-active,
     .fade-leave-active {
         transition: all .5s ease-out;
@@ -140,6 +153,12 @@
 
 .dropdown-menu {
     transition: 0.4s;
+}
+
+.logoutbtn:hover {
+    cursor: pointer;
+    color: #869aff;
+    text-decoration: none;
 }
     a.black-link {
         color: black !important;

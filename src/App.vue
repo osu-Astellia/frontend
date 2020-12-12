@@ -19,7 +19,7 @@ html,body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-	display:grid;
+
 }
 body {
   background-color: #292D3E !important;
@@ -36,7 +36,8 @@ body {
   border: 0px solid black;
   border-radius: 20px;
   width: 100%;
-  height: 100%;
+  min-height: calc(100vh - 285px);
+
 
 }
 .fade-enter-active, .fade-leave-active {
@@ -76,6 +77,7 @@ body {
     components: {VFooter, VNavbar},
     mounted() {
       this.$store.dispatch('getIP');
+      this.$store.dispatch('loadUser');
 
     },
     metaInfo() {

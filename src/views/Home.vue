@@ -15,7 +15,7 @@
 
         <div class="buttongroup">
           <button v-b-modal.registerModal>Register</button>
-          <a class="link" href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe">Download Switcher</a>
+          <a class="link download" href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe">Download Switcher</a>
         </div>
 
 
@@ -31,11 +31,15 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import { mapGetters, mapActions } from 'vuex';
 
 
 export default {
   name: 'Home',
+  ...mapGetters([
+    'getUser'
+  ]),
+  ...mapActions(['getUser']),
   components: {
 
   },
@@ -68,7 +72,7 @@ export default {
     }
   },
   mounted() {
-    this.loadScores();
+    console.log(this.$store)
   }
 }
 </script>
@@ -77,7 +81,17 @@ export default {
 <style scoped>
   @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
 
+  .download {
+    width: 250px !important;
+    background-color: #9B7A9B !important;
+    transition: 0.4s !important;
+  }
+
+  .download:hover {
+    background-color: #745B6B !important;
+  }
   .home {
     text-align: center;
   }
@@ -86,7 +100,7 @@ export default {
       transform: translate(-50%, -50%);
   }
   .username {
-      font-family: 'Balsamiq Sans', cursive;
+      font-family: 'Comfortaa', cursive;
   }
   .bgImage {
     height: 186px;
@@ -160,6 +174,8 @@ export default {
     display: inline-flex;
     margin: 25px auto;
     border-radius: 30px;
+    font-family: 'Comfortaa', cursive;
+
   }
 
   .cent {
