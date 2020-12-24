@@ -23,22 +23,22 @@ export default new Vuex.Store({
       state.ip = ip;
     },
     setUser(state, payload) {
-      fetch('/frontend/api/v1/user/@me', {
+      fetch('/api/users/me', {
         headers: {
           'Authorization': payload.token
         }
       }).then(async res => {
-        if(!res.ok) return;
+        if (!res.ok) return;
         let data = await res.json();
-        
-        
+
+
         state.user = data;
-   
-     
-        
+
+
+
       })
-      
-      
+
+
     }
 
 
@@ -49,13 +49,13 @@ export default new Vuex.Store({
     logout({ commit }) {
       commit('removeToken');
       localStorage.removeItem('token');
-      
-      
+
+
     },
 
-    loadUser({commit}) {
-      if(localStorage.getItem('token')){
-        commit('setUser', {token: localStorage.getItem('token')});
+    loadUser({ commit }) {
+      if (localStorage.getItem('token')) {
+        commit('setUser', { token: localStorage.getItem('token') });
       }
     },
 
@@ -78,7 +78,7 @@ export default new Vuex.Store({
 
     async getUser({ commit }, payload) {
 
-      let me = await fetch('/frontend/api/v1/user/@me', {
+      let me = await fetch('/api/users/me', {
         headers: {
           'Authorization': payload.token
         }
@@ -87,14 +87,17 @@ export default new Vuex.Store({
     },
     async login({ commit }, payload) {
 
-      let response = await Vue.axios.post('/frontend/api/v1/auth/login', {
+      let response = await Vue.axios.post('/api/users/login', {
         login: payload.login,
         password: payload.password,
-        ip: payload.ip,
-        captcha_key: payload.captcha,
-        is_bancho: false
+        captcha_key: payload.captcha
 
       }).catch(e => {
+
+        if (e.response.status == 400) {
+          payload.$store.dispatch('mergeAccount', payload);
+          return;
+        }
 
 
         if (e.response.data.result) {
@@ -137,7 +140,7 @@ export default new Vuex.Store({
 
 
     async mergeAccount({ commit }, payload) {
-      let response = await Vue.axios.post('/frontend/api/v1/merge', {
+      let response = await Vue.axios.post(`/api/users/merge_password`, {
         username: payload.login,
         password: payload.password,
         type: 'merge'
@@ -198,8 +201,7 @@ export default new Vuex.Store({
 
     },
     async getIP({ commit }) {
-      let r = await Vue.axios.get('/frontend/api/v1/getIP').then(res => res.data);
-      commit('setIP', r.ip);
+ 
 
     }
   },

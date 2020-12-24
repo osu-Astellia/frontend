@@ -8,7 +8,7 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                     <b-nav-item><router-link to="/leaderboard">Leaderboard</router-link></b-nav-item>
-                    <b-nav-item v-if="token"><router-link to="/support">Support Project</router-link></b-nav-item>
+                   
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto">
@@ -22,7 +22,6 @@
                             </template>
                             <b-dropdown-item v-b-modal.LoginModal class="black-link">
                                 Login
-
                             </b-dropdown-item>
 
                             <b-modal id="LoginModal" hide-footer title="Log In">
@@ -101,7 +100,7 @@
 
             },
             async fetchUserData(){
-                this.userdata = await this.axios.get('/frontend/api/v1/user/@me', {
+                this.userdata = await this.axios.get('/api/users/me', {
                     headers: {
                         'Authorization': this.token
                     }
@@ -110,11 +109,19 @@
 
                 });
                 this.data = {
-                    url: `/u/${this.user[0].id}`,
-                    username: this.user[0].username,
-                    id: this.user[0].id
+                    url: `/u/${this.user.id}`,
+                    username: this.user.username,
+                    id: this.user.id
                 };
-                this.userbgStyle = `background-image: url(/frontend/api/v1/avatar/${this.data.id}); background-size: cover;`;
+
+                let avatarStatus = await fetch(`/frontend/api/v1/avatar/${this.data.id}`);
+                if(!avatarStatus.ok || !this.data) {
+                    
+                    this.userbgStyle = `background-image: url(https://i1.sndcdn.com/avatars-32EHFzqYhcwAzmuk-mE2q0g-t500x500.jpg); background-size: cover;`;
+                } else {
+                    this.userbgStyle = `background-image: url(/frontend/api/v1/avatar/${this.data.id}); background-size: cover;`;
+                }
+                
 
 
             },
@@ -137,6 +144,30 @@
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+
+
+@media only screen and (max-width: 900px) {
+    .usermenu {
+        width: 100% !important;
+        right: 0 !important;
+    }
+
+    .usermenuBG {
+        width: 100% !important;
+    }
+
+    .usermenumenu {
+        text-align: center;
+    }
+
+    .navbar-collapse  {
+        text-align: center !important;
+        
+    }
+    .profileavatar {
+        margin: 0 auto;
+    }
+}
 * {
     font-family: 'Comfortaa', cursive;
 
@@ -248,14 +279,13 @@
     .usermenu {
         border-radius: 10px;
         background-color: #18171C;
-        z-index: 2;
+        z-index: 999;
         display: inline-block;
         width: 130px;
         height: 250px;
         position: absolute;
         right: 1%;
         margin-right: 100px;
-        top: 7%;
         transition: 0.2s;
     }
 

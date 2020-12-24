@@ -16,7 +16,7 @@
                     <div class="profile__info__avatar__username">
 
 
-                        <div class="profile__image" :style="`background-image: url(/frontend/api/v1/avatar/${stats.id}); width: 150px; height: 150px; background-size: cover; background-position: center;`" > </div>
+                        <div class="profile__image" :style="avatarStyle" > </div>
                         <div class="baseInfo">
                         <h5 class="nickname">{{stats.username}}</h5>
                         <div class="duiashduash" style="display: block;">
@@ -37,9 +37,7 @@
                            </div>
                             <div class="country">
                                 <img id="flag__img" v-b-tooltip.hover :title="stats.country_name" class="flag" :src="`https://osu.gatari.pw/static/images/flags/${stats.country}.png`" style="height: 30px;">
-                                <b-tooltip target="flag__img" :title="stats.country_name" triggers="hover">
-                                  {{stats.country_name}}
-                                </b-tooltip>
+
                                 <p class="country__name">{{stats.country_name}}</p>
                             </div>
                         </div>
@@ -57,7 +55,7 @@
                     <div class="stats2">
                         <p>{{stats.ranked_score}}</p>
                         <p>{{stats.playcount}}</p>
-                        <p>{{stats.accuracy.toFixed(2)}}</p>
+                        <p>{{(stats.accuracy * 100).toFixed(2)}}</p>
                         <p>{{stats.level}}</p>
                         <p>{{stats.replays_watched}}</p>
                     </div>
@@ -73,22 +71,23 @@
 
                     <div class="profile__info__body__stats">
                             <v-stat
-                                name="PP"
-                                :description="`${String(stats.pp).replace(
+                                name="Perfomance Points"
+                                :description="`${String(stats.performance).replace(
                                     /\B(?=(\d{3})+(?!\d))/g,
                                     ','
                                 )}`"
                                 color="red"
                                 descsize="32px"
+                                center
                             ></v-stat>
                     </div>
 
                     <div class="profile__info__body__ranks">
                         <div class="followers">
 
-                            <v-stat :style="{margin: '0 10px'}" name="Joined"  color="green" :description="joined" />
+                            <v-stat name="Joined" class="profile__info__body__ranks__followers" color="green" :description="joined" />
 
-                            <v-stat name="Followers" color="purple" :description="stats.followers"/>
+                            <v-stat name="Followers" color="purple" :description="stats.followers || 0"/>
 
                         </div>
                     <!--- <div class="ssHD">
@@ -139,7 +138,7 @@
       </div>
 
 
-      <div class="profile__scores">
+      <div class="profile__scores" v-if="scores.best.length">
           <div class="profile__scores__best">
               <div class="profile__scores__title">
                   Best scores
@@ -153,14 +152,14 @@
                         
                         <div class="profile__scores__score__main__beatmap__title">
 
-                            <router-link :to="score.link" class="profile__scores__score__main__beatmap__title__link">
-                                    {{score.beatmap_title}} {{score.difficulty}}
+                            <router-link :to="`/b/${score.beatmap.id}`" class="profile__scores__score__main__beatmap__title__link">
+                                    {{score.beatmap.beatmap_name}}
                             </router-link>
                   
                              <div class="profile__scores__score__main__beatmap__title__mods"> {{getScoreMods(score.mods)}} </div> 
                         </div>
                         <div class="profile__scores__score__main__beatmap__info">
-                            [{{score.x100}}x100/{{score.x50}}x50/{{score.x0}}xMiss] x{{score.max_combo}} <div class="profile__scores__score__main__beatmap__info__max__combo">(x{{score.max_map_combo}})</div> {{ require('moment')(new Date(Date.parse(score.timestamp))).fromNow() }}
+                            [{{score['100_count']}}x100/{{score['50_count']}}x50/{{score['300_count']}}xMiss] x{{score['max_combo']}} <div class="profile__scores__score__main__beatmap__info__accuracy">{{(score.accuracy*100).toFixed(2) }}%</div>  {{ require('moment')(new Date(score.timestamp * 1000)).fromNow() }}
                     </div>
 
                     
@@ -170,18 +169,20 @@
                     <div class="profile__scores__score__etc">
                      
                             <div class="profile__scores__score__etc__pp">
-                                {{score.pp}}PP
+                                {{Math.floor(score.pp)}}PP
                             </div>
                 </div>
 
           </div>
-                                    <button
-            v-if="scores.best.length > 0 && !moreLoading"
-            class="score-button"
-            @click="load_scores"
-            style="margin: 15px 40%;">
-        Load more scores
-      </button> 
+
+          <b-overlay :show="moreLoading" class="profile__scores__load__btn d-inline-block" rounded opacity spinner-small spinner-variant="primary" v-if="scores.best.length > 0" style="margin: 0 40%;">
+              <b-button variant="primary" @click="load_scores" >
+
+                  Load more scores
+              </b-button>
+           
+          </b-overlay>
+  
 
       </div>
 
@@ -244,7 +245,6 @@
                     playcount: 0,
                     pp: 0,
                     country: 'XX',
-                    country_name: 'UNKNOWN',
                     ss_ranks: 0,
                     s_ranks: 0,
                     a_ranks: 0,
@@ -268,15 +268,14 @@
         methods: {
             async load_scores(){
 
-                this.scores.best = [];
                 this.moreLoading = true;
                 this.best_limit += 5;
-                let scoresbest_tmp =  await fetch(`/frontend/api/v1/user/best?u=${this.id}&m=${this.mode}&r=${this.isRelax}&limit=${this.best_limit}`).then(r => r.json()).catch(e => alert(e.message));
+                let scoresbest_tmp =  await fetch(`/api/users/profile/best_scores?u=${this.id}&m=${this.mode}&r=${this.isRelax}&l=${this.best_limit}`).then(r => r.json()).catch(e => alert(e.message));
                 scoresbest_tmp = scoresbest_tmp.filter(score => score.pp > 0);
                 
                 for(let i = 0; i < this.best_limit; i++){
                     let item = scoresbest_tmp[i];
-                    console.log(item);
+               
                 if(!item) return;
                 item.link = `/b/${item.beatmap_id}`;
                 item.beatmap_title_full = `${item.beatmap_title} was set ${moment(new Date(Date.parse(item.timestamp))).fromNow()}`
@@ -367,14 +366,14 @@
                 await this.load_scores();
                 this.best_limit = 5;
                 await this.setPPHistory();
-                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                this.stats = await this.axios.get(`/api/profile/info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
             },
 
             async setPPHistory(){
                 this.chartLoaded = false;
-                this.ppHistory = await fetch(`/frontend/api/v1/user/pp_graph?id=${this.id}&r=${this.isRelax}`).then(res => res.json());
-                this.ppHistory = this.ppHistory.result.filter(score => this.isRelax ? score.is_relax : !score.is_relax);
-                this.chartLoaded = true;
+                //this.ppHistory = await fetch(`/frontend/api/v1/user/pp_graph?id=${this.id}&r=${this.isRelax}`).then(res => res.json());
+                //this.ppHistory = this.ppHistory.result.filter(score => this.isRelax ? score.is_relax : !score.is_relax);
+                //this.chartLoaded = true;
             },
 
 
@@ -393,7 +392,7 @@
                 this.scores.best = [];
                 await this.load_scores();
                 this.best_limit = 5;
-                this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
+                this.stats = await this.axios.get(`/api/users/profile/info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`).then(r => r.data[0]).catch(e => this.$router.push({path: '/404'}));
                 await this.setPPHistory();
             },
             getScoreMods(m, noplus) {
@@ -418,7 +417,7 @@
             },
 
             async getID(){
-                const { result } = await fetch(`/frontend/api/v1/users/whatid?u=${this.id}`).then(res => res.json()).catch(e => {this.$router.push({path: '/404'})})
+                const { result } = await fetch(`/api/users/whatid?u=${this.id}`).then(res => res.json()).catch(e => {this.$router.push({path: '/404'})})
                 if(!parseInt(result)) return this.$router.push({path: '/404'})
                 window.location.href = `/u/${result}`;
             }
@@ -427,51 +426,66 @@
 
         mounted: async function () {
             if(!parseInt(this.id)) return await this.getID();
-            this.stats = await this.axios.get(`/frontend/api/v1/profile_info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`, this.token ? {headers: {'authorization': this.token}} : {}).then(r => {
+            let stats = {};
+
+            await this.axios.get(`/api/users/profile/info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`, this.token ? {headers: {'authorization': this.token}} : {}).then(r => {
              
-                if(r.data.constructor.name !== 'Array') {
+                if(r.data.constructor.name !== 'Object') {
                     this.$router.push({path: '/404'});
                 }else {
-                    return r.data[0];
+
+                    
+                    stats = r.data;
                 }
             }).catch(e => this.$router.push({path: '/404'}));
 
 
 
             if(this.$store.state.token){
-                let myProfile = await fetch('/frontend/api/v1/user/@me', {
+                let myProfile = await fetch('/api/users/me', {
                     headers: {
                         'Authorization': this.$store.state.token
                     }
                 }).then(res => res.json().catch(e => {}));
-                if(!myProfile) myProfile = [{id: 0}];
-                let id = myProfile[0].id;
+                if(!myProfile?.id) myProfile = {id: 0};
+                let id = myProfile.id;
                 if(parseInt(this.id) === id) this.isMe = true;
             }
 
 
-            this.isSupporter = (this.stats.is_supporter) > (Date.now() / 1000);
+            //this.isSupporter = (this.stats.is_supporter) > (Date.now() / 1000);
 
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
-            this.avatarURL = `/frontend/api/v1/avatar/${this.id}`;
-            this.avatarStyle = `width: 64px; height: 64px; background-image: url(${this.avatarURL}); background-position: center; background-size: cover;`
-            this.isMounted = true;
-            this.haveBG = this.isSupporter && this.stats.bg ? true : false
-            this.verified_type = this.stats.verification_type;
-            this.setVerifiedType();
+            this.avatarURL = `/frontend/api/avatar/${stats.id}`;
+
+            
+                let avatarStatus = await fetch(`/frontend/api/v1/avatar/${this.avatarURL}`).catch(e => {});
+                
+                if(!avatarStatus || !avatarStatus.ok) {
+                    this.avatarStyle = `background-image: url(https://i1.sndcdn.com/avatars-32EHFzqYhcwAzmuk-mE2q0g-t500x500.jpg); width: 150px; height: 150px; background-size: cover; background-position: center;`;
+                } else {
+                    this.avatarStyle = `background-image: url(/frontend/api/avatar/${stats.id}); width: 150px; height: 150px; background-size: cover; background-position: center;`;
+                }
+
+         
+            //this.haveBG = this.isSupporter && this.stats.bg ? true : false
+            //this.verified_type = this.stats.verification_type;
+            //this.setVerifiedType();
             await this.load_scores();
             if(this.$route.query.relax === 'true') await this.setMode(4);
             else await this.setMode(this.$route.query.mode || 0);
-            this.joined = moment(new Date(this.stats.account_created_at * 1000)).fromNow();
-            this.parsedUserpage = bbCodeParser.parse(this.stats.userpage_content);
+            this.joined = moment(new Date(stats.account_created_at * 1000)).fromNow();
+            //this.parsedUserpage = bbCodeParser.parse(this.stats.userpage_content);
             this.moreLoading = false;
-            countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
-            this.stats.country_name = countries.getName(this.stats.country, 'en');
+            //countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
+            //this.stats.country_name = countries.getName(this.stats.country, 'en');
 
+            this.stats = stats;
             this.$meta().addApp('custom').set({
-                title: `${this.stats.username}\`s Profile - Astellia`
+                title: `${stats.username}\`s Profile - Astellia`
             });
 
+            this.isMounted = true;
 
 
         },
@@ -485,6 +499,132 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;1,400&display=swap');
 
+
+    @media only screen and (max-width: 800px) {
+        .modSelect {
+            margin: 0 auto !important;
+            justify-content: center !important;
+
+        }
+
+        .profile__info {
+            display: block !important;
+        }
+
+        .profile__info__stats__box {
+            margin: 25px auto !important;
+        }
+
+        .profile__info__avatar__username {
+            display: block !important;
+        }
+        .profile__image {
+            margin: 0 auto !important;
+        }
+        .baseInfo {
+            text-align: center;
+        }
+        .duiashduash {
+            margin: 0 auto;
+        }
+
+        .country {
+            display: block !important;
+            width: 100% !important;
+        }
+        .profile__info__body {
+            display: block !important;
+            margin-bottom: 1.5rem;
+        }
+        .followers {
+            display: block !important;
+        }
+        .profile__info__body__ranks {
+            display: block !important;
+        }
+
+        .followers:first-child {
+            margin: 0 auto !important;
+        }
+
+        .profile__ranking__global {
+            width: 100%;
+            padding: 0 !important;
+        }
+
+        .profile__scores__score {
+            display: block !important;
+        }
+
+        .profile__scores__score__main__beatmap__title {
+            display: block !important;
+        }
+        .profile__scores__score__main__beatmap__title__link {
+            text-align: center;
+            display: block !important;
+        }
+        
+        .profile__scores__score__main {
+            width: 100% !important;
+        }
+
+        .rank-A {
+
+            margin: 10px auto;
+            
+            
+        }
+        .rank-B {
+            margin: 10px auto;
+        }
+        .rank-C {
+            margin: 10px auto;
+        }
+        .rank-D {
+            margin: 10px auto;
+        }
+        .rank-S {
+            margin: 10px auto;
+        }
+        .rank-SH {
+            margin: 10px auto;
+        }
+        .rank-SS {
+            margin: 10px auto;
+        }
+        .rank-SSHD {
+            margin: 10px auto;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        
+
+        .profile__scores__score__main__beatmap__title__mods {
+            text-align: center;
+        }
+
+        .profile__scores__score__main__beatmap__info {
+            display: block !important;
+            text-align: center;
+            padding-bottom: 5px;
+            border-bottom: 2px solid white;
+        }
+
+        .profile__scores__load__btn {
+            width: 100%;
+            margin: 0 auto !important;
+        }
+        .statsInfo h3 {
+            width: auto !important;
+        }
+    }
+
+    .profile__info__body__ranks__followers {
+        margin: 0 auto;
+    }
     .score {
         display: flex;
     }
@@ -969,5 +1109,11 @@
 
 .followers {
     display: flex;
+}
+
+
+.profile__scores__score__main__beatmap__info__accuracy {
+    color: aqua;
+    padding: 0 5px;
 }
 </style>

@@ -1,6 +1,6 @@
 module.exports = {
     devServer: {
-        proxy: 'https://astellia.club',
+        proxy: 'https://c.astellia.club',
         disableHostCheck: true
     }
 }

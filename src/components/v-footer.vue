@@ -108,4 +108,35 @@
 	.footer__item.footer__title {
 		color: white;
 	}
+
+	@media only screen and (max-width: 800px) {
+		.footer {
+			display: block !important;
+			padding: 25px 0 !important;
+		}
+
+		.vmenu__title {
+			text-align: center;
+		}
+
+		.vmenu__item {
+			text-align: center;
+		}
+
+		.footer__item {
+			margin-top: 25px;
+			width: 250px;
+			text-align: center;
+
+			margin: 25px auto !important;
+			text-align: center !important;
+
+			
+		}
+
+		.footer__title {
+			margin-left: 25px auto !important;
+		}
+		
+	}
 </style>

@@ -1,60 +1,9 @@
 <template>
     <div class="content">
         <b-overlay :show="logining">
-            <b-form @submit.prevent="onSubmit">
-
-
-                <b-form-group
-                        style="padding-top: 20px"
-                        id="input-group-1"
-                        label="Username"
-                        label-for="input-1"
-                >
-                    <b-form-input
-
-
-                            id="input-1"
-                            v-model="username"
-                            type="text"
-                            required
-                            placeholder="Enter Username"
-                    ></b-form-input>
-                </b-form-group>
-
-                <b-form-group id="input-group-2" label="Your Password" label-for="input-2">
-                    <b-form-input
-                            type="password"
-                            id="input-2"
-                            v-model="password"
-                            required
-                            placeholder="Enter password"
-                    ></b-form-input>
-                </b-form-group>
-
-                <b-form-group id="input-group-3" label="Email" label-for="input-3">
-                    <b-form-input
-                            type="email"
-                            id="input-3"
-                            v-model="email"
-                            required
-                            placeholder="Email"
-                    ></b-form-input>
-                </b-form-group>
-
-               <!-- <b-form-group id="input-group-4" label="Avatar (Optional)" label-for="input-4">
-                    <div  style="display: flex; flex-direction: column; width: auto; align-items: center;">
-                        <img v-if="avatarURL" :src="avatarURL"  height="128px" width="128px" style="object-fit: cover">
-
-                        <input @change="avatarUpload" class="inputFile" id="avatarFile" type="file" accept="image/png, image/jpeg">
-                        <label class="uploadeBtn" for="avatarFile">Upload</label>
-
-                    </div>
-                </b-form-group> -->
-
-
-
-
-                <b-button type="submit" block variant="primary">Register</b-button>
+            <b-form>
+                Registration is moved to game! if you don't have a game, <a href="https://m1.ppy.sh/r/osu!install.exe"> CLICK HERE</a>, or dowload <a href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe">Swticher</a> to switch to astellia!<br>
+                In game click options -> Register account -> Fill all fields and press "Register".
             </b-form>
         </b-overlay>
 

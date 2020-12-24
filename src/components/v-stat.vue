@@ -15,10 +15,10 @@
 <script>
 export default {
     name: 'v-stat',
-    props: ['name', 'color', 'description', 'descsize', 'tooltip'],
+    props: ['name', 'color', 'description', 'descsize', 'tooltip', 'center'],
     data(){
         return {
-            statStyle: `border-top: 3px solid ${this.color}; font-size: ${this.descsize ? this.descsize : '24px'};`
+            statStyle: `border-top: 3px solid ${this.color}; font-size: ${this.descsize ? this.descsize : '24px'}; text-align: center;`
         }
     }
 

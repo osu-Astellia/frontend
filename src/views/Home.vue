@@ -162,6 +162,10 @@ export default {
     text-align: center;
   }
 
+  .download {
+    display: none;
+  }
+
   button:hover {
     background-color: #25293E;
     border: 1px solid #25293E;
@@ -217,6 +221,8 @@ export default {
     .description {
       font-size: 20px;
     }
+
+    
 
   }
 </style>

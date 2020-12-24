@@ -26,7 +26,7 @@
               <th class="col"></th>
               <th class="col"></th>
               <th class="col">Username</th>
-              <th class="col">pp</th>
+              <th class="col">Perfomance</th>
 
               <th class="col">Accuracy</th>
               <th class="col">Level</th>
@@ -38,9 +38,9 @@
               <th  :class="`col place lines index__${user.place}`" style="font-weight: bold;">{{user.place}}</th>
               <th  class="col lines"><img class="flag" :src="user.flag"></th>
               <th  class="col lines"><router-link :to="user.url">{{user.username}}</router-link></th>
-              <th  class="col lines">{{user.pp}}</th>
+              <th  class="col lines">{{user.performance}}</th>
 
-              <th class="col lines">{{user.accuracy.toFixed(2)}}%</th>
+              <th class="col lines">{{(user.accuracy * 100).toFixed(2)}}%</th>
               <th class="col level lines">{{user.level}}</th>
             </tr>
 
@@ -93,7 +93,7 @@ export default {
         this.leaderboard = [];
         this.classes.buttons.p = this.classes.buttons.p.replace('enabled', 'hidden')
 
-        this.leaderboard = await this.axios.get(`https://astellia.club/frontend/api/v1/leaderboard?mode=${this.filter.mode}&p=${this.filter.p}&l=${this.filter.l}&relax=${this.filter.relax}&country=`)
+        this.leaderboard = await this.axios.get(`/api/leaderboard?mode=${this.filter.mode}&p=${this.filter.p}&l=${this.filter.l}&relax=${this.filter.relax}&country=`)
 
                 .then(res => this.caluclatePlaces(res.data));
 
@@ -181,6 +181,91 @@ export default {
   @import url('https://fonts.googleapis.com/css2?family=Arvo&display=swap');
 
 
+
+  @media only screen and (max-width: 900px) {
+    	table, thead, tbody, th, td, tr { 
+        display: block; 
+      }
+
+
+    table {
+      width: auto !important;
+      margin: 0 !important;
+      font-size: 16px;
+      min-width: auto !important;
+      
+    }
+
+    .col {
+      margin: 0 auto !important;
+    }
+    th.lines {
+      background: none !important;
+    }
+
+    .content {
+      width: 100% !important;
+    }
+    .options {
+      width: 100% !important;
+    }
+
+    .mod0 {
+      width: 32px !important;
+      height: 32px !important;
+    }
+    .mod1 {
+      width: 32px !important;
+      height: 32px !important;
+    }
+    
+    .mod2 {
+      width: 32px !important;
+      height: 32px !important;
+    }
+    .mod3 {
+      width: 32px !important;
+      height: 32px !important;
+    }
+    .mod4 {
+      width: 32px !important;
+      height: 32px !important;
+    }
+    .bgImage {
+      width: 100% !important;
+    }
+	td:before { 
+
+		position: absolute;
+	
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+    .container {
+      padding: 0 !important;
+    }
+    .bgText {
+      font-size: 300% !important;
+    }
+
+    tr {
+      width: 100%;
+    }
+
+    tr.table-last {
+      background: none !important;
+      border: 2px solid white;
+    }
+      #app > div.Leaderboard.view > center > div > div.content > table > tr:nth-child(1) > th:nth-child(1) {
+    display: none;
+  }
+  #app > div.Leaderboard.view > center > div > div.content > table > tr:nth-child(1) > th:nth-child(2) {
+    display: none;
+  }
+  }
   table {
     color: white;
     width: 75%;
@@ -190,11 +275,18 @@ export default {
     min-width: 500px;
   }
 
+  tr.table-last {
+    height: auto !important;
+  }
+
   th.place {
     background: #302E63 !important;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
   }
+
+
+  
 
 
   @font-face {
@@ -217,9 +309,9 @@ export default {
     border-bottom: 2px solid #2F2C54;
     border-top: 2px solid #2F2C54;
     border-radius: 10px;
-    height: 10px !important;
-    padding-top: 2px !important;
-    background-color: #2F2C7D !important;
+    height: 10px;
+    padding-top: 2px;
+    background-color: #2F2C7D;
   }
 
   tr.table-last > td:first-child {
@@ -298,8 +390,8 @@ export default {
   }
 
   .mod0 {
-    width: 48px !important;
-    height: 48px !important;
+    width: 48px;
+    height: 48px;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osustd.png);
@@ -323,24 +415,24 @@ export default {
 
 
   .mod1 {
-    width: 48px !important;
-    height: 48px !important;
+    width: 48px;
+    height: 48px;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osutaiko.png);
   }
 
   .mod2 {
-    width: 48px !important;
-    height: 48px !important;
+    width: 48px ;
+    height: 48px;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osuctb.png);
   }
 
   .mod3 {
-    width: 48px !important;
-    height: 48px !important;
+    width: 48px;
+    height: 48px;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osumaniapng.png);
@@ -459,8 +551,8 @@ export default {
     color: gold;
   }
   .mod4 {
-    width: 48px !important;
-    height: 48px !important;
+    width: 48px;
+    height: 48px;
     z-index: 10;
     background-size: cover;
     background-image: url(/static/img/osurx.png);
