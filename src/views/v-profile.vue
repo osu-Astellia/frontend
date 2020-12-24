@@ -417,7 +417,7 @@
             },
 
             async getID(){
-                const { result } = await fetch(`/api/users/whatid?u=${this.id}`).then(res => res.json()).catch(e => {this.$router.push({path: '/404'})})
+                const { result } = await fetch(`/api/users/what_id?u=${this.id}`).then(res => res.json()).catch(e => {this.$router.push({path: '/404'})})
                 if(!parseInt(result)) return this.$router.push({path: '/404'})
                 window.location.href = `/u/${result}`;
             }
