@@ -456,7 +456,7 @@
             //this.isSupporter = (this.stats.is_supporter) > (Date.now() / 1000);
 
             this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
-            this.avatarURL = `/frontend/api/avatar/${stats.id}`;
+            this.avatarURL = `https://a.astellia.club/${stats.id}`;
 
             
                 let avatarStatus = await fetch(`/frontend/api/v1/avatar/${this.avatarURL}`).catch(e => {});
