@@ -14,18 +14,12 @@
 
 
         <div class="buttongroup">
-          <button v-b-modal.registerModal>Register</button>
-          <a class="link download" href="https://github.com/MinisBett/ultimate-osu-server-switcher/releases/download/1.4/UltimateOsuServerSwitcher.exe">Download Switcher</a>
+          <button v-if="!user" v-b-modal.registerModal>Register</button>
+
         </div>
 
 
       </div>
-    </div>
-
-
-    <div class="bestScores">
-      <div v-if="vanillaScore"  class="bestScore"></div>
-      <div v-if="relaxScore" class="bestScore"></div>
     </div>
   </div>
 </template>
@@ -47,7 +41,8 @@ export default {
     return {
 
       relaxScore: undefined,
-      vanillaScore: undefined
+      vanillaScore: undefined,
+      user: null
 
     }
   },
@@ -65,6 +60,8 @@ export default {
       this.vanillaScore.bgStyle = `background-image: url(${this.vanillaScore.bg})`
       this.vanillaScore.avatarStyle = this.generateAvatarCss(this.vanillaScore.UserId);
 
+
+
     },
 
     generateAvatarCss(id){
@@ -72,7 +69,23 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store)
+    /* Получаем нового пользователя (если есть такой) */
+    let unsubscribe = this.$store.subscribe((action, state) => {
+      console.log(action)
+      if(action.type === 'setUser') {
+        let user = action.payload.user;
+        (async () => {
+          console.log(user);
+          user.stats = await  fetch(`/api/users/profile/info?u=${user.id}&m=0&r=false`).then(res => res.json());
+          this.user = user;
+        })();
+
+      }else {
+        this.user = undefined;
+      }
+    })
+
+
   }
 }
 </script>
@@ -173,7 +186,7 @@ export default {
   .content {
     text-align: center !important;
     width: 90%;
-    height: 400px;
+    height: auto;
     background-color: #222533;
     display: inline-flex;
     margin: 25px auto;
@@ -200,15 +213,20 @@ export default {
     margin: 50px auto;
   }
 
+  .home__user__welcome {
+    display: flex;
+    justify-content: space-between;
+  }
+
 
   @media only screen and (min-width: 900px) {
 
 
 
     .image {
-      background-image: url("/imgs/nekoha.png");
+      background-image: url("/imgs/ryuk2.png");
       width: 500px;
-      height: 400px;
+      height: 500px;
       background-size: cover;
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;

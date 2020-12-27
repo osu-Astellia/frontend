@@ -72,7 +72,6 @@
                 this.logining = true;
                 this.$store.dispatch({
                     type: 'login',
-
                     login: this.username,
                     password: this.password,
                     captcha: this.captcha,

@@ -4,7 +4,7 @@
   <div id="app">
 
     <v-navbar />
-      <transition name="slide-fade">
+      <transition name="slide-fade" >
           <router-view class="view" />
       </transition>
     <v-footer />
@@ -19,16 +19,11 @@ html,body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 }
 body {
   background-color: #292D3E !important;
   margin: 0;
   padding: 0;
-
-
-
-
 }
 .view {
   color:white;

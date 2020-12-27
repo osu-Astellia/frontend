@@ -12,7 +12,7 @@
                 </b-navbar-nav>
 
                 <b-navbar-nav class="ml-auto">
-                    <div v-if="getToken() && this.$store.state.user" right class="profileavatar" :style="userbgStyle" @click="isOpenDropdown = !isOpenDropdown"></div>
+                    <div v-if="token && data" right class="profileavatar" :style="userbgStyle" @click="isOpenDropdown = !isOpenDropdown"></div>
                     <b-nav-item v-else style="padding: 0 !important;">
 
 
@@ -45,7 +45,7 @@
             </b-collapse>
         </b-navbar>
         <transition name="fade" appear>
-            <div class="usermenu hidden mr-auto" v-if="isOpenDropdown && getToken() && this.$store.state.user">
+            <div class="usermenu hidden mr-auto" v-if="isOpenDropdown && data">
                 <div class="usermenuBG" :style="userbgStyle"></div>
                 <div class="usermenumenu" @click="isOpenDropdown = !isOpenDropdown">
 
@@ -90,7 +90,7 @@
             },
 //s
             logout(){
-                this.isOpenDropdown = false;
+                this.isOpenDropdown = !this.isOpenDropdown;
                 
                 this.$store.dispatch('logout', {});
                 this.data = null;
@@ -99,7 +99,9 @@
                 
 
             },
-            async fetchUserData(){
+            async fetchUserData(token = this.token){
+
+                if(!token) return;
                 this.userdata = await this.axios.get('/api/users/me', {
                     headers: {
                         'Authorization': this.token
@@ -136,8 +138,20 @@
         },
 
         async mounted() {
+
+            this.$store.subscribe((action, state) => {
+
+              if(action.type === 'removeToken') {
+                this.token = '';
+                this.data = undefined;
+              }else{
+                this.token = action.payload.token;
+                this.fetchUserData(this.token);
+              }
+
+            })
             
-            await this.fetchUserData();
+            if(this.token) await this.fetchUserData();
         }
     }
 </script>

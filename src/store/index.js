@@ -23,21 +23,9 @@ export default new Vuex.Store({
       state.ip = ip;
     },
     setUser(state, payload) {
-      fetch('/api/users/me', {
-        headers: {
-          'Authorization': payload.token
-        }
-      }).then(async res => {
-        if (!res.ok) return;
-        let data = await res.json();
-
-
-        state.user = data;
-
-
-
-      })
-
+      state.user = payload.user;
+      state.token = payload.token;
+      localStorage.setItem('token', payload.token);
 
     }
 
@@ -53,9 +41,14 @@ export default new Vuex.Store({
 
     },
 
-    loadUser({ commit }) {
+    async loadUser({ commit }) {
       if (localStorage.getItem('token')) {
-        commit('setUser', { token: localStorage.getItem('token') });
+        let user = await fetch('/api/users/me', {
+          headers: {
+            'Authorization': localStorage.getItem('token')
+          }
+        }).then(res => res.json());
+        commit('setUser', { token: localStorage.getItem('token'), user });
       }
     },
 
@@ -94,38 +87,44 @@ export default new Vuex.Store({
 
       }).catch(e => {
 
-        if (e.response.status == 400) {
+        if (e.response.status === 400) {
           payload.$store.dispatch('mergeAccount', payload);
           return;
         }
 
 
         if (e.response.data.result) {
-          if (e.response.data.result.includes('merge')) {
-            payload.$store.dispatch('infoAlert', { $bvtoast: payload.$bvtoast, title: 'Info', message: 'Account merge is needed... merging account password to new version!' });
 
-            payload.$store.dispatch('mergeAccount', payload);
-          } else {
             payload.$store.dispatch('errorAlert', {
               $bvtoast: payload.$bvtoast,
               title: 'Error',
               message: e.response.data.result
             });
-          }
+
+
         } else {
           payload.$store.dispatch('errorAlert', { $bvtoast: payload.$bvtoast, title: 'Error', message: "Server can't response any data" });
         }
 
       })
-        .then(res => {
+        .then(async res => {
 
           if (res.data.token) {
+            let user = '';
             payload.$bvModal.hide('LoginModal');
-            commit('setToken', res.data.token);
-            commit('setUser', { token: res.data.token });
+            await fetch('/api/users/me', {
+              headers: {
+                'Authorization': res.data.token
+              }
+            }).then(async res => {
+              if (!res.ok) return;
+              user = await res.json();
+
+            })
 
 
 
+            commit('setUser', { token: res.data.token, user });
 
 
           }
