@@ -73,10 +73,9 @@ body {
   import VFooter from "./components/v-footer";
   export default {
 
-    ...mapActions(['getIP']),
     components: {VFooter, VNavbar},
     mounted() {
-      this.$store.dispatch('getIP');
+    
       this.$store.dispatch('loadUser');
 
     },

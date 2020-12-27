@@ -5,7 +5,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem('token'),
-    ip: null,
+ 
     user: null
   },
   mutations: {
@@ -200,19 +200,12 @@ export default new Vuex.Store({
       })
 
     },
-    async getIP({ commit }) {
- 
-
-    }
   },
 
   modules: {
   },
   getters: {
 
-    getIPAddress: state => {
-      return state.ip
-    },
     getToken: state => {
       return state.token ? state.token : localStorage.getItem('token');
     },

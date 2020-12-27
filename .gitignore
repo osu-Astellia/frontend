@@ -23,3 +23,4 @@ pnpm-debug.log*
 *.sw?
 .github
 amelia.zip
+token.txt

@@ -4,20 +4,8 @@
       <div class="DataGroup">
         <div class="DataGroupTitle">Account</div>
         <div class="DataInputs">
-          <span v-if="!userdata[0].supporter"
-            >Username
-            <input
-              v-b-tooltip.hover
-              title="To change username please support our project!"
-              v-model="data.username"
-              type="text"
-              readonly
-          /></span>
-          <span v-else>
-            Username <input v-model="data.username" type="text" /><br />
-          </span>
-
-          <button @click="updateUsername">Save</button>
+          <span>Username <input v-model="data.username" type="text" /><br /></span>
+              
 
           <br />
         </div>
@@ -96,21 +84,6 @@
         </div>
       </div>
 
-      <div class="DataGroup" style="padding: 30px 0">
-        <div class="DataGroupTitle">Userpage</div>
-
-        <div class="DataInputs" id="userpage">
-          <div class="DataInput">
-            <textarea
-              class="userpageInput"
-              v-model="data.userpage_content"
-            ></textarea>
-          </div>
-          <button @click="saveUserpage">Save</button>
-        </div>
-        <div class="DataGroupTitle">Preview</div>
-        <div class="preview" v-html="parsedUserpage"></div>
-      </div>
     </div>
   </b-overlay>
 </template>
@@ -144,27 +117,10 @@ export default {
   },
   methods: {
     async saveUserpage() {
-      this.loaded = false;
-      await fetch("/frontend/api/v1/updateUser/userpage", {
-        method: "PATCH",
-        headers: {
-          Authorization: this.$store.state.token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: this.data.userpage_content,
-        }),
-      })
-        .then((res) => {
-          this.loaded = true;
-        })
-        .catch((e) => {
-          console.log(e);
-          alert("Error during userpage update, check console for more info");
-        });
+      
     },
     avatarUpload(file) {
-      this.loaded = false;
+      /*this.loaded = false;
       const data = new FormData();
       data.append("File", file.target.files[0]);
       this.axios
@@ -187,11 +143,12 @@ export default {
             message: e.response,
             $bvtoast: this.$bvtoast,
           });
-        });
+        });*/
+        alert('Temponairy not working.')
     },
     async fetchUserData() {
       this.userdata = await this.axios
-        .get("/frontend/api/v1/user/@me", {
+        .get("/api/users/me", {
           headers: {
             Authorization: this.token,
           },
@@ -205,30 +162,28 @@ export default {
           this.$router.push({ path: "/" });
         });
 
-      this.profileInfo = await fetch(
-        `/frontend/api/v1/profile_info?u=${this.userdata[0].id}`
-      ).then((res) => res.json());
+      this.profileInfo = await fetch(`/api/users/profile/info?u=${this.userdata.id}`).then((res) => res.json());
 
       this.data = {
         url: `/u/${this.userdata.id}`,
-        username: this.userdata[0].username,
-        email: this.userdata[0].email,
+        username: this.userdata.username,
+        email: this.userdata.email,
         newpassword: "",
         currentpassword: "",
         userpage_content: "",
       };
-      this.avatarURL = `https://astellia.club/frontend/api/v1/avatar/${this.userdata[0].id}`;
-      this.data.userpage_content = this.profileInfo[0].userpage_content;
+      this.avatarURL = `https://a.astellia.club/${this.userdata.id}`;
+      this.data.userpage_content = this.profileInfo.userpage_content || "";
 
       this.nc_instead_dt = this.userdata.nc_instead_dt
         ? this.userdata.nc_instead_dt
         : false;
-      this.settings = this.userdata[1];
+      this.settings = this.userdata;
       this.loaded = true;
     },
 
     async savePassword() {
-      fetch("/frontend/api/v1/updateUser/password", {
+      fetch("/api/users/update_user_password", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -236,8 +191,8 @@ export default {
         },
         body: JSON.stringify({
           email: this.data.email,
-          newpassword: this.data.newpassword,
-          currentpassword: this.data.currentpassword,
+          new_password: this.data.newpassword,
+          current_password: this.data.currentpassword,
         }),
       }).then(async (res) => {
         if (res.status !== 200) {
@@ -338,7 +293,7 @@ button:hover {
 
 span input {
   margin: 0 10px;
-  transition: 0.4s;
+  transition: 0.09s;
 }
 span {
   display: inline-flex;

@@ -241,12 +241,16 @@
         background-image: url("/static/uoss_logo.png");
         background-size: cover;
         transition: 0.3s;
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+	    transform: scale(1);
+        animation: pulse 1s infinite;
     }
 
     .custom-nav-logo:hover {
         opacity: 1;
         will-change: inherit;
         transform: scale(1.3);
+        animation: none;
     }
 
 
@@ -307,5 +311,21 @@
 
     }
 
+
+@keyframes pulse {
+    0% {
+        transofrm: scale(0.9);
+     
+    }
+	50% {
+		transform: scale(1.2);
+
+	}
+
+    50% {
+		transform: scale(0.9);
+
+	}
+}
 
 </style>
