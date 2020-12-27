@@ -120,11 +120,11 @@ export default {
       
     },
     avatarUpload(file) {
-      /*this.loaded = false;
+      this.loaded = false;
       const data = new FormData();
       data.append("File", file.target.files[0]);
       this.axios
-        .post("/frontend/api/v1/updateUser/avatar", data, {
+        .patch("/api/users/update_avatar", data, {
           headers: {
             Authorization: this.token,
           },
@@ -143,8 +143,9 @@ export default {
             message: e.response,
             $bvtoast: this.$bvtoast,
           });
-        });*/
-        alert('Temponairy not working.')
+        });
+      this.$store.dispatch('setUser', {token: this.$store.state.token, user: this.$store.state.user});
+
     },
     async fetchUserData() {
       this.userdata = await this.axios

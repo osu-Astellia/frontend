@@ -872,7 +872,6 @@ export default {
   margin: 0 auto;
   width: 80%;
   height: auto;
-  margin-bottom: 400px;
 }
 
 .add__friends {
