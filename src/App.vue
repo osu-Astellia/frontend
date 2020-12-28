@@ -2,14 +2,55 @@
 
 
   <div id="app">
-
-    <v-navbar />
+    <Snowf
+    :amount="100"
+    :size="5"
+    :speed="0.5"
+    :wind="1"
+    :opacity="0.7"
+    :swing="1"
+    :image="null"
+    :zIndex="-5"
+    :resize="true"
+    color="#fff"
+    />
+      <v-navbar />
       <transition name="slide-fade" >
-          <router-view class="view" />
+        <router-view class="view" />
       </transition>
-    <v-footer />
+      <v-footer />
+
+
+
   </div>
 </template>
+
+<script>
+import Snowf from 'vue-snowf';
+import VNavbar from "./components/v-navbar";
+import VFooter from "./components/v-footer";
+export default {
+
+  components: {VFooter, VNavbar, Snowf},
+  mounted() {
+
+    this.$store.dispatch('loadUser');
+
+  },
+  metaInfo() {
+    return {
+      title: 'Homepage',
+      titleTemplate: '%s - Astellia',
+      meta: [
+        {property: 'og:site_name', content: 'Astellia'}
+      ]/*,
+        titleTemplate: '%s - Astellia',*/
+    }
+
+  },
+
+}
+</script>
 
 <style>
 html,body {
@@ -62,29 +103,3 @@ body {
   visibility: hidden;
 }
 </style>
-<script>
-  import { mapActions } from 'vuex';
-  import VNavbar from "./components/v-navbar";
-  import VFooter from "./components/v-footer";
-  export default {
-
-    components: {VFooter, VNavbar},
-    mounted() {
-    
-      this.$store.dispatch('loadUser');
-
-    },
-    metaInfo() {
-      return {
-        title: 'Homepage',
-        titleTemplate: '%s - Astellia',
-        meta: [
-          {property: 'og:site_name', content: 'Astellia'}
-        ]/*,
-        titleTemplate: '%s - Astellia',*/
-      }
-
-    },
-
-  }
-</script>

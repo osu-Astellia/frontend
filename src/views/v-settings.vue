@@ -44,7 +44,7 @@
       </div>
 
       <hr />
-      <div class="DataGroup">
+      <!--- <div class="DataGroup">
         <div class="DataGroupTitle">Personalization</div>
 
         <div class="DataInputs">
@@ -56,7 +56,7 @@
             /></span>
           </div>
         </div>
-      </div>
+      </div>--->
       <div class="DataGroup">
         <div class="DataGroupTitle">Security</div>
 
@@ -280,7 +280,8 @@ button:hover {
 }
 
 .settings {
-  background-color: #302e38;
+  background-color: #21263E;
+  padding-bottom: 50px;
 }
 .view {
   width: 70%;

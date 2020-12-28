@@ -7622,6 +7622,13 @@ vue-simple-markdown@^1.1.4:
     highlightjs "^9.10.0"
     node-emoji "^1.8.1"
 
+vue-snowf@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/vue-snowf/-/vue-snowf-0.0.2.tgz#83d0757b95ce34f33d7c4aa88b8d962f9d20a18c"
+  integrity sha1-g9B1e5XONPM9fEqoi42WL50goYw=
+  dependencies:
+    vue "^2.1.10"
+
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"
   resolved "https://registry.npm.taobao.org/vue-style-loader/download/vue-style-loader-4.1.2.tgz#dedf349806f25ceb4e64f3ad7c0a44fba735fcf8"
@@ -7647,6 +7654,11 @@ vue2-transitions@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/vue2-transitions/-/vue2-transitions-0.3.0.tgz#765fc0d743103fcfe2d10f431697d8873a075c17"
   integrity sha512-m1ad8K8kufqiEhj5gXHkkqOioI5sW0FaMbRiO0Tv2WFfGbO2eIKrfkFiO3HPQtMJboimaLCN4p/zL81clLbG4w==
+
+vue@^2.1.10:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
+  integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
 vue@^2.6.11:
   version "2.6.11"
