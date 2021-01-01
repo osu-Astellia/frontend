@@ -470,7 +470,7 @@ export default {
         .get(
           `/api/users/profile/info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`
         )
-        .then((r) => r.data[0])
+        .then((r) => r.data)
         .catch((e) => this.$router.push({ path: "/404" }));
       await this.setPPHistory();
     },
@@ -574,17 +574,10 @@ export default {
       this.avatarStyle = `background-image: url(${this.avatarURL}); width: 150px; height: 150px; background-size: cover; background-position: center;`;
     }
 
-    //this.haveBG = this.isSupporter && this.stats.bg ? true : false
-    //this.verified_type = this.stats.verification_type;
-    //this.setVerifiedType();
-
     if (this.$route.query.relax === "true") await this.setMode(4);
     else await this.setMode(this.$route.query.mode || 0);
     this.joined = moment(new Date(stats.account_created_at * 1000)).fromNow();
-    //this.parsedUserpage = bbCodeParser.parse(this.stats.userpage_content);
     this.moreLoading = false;
-    //countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
-    //this.stats.country_name = countries.getName(this.stats.country, 'en');
 
     this.stats = stats;
     this.$meta()
@@ -872,6 +865,7 @@ export default {
   margin: 0 auto;
   width: 80%;
   height: auto;
+  margin-bottom: 400px;
 }
 
 .add__friends {
