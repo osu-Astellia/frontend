@@ -72,7 +72,7 @@
             <div class="stats2">
               <p>{{ stats.ranked_score }}</p>
               <p>{{ stats.playcount }}</p>
-              <p>{{ (stats.accuracy * 100).toFixed(2) }}</p>
+              <p>{{ (stats.accuracy * 100).toFixed(2) }}%</p>
               <p>{{ stats.level }}</p>
               <p>{{ stats.replays_watched }}</p>
             </div>
@@ -202,7 +202,7 @@
                 </div>
                 <div class="profile__scores__score__main__beatmap__info">
                   [{{ score["100_count"] }}x100/{{ score["50_count"] }}x50/{{
-                    score["300_count"]
+                    score["miss_count"]
                   }}xMiss] x{{ score["max_combo"] }}
                   <div
                     class="profile__scores__score__main__beatmap__info__accuracy"
@@ -337,22 +337,22 @@ export default {
         .catch((e) => alert(e.message));
       scoresbest_tmp = scoresbest_tmp.filter((score) => score.pp > 0);
       let items = [];
-      for (let i = 0; i < this.best_limit; i++) {
+      for (let i = 0; i < scoresbest_tmp.length; i++) {
         let item = scoresbest_tmp[i];
 
         if (!item) return;
         item.link = `/b/${item.beatmap_id}`;
         try {
-          item.beatmap_title = `${item.beatmap_title.split(" - ")[0]} - ${
-            item.beatmap_title.split(" - ")[1].length > 16
-              ? item.beatmap_title.split(" - ")[1].slice(0, 17) + "..."
-              : item.beatmap_title.split(" - ")[1]
-          }`;
-        } catch (e) {}
+          item.beatmap_title = item.beatmap.beatmap_name;
+        } catch (e) {
+          console.log(e);
+        }
         item.rankClasses = `rank-${item.rank} score--rank`;
 
         items.push(item);
+        
       }
+
 
       this.scores.best = items;
 
@@ -430,16 +430,10 @@ export default {
     },
 
     async changeRelax() {
+  
       this.scores.best = [];
-      await this.load_scores();
-      this.best_limit = 5;
-      await this.setPPHistory();
-      this.stats = await this.axios
-        .get(
-          `/api/profile/info?u=${this.id}&mode=${this.mode}&r=${this.isRelax}`
-        )
-        .then((r) => r.data[0])
-        .catch((e) => this.$router.push({ path: "/404" }));
+
+   
     },
 
     async setPPHistory() {
@@ -451,6 +445,7 @@ export default {
 
     async setMode(mode) {
       this.isRelax = mode === 4;
+      if(this.isRelax) this.changeRelax();
 
       this.mode = this.isRelax ? 0 : mode;
       for (const entry of Object.entries(this.classes)) {
@@ -465,7 +460,7 @@ export default {
 
       this.scores.best = [];
       await this.load_scores();
-      this.best_limit = 5;
+      this.best_limit = 0;
       this.stats = await this.axios
         .get(
           `/api/users/profile/info?u=${this.id}&m=${this.mode}&r=${this.isRelax}`
@@ -555,7 +550,7 @@ export default {
         headers: {
           Authorization: this.$store.state.token,
         },
-      }).then((res) => res.json().catch((e) => {}));
+      }).then((res) => res.json().catch((e) => {console.log(e)}));
       if (!myProfile?.id) myProfile = { id: 0 };
       let id = myProfile.id;
       if (parseInt(this.id) === id) this.isMe = true;
@@ -566,7 +561,7 @@ export default {
     this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
     this.avatarURL = `https://a.astellia.club/${stats.id}`;
 
-    let avatarStatus = await fetch(`${this.avatarURL}`).catch((e) => {});
+    let avatarStatus = await fetch(`${this.avatarURL}`).catch((e) => {console.log(e)});
 
     if (!avatarStatus || !avatarStatus.ok) {
       this.avatarStyle = `background-image: url(https://i1.sndcdn.com/avatars-32EHFzqYhcwAzmuk-mE2q0g-t500x500.jpg); width: 150px; height: 150px; background-size: cover; background-position: center;`;

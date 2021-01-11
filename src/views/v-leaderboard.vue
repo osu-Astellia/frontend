@@ -31,11 +31,12 @@
               <th class="col">Accuracy</th>
               <th class="col">Level</th>
             </tr>
-
+            
+            
             <tr class="table-last"  v-for="(user, index) of this.leaderboard" :key=index>
               
               
-              <th  :class="`col place lines index__${user.place}`" style="font-weight: bold;">{{user.place}}</th>
+              <th  :class="`col place lines index__${user.place}`" style="font-weight: bold;" v-html="user.place"></th>
               <th  class="col lines"><img class="flag" :src="user.flag"></th>
               <th  class="col lines"><router-link :to="user.url">{{user.username}}</router-link></th>
               <th  class="col lines">{{user.performance}}</th>
@@ -45,6 +46,15 @@
             </tr>
 
           </table>
+
+          <div v-if="!this.leaderboard.length && !this.loading" class="no__peoples__here">
+            <div class="emoj">
+              <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f622.svg" width="64">
+            </div>
+            <div class="description">
+              No one here, be first!
+            </div>
+          </div>
 
           <div class="paginator" :style="nn && !an ? `flex-direction: column; align-items: flex-end`: ``">
             <button v-if="an" @click="prevPage" class="button-back enabled"> < </button>
@@ -83,20 +93,26 @@ export default {
         leaderboard: null,
         an: false,
         nn: false,
+        loading: true
 
       }
   },
   methods: {
+ 
+
+
       async fetchLeaderboard(){
+        
         this.nn = false;
         this.an = false;
         this.leaderboard = [];
         this.classes.buttons.p = this.classes.buttons.p.replace('enabled', 'hidden')
-
+        this.loading = true;
         this.leaderboard = await this.axios.get(`/api/leaderboard?mode=${this.filter.mode}&p=${this.filter.p}&l=${this.filter.l}&relax=${this.filter.relax}&country=`)
 
                 .then(res => this.caluclatePlaces(res.data));
-
+        
+        this.loading = false;
         if(this.leaderboard.length < this.filter.l - 2){
           this.classes.buttons.n = this.classes.buttons.n.replace('hidden', 'enabled')
           this.nn = false;
@@ -111,6 +127,7 @@ export default {
           this.an = false;
           this.classes.buttons.n = this.classes.buttons.n.replace('enabled', 'hidden')
         }
+        
 
       },
     nextPage(){
@@ -136,9 +153,25 @@ export default {
         this.classes[`mod${mode}`] = `mod${mode} activemod`
         this.fetchLeaderboard();
     },
+       parseEmoji: function (emoji, size = '16x16', format = 'svg') {
+      
+          return `<img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/${emoji}.${format}" width=24>`
+       
+      },
+
+      getEmojiPlace(place) {
+        if(place > 3 || place == 0) return place;
+
+        let getID = (emoji) => emoji.codePointAt(0).toString(16)
+        let places = ['🥇', '🥈', '🥉'];
+
+        places = places.map(getID);
+        return this.parseEmoji(places[place -1]);
+      },
 
     caluclatePlaces(res){
-        res = res.filter(u => u.id !== 999);
+        if(!res || !res.length) return [];
+  
         let p = this.filter.p === 1 ? 0 : this.filter.p * this.filter.l;
 
         res = res.map((res, index) => {
@@ -152,6 +185,11 @@ export default {
         })
 
         res[res.length - 1].place = 0;
+
+        res = res.map(user => {
+          return {...user, place: this.getEmojiPlace(user.place)}
+        });
+     
 
         return res.filter(u => u.place !== 0);
     }
@@ -280,7 +318,6 @@ export default {
   }
 
   th.place {
-    background: #302E63 !important;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
   }
@@ -306,12 +343,9 @@ export default {
 
 
   tr.table-last {
-    border-bottom: 2px solid #2F2C54;
-    border-top: 2px solid #2F2C54;
     border-radius: 10px;
     height: 10px;
     padding-top: 2px;
-    background-color: #2F2C7D;
   }
 
   tr.table-last > td:first-child {
@@ -487,9 +521,6 @@ export default {
     text-align: center;
   }
 
-  th.lines {
-    background-color: #302E55;
-  }
 
 
 
@@ -580,5 +611,9 @@ export default {
 
   .index__3 {
     color: brown;
+  }
+
+  tr:nth-child(even) {
+    background-color: #2F2C50;
   }
 </style>

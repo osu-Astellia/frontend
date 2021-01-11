@@ -7650,6 +7650,11 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
 
+vue-twemoji@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-twemoji/-/vue-twemoji-1.0.1.tgz#b990ee1e789bbfcc62eee2662d6adfe4b40c508f"
+  integrity sha512-vKdA9vZuV0ADB8O2qCah//nGv9seb+S1hMTwU6IhPmmOsax4EHqwzyXSTf7kr3jCobsQIBBtNg2bpuRYoxalAA==
+
 vue2-transitions@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/vue2-transitions/-/vue2-transitions-0.3.0.tgz#765fc0d743103fcfe2d10f431697d8873a075c17"
