@@ -39,7 +39,7 @@ export default {
     },
     methods: {
         async checkPayment(id){
-            let status = await fetch(`https://astellia.club/frontend/api/v1/donations/check?id=${id}`).then(res => res.json());
+            let status = await fetch(`https://fbk.sh/frontend/api/v1/donations/check?id=${id}`).then(res => res.json());
             if(status.result){
                 this.user =  status.result ? status.result.username : 'Guest';
                 this.status = 'PAID';

@@ -169,7 +169,7 @@ export default {
             else this.bn.diffsToRank[beatmapID] = this.diffs[beatmapID]
         },
         async loadMap(id){
-            let data = await fetch(`https://astellia.club/frontend/api/v1/beatmaps/info?beatmapid=${id}`).then(res => res.json()).catch(e => {this.$router.push({path: '/404'})});
+            let data = await fetch(`https://fbk.sh/frontend/api/v1/beatmaps/info?beatmapid=${id}`).then(res => res.json()).catch(e => {this.$router.push({path: '/404'})});
 
             if(!data) return this.$router.push({path: '/404'});
 

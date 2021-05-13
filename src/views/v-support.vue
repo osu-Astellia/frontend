@@ -141,11 +141,11 @@ export default {
   methods: {
     async pay(system) {
       if (this.gift.username.trim() != "") {
-        let userResponse = await fetch(`https://astellia.club/frontend/api/v1/users/whatid?u=${this.gift.username}`).then(res => res.json());
+        let userResponse = await fetch(`https://fbk.sh/frontend/api/v1/users/whatid?u=${this.gift.username}`).then(res => res.json());
         if(!!parseInt(userResponse.id)) return alert('Invalid username!')
       }
 
-      //window.location.href = `https://astellia.club/frontend/api/v1/donations/support?m=${this.months}&phone=null&token=${this.token}&m=${this.months}${this.gift.username == '' ? '' : `&username=${this.gift.username}`}`;
+      //window.location.href = `https://fbk.sh/frontend/api/v1/donations/support?m=${this.months}&phone=null&token=${this.token}&m=${this.months}${this.gift.username == '' ? '' : `&username=${this.gift.username}`}`;
     },
   },
   async mounted() {
@@ -168,7 +168,7 @@ export default {
 
   watch: {
     "gift.username": async function (val) {
-//      let user = await fetch(`https://astellia.club/frontend/api/v1/users/whatid?u=${val}`, {mode: "no-cors"} ).then(res => res.json());
+//      let user = await fetch(`https://fbk.sh/frontend/api/v1/users/whatid?u=${val}`, {mode: "no-cors"} ).then(res => res.json());
       let user = await fetch(`/frontend/api/v1/users/whatid?u=${val}`).then(res => res.json());
       this.gift.user = user.result;
       if (!user.result) this.enabled = false;

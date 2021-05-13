@@ -1,6 +1,6 @@
 module.exports = {
     devServer: {
-        proxy: 'https://c.astellia.club',
+        proxy: 'https://c.fbk.sh',
         disableHostCheck: true
     },
     configureWebpack: {

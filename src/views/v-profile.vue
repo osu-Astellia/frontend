@@ -559,7 +559,7 @@ export default {
     //this.isSupporter = (this.stats.is_supporter) > (Date.now() / 1000);
 
     this.bgStyle = `z-index: 0; width: 100%; height: 300px; background-image: url("${this.backgroundURL}");`;
-    this.avatarURL = `https://a.astellia.club/${stats.id}`;
+    this.avatarURL = `https://a.fbk.sh/${stats.id}`;
 
     let avatarStatus = await fetch(`${this.avatarURL}`).catch((e) => {console.log(e)});
 

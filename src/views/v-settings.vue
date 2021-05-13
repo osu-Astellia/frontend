@@ -173,7 +173,7 @@ export default {
         currentpassword: "",
         userpage_content: "",
       };
-      this.avatarURL = `https://a.astellia.club/${this.userdata.id}`;
+      this.avatarURL = `https://a.fbk.sh/${this.userdata.id}`;
       this.data.userpage_content = this.profileInfo.userpage_content || "";
 
       this.nc_instead_dt = this.userdata.nc_instead_dt

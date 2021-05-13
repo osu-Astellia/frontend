@@ -116,12 +116,12 @@
                     id: this.user.id
                 };
 
-                let avatarStatus = await fetch(`https://a.astellia.club/${this.data.id}`);
+                let avatarStatus = await fetch(`https://a.fbk.sh/${this.data.id}`);
                 if(!avatarStatus.ok || !this.data) {
                     
                     this.userbgStyle = `background-image: url(https://i1.sndcdn.com/avatars-32EHFzqYhcwAzmuk-mE2q0g-t500x500.jpg); background-size: cover;`;
                 } else {
-                    this.userbgStyle = `background-image: url(https://a.astellia.club/${this.data.id}); background-size: cover;`;
+                    this.userbgStyle = `background-image: url(https://a.fbk.sh/${this.data.id}); background-size: cover;`;
                 }
                 
 
